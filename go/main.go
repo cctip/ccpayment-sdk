@@ -15,14 +15,14 @@ var TestUrl = "http://74ab25e1merchant.cwallet.com/ccpayment/v1/pay/CreateTokenT
 
 func main() {
 
-	bill := BillId()
+	bill := BillId() // merchant order id
 	jsonContent := &JsonContent{
-		TokenId:    "e8f64d3d-df5b-411d-897f-c6d8d30206b7",
-		Chain:      "BSC",
-		Amount:     "1",
-		Contract:   "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-		OutOrderNo: bill,
-		FiatName:   "USD",
+		TokenId:    "e8f64d3d-df5b-411d-897f-c6d8d30206b7",       // from merchant support token list
+		Chain:      "BSC",                                        //according to user selected
+		Amount:     "1",                                          // pay amount
+		Contract:   "0x2170ed0880ac9a755fd29b2688956bd959f933f8", //selected token contract
+		OutOrderNo: bill,                                         //merchant order id
+		FiatName:   "USD",                                        //fiat name just support usd currently
 	}
 	//content, _ := json.Marshal(jsonContent)
 	//timestamps := int64(1672261484)
