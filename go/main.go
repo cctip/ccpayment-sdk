@@ -37,15 +37,20 @@ func main() {
 		return
 	}
 	req := &SubmitCreateTradeOrderRequest{
-		MerchantId:  int64(10001),
+		MerchantId: int64(10001),
+		// it can get from merchant center payment settings(web terminal), only support len(APPID) = 33
 		Appid:       "202211181420251593489282956267520",
-		Timestamp:   1672299548,
+		Timestamp:   1672299548, // current time unix
 		JsonContent: jsonContent,
-		Sign:        bt,
-		NotifyUrl:   "http://127.0.0.1:8000/pay/notify",
-		Remark:      "",
-		Device:      "app",
-		Noncestr:    "ylaDo",
+		//sign data
+		Sign: bt,
+		// notify url(sync notice merchant change order status) it must be set in the payment settings(web terminal), otherwise program can not work normally
+		NotifyUrl: "https://ebc65a6dtestpaymentadmin.cwallet.com/merchant/v1/demo/pay/notify",
+		Remark:    "",
+		//device type only support app currently
+		Device: "app",
+		//rand str
+		Noncestr: "ylaDo",
 	}
 	bytes, _ := json.Marshal(req)
 	response, err := http.Post(TestUrl, "application/json", strings.NewReader(string(bytes)))
