@@ -83,17 +83,14 @@ func RsaEncrypt(data, keyBytes []byte) ([]byte, error) {
 }
 
 func RsaDecrypt(ciphertext, keyBytes []byte) ([]byte, error) {
-	//获取私钥
 	block, _ := pem.Decode(keyBytes)
 	if block == nil {
 		return nil, errors.New("private key error!")
 	}
-	//解析PKCS1格式的私钥
 	priv, err := x509.ParsePKCS1PrivateKey(block.Bytes)
 	if err != nil {
 		return nil, err
 	}
-	// 解密
 	data, err := rsa.DecryptPKCS1v15(rand.Reader, priv, ciphertext)
 	if err != nil {
 		return nil, err
