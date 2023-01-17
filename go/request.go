@@ -1,7 +1,7 @@
 package main
 
 type SubmitCreateTradeOrderRequest struct {
-	MerchantId  int64        `json:"merchant_id" binding:"required"`
+	CcpaymentId string       `json:"ccpayment_id" binding:"required"`
 	Appid       string       `json:"app_id" binding:"required"`
 	Timestamp   int64        `json:"timestamp" binding:"required"`
 	JsonContent *JsonContent `json:"json_content" binding:"required"`
@@ -13,7 +13,7 @@ type SubmitCreateTradeOrderRequest struct {
 }
 
 type Request struct {
-	MerchantId    int64        `json:"merchant_id"`
+	CcpaymentId   string       `json:"ccpayment_id"`
 	TransactionId string       `json:"transaction_id"`
 	Msg           string       `json:"msg"`
 	Appid         string       `json:"appid"`
