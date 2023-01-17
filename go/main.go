@@ -30,7 +30,7 @@ func main() {
 	//times := strconv.Itoa(int(timestamps))
 	//randStr := util.RandStr(5)
 	//serviceStr := "ccpayment_id=" + mchid + "&appid=" + arr.Appid + "&json_content=" + string(content) + "&timestamp=" + times + "&noncestr=" + randStr
-	serviceStr := "ccpayment_id=CP10001&appid=202211181420251593489282956267520&json_content={\"token_id\":\"e8f64d3d-df5b-411d-897f-c6d8d30206b7\",\"chain\":\"BSC\",\"amount\":\"1\",\"contract\":\"0x2170ed0880ac9a755fd29b2688956bd959f933f8\",\"out_order_no\":\"" + bill + "\",\"fiat_name\":\"USD\"}&timestamp=1672299548&noncestr=ylaDo"
+	serviceStr := "ccpayment_id=CP10001&appid=202301170950281615285414881132544&json_content={\"token_id\":\"e8f64d3d-df5b-411d-897f-c6d8d30206b7\",\"chain\":\"BSC\",\"amount\":\"1\",\"contract\":\"0x2170ed0880ac9a755fd29b2688956bd959f933f8\",\"out_order_no\":\"" + bill + "\",\"fiat_name\":\"USD\"}&timestamp=1672299548&noncestr=ylaDo"
 	fmt.Println(serviceStr)
 	bt, err := RsaSignWithSha256([]byte(serviceStr), []byte(PrivateKey))
 	if err != nil {
@@ -40,7 +40,7 @@ func main() {
 	req := &SubmitCreateTradeOrderRequest{
 		CcpaymentId: "CP10001",
 		// it can get from merchant center payment settings(web terminal), only support len(APPID) = 33
-		Appid:       "202211181420251593489282956267520",
+		Appid:       "202301170950281615285414881132544",
 		Timestamp:   1672299548, // current time unix
 		JsonContent: jsonContent,
 		//sign data
