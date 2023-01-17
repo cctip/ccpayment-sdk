@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-var TestUrl = "http://74ab25e1merchant.cwallet.com/ccpayment/v1/pay/CreateTokenTradeOrder"
+var TestCreateOrderUrl = "http://74ab25e1merchant.cwallet.com/ccpayment/v1/pay/CreateTokenTradeOrder"
 
 func main() {
 
@@ -53,7 +53,7 @@ func main() {
 		Noncestr: "ylaDo",
 	}
 	bytes, _ := json.Marshal(req)
-	response, err := http.Post(TestUrl, "application/json", strings.NewReader(string(bytes)))
+	response, err := http.Post(TestCreateOrderUrl, "application/json", strings.NewReader(string(bytes)))
 	if err != nil {
 		fmt.Println("err:", err.Error())
 		return
