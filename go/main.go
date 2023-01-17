@@ -17,7 +17,7 @@ func main() {
 
 	bill := BillId() // merchant order id
 	jsonContent := &JsonContent{
-		TokenId:    "e8f64d3d-df5b-411d-897f-c6d8d30206b7",       // from merchant support token list
+		TokenId:    "e8f64d3d-df5b-411d-897f-c6d8d30206b7",       // from ccpayment support token list
 		Chain:      "BSC",                                        //according to user selected
 		Amount:     "1",                                          // pay amount
 		Contract:   "0x2170ed0880ac9a755fd29b2688956bd959f933f8", //selected token contract
@@ -28,8 +28,8 @@ func main() {
 	//timestamps := int64(1672261484)
 	//times := strconv.Itoa(int(timestamps))
 	//randStr := util.RandStr(5)
-	//serviceStr := "merchant_id=" + mchid + "&appid=" + arr.Appid + "&json_content=" + string(content) + "&timestamp=" + times + "&noncestr=" + randStr
-	serviceStr := "merchant_id=CP10001&appid=202211181420251593489282956267520&json_content={\"token_id\":\"e8f64d3d-df5b-411d-897f-c6d8d30206b7\",\"chain\":\"BSC\",\"amount\":\"1\",\"contract\":\"0x2170ed0880ac9a755fd29b2688956bd959f933f8\",\"out_order_no\":\"" + bill + "\",\"fiat_name\":\"USD\"}&timestamp=1672299548&noncestr=ylaDo"
+	//serviceStr := "ccpayment_id=" + mchid + "&appid=" + arr.Appid + "&json_content=" + string(content) + "&timestamp=" + times + "&noncestr=" + randStr
+	serviceStr := "ccpayment_id=CP10001&appid=Uq17Jes4FgJ1sbXBSn5TB7XlPFuQ2mw4v2VIype@wtrj4usyco&json_content={\"token_id\":\"e8f64d3d-df5b-411d-897f-c6d8d30206b7\",\"chain\":\"BSC\",\"amount\":\"1\",\"contract\":\"0x2170ed0880ac9a755fd29b2688956bd959f933f8\",\"out_order_no\":\"" + bill + "\",\"fiat_name\":\"USD\"}&timestamp=1672299548&noncestr=ylaDo"
 	fmt.Println(serviceStr)
 	bt, err := RsaSignWithSha256([]byte(serviceStr), []byte(PrivateKey))
 	if err != nil {
@@ -37,9 +37,9 @@ func main() {
 		return
 	}
 	req := &SubmitCreateTradeOrderRequest{
-		MerchantId: int64(10001),
+		CcpaymentId: "CP10001",
 		// it can get from merchant center payment settings(web terminal), only support len(APPID) = 33
-		Appid:       "202211181420251593489282956267520",
+		Appid:       "Uq17Jes4FgJ1sbXBSn5TB7XlPFuQ2mw4v2VIype@wtrj4usyco",
 		Timestamp:   1672299548, // current time unix
 		JsonContent: jsonContent,
 		//sign data
