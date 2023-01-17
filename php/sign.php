@@ -1,13 +1,13 @@
 <?php
 
-class LubanPay
+class CCPaymentPay
 {
     /**
      * 字符串签名
      * @param string $resource 经过urlencode处理过的字符串
      * @return string
      */
-    public function SignStrMessage($resource)
+    public function SignStr($resource)
     {
         $privateKey = openssl_get_privatekey(PrivateKey);
         $res = openssl_sign($resource, $signature, $privateKey, OPENSSL_ALGO_SHA256);

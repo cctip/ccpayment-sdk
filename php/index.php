@@ -15,13 +15,25 @@ function Pay()
         'User-Agent' => 'Apipost client Runtime/+https://www.apipost.cn/',
         'Content-Type' => 'application/json'
     );
-    $sign = '';
+
+    $resource = `{
+    'token_id':'e8f64d3d-df5b-411d-897f-c6d8d30206b7',
+    'chain':'BSC',
+    'amount': '104.232',
+    'contract': '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
+    'out_order_no':'202211181420251593489'
+    }`;
+
+
+    $ccpayment = new CCPaymentPay();
+    $sign = $ccpayment->SignStr($resource);
     $data = '{ "sign": "' + $sign + '", "merchant_id": "CP10001", "app_id": "202211181420251593489282956267520", "timestamp": 1672261484, "notify_url": "https://cwallet.com/pay/callback", "remark": "", "device": "web", "noncestr": "werwer", "json_content": { "out_order_no": "202234304340343512", "amount": "1002.00", "chain": "ETH", "contract": "0x2170ed0880ac9a755fd29b2688956bd959f933f8", "token_id": "e8f64d3d-df5b-411d-897f-c6d8d30206b7", "fiat_name": "USD" } }';
     $response = Requests::post(TestCreateOrderUrl, $headers, $data);
 
 }
 
-function Notify() {
+function Notify()
+{
 
 }
 
