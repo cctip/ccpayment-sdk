@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-var TestCreateOrderUrl = "http://74ab25e1merchant.cwallet.com/ccpayment/v1/pay/CreateTokenTradeOrder"
+var TestCreateOrderUrl = "hhttps://admin.ccpayment.com/ccpayment/v1/pay/CreateTokenTradeOrder"
 
 func main() {
 
@@ -46,7 +46,7 @@ func main() {
 		//sign data
 		Sign: bt,
 		// notify url(sync notice merchant change order status) it must be set in the payment settings(web terminal), otherwise program can not work normally
-		NotifyUrl: "https://ebc65a6dtestpaymentadmin.cwallet.com/merchant/v1/demo/pay/notify",
+		NotifyUrl: "https://admin.ccpayment.com/merchant/v1/demo/pay/notify",
 		Remark:    "",
 		//device type only support app currently
 		Device: "app",
