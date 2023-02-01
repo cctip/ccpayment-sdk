@@ -45,7 +45,7 @@ func main() {
 		JsonContent: jsonContent,
 		//sign data
 		Sign: bt,
-		// notify url(sync notice merchant change order status) it must be set in the payment settings(web terminal), otherwise program can not work normally
+		// notify url(sync notice merchant change order status) that must be set in the payment settings(web terminal), otherwise program can not work normally
 		NotifyUrl: "https://admin.ccpayment.com/merchant/v1/demo/pay/notify",
 		Remark:    "",
 		//device type only support app currently
