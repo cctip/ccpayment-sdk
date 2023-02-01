@@ -12,22 +12,30 @@ type SubmitCreateTradeOrderRequest struct {
 	Noncestr    string       `json:"noncestr" binding:"required"`
 }
 
-type Request struct {
-	CcpaymentId   string       `json:"ccpayment_id"`
-	TransactionId string       `json:"transaction_id"`
-	Msg           string       `json:"msg"`
-	Appid         string       `json:"appid"`
-	Timestamp     string       `json:"timestamp"`
-	JsonContent   *JsonContent `json:"json_content"`
-}
-
 type JsonContent struct {
+	TokenId    string `json:"token_id" binding:"required"`
 	Chain      string `json:"chain" binding:"required"`
 	Amount     string `json:"amount" binding:"required"`
 	Contract   string `json:"contract" binding:"required"`
 	OutOrderNo string `json:"out_order_no" binding:"required"`
-	//Symbol     string `json:"symbol" binding:"required"`
-	//PayAddress   string `json:"pay_address" binding:"required"`
-	TokenId  string `json:"token_id" binding:"required"`
-	FiatName string `json:"fiat_name" binding:"required"`
+	FiatName   string `json:"fiat_name" binding:"required"`
+}
+
+type EncryptData struct {
+	AppId       string              `json:"app_id"`       // Merchant appid
+	Timestamp   int64               `json:"timestamp"`    // Current timestamp and it is accurate to the second
+	OutOrderNo  string              `json:"out_order_no"` // Merchant order ID
+	PayStatus   string              `json:"pay_status"`   // Payment status: success
+	JsonContent *EncryptJsonContent `json:"json_content"`
+}
+
+type EncryptJsonContent struct {
+	OriginAmount string `json:"origin_amount"` // Token amount to be paid
+	FiatAmount   string `json:"fiat_amount"`   // Amount of fiat currency submitted by the merchant; USD by default
+	PaidAmount   string `json:"paid_amount"`   // Token amount paid by the customer
+	CurrentRate  string `json:"current_rate"`  // Token price when generating the order
+	Chain        string `json:"chain"`         //
+	Contract     string `json:"contract"`      // Contract
+	OrderNo      string `json:"order_no"`      // ccpayment order ID
+	Symbol       string `json:"symbol"`        // Token symbol
 }
