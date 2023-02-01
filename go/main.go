@@ -13,8 +13,8 @@ import (
 func main() {
 	router := gin.Default()
 
-	router.POST("/create/order", CreateOrder)         // 创建订单方法
-	router.POST("/webhook/verify", DemoPayNotifyBack) // webhook 验证例子
+	router.POST("/create/order", CreateOrder)         // How to create an order？
+	router.POST("/webhook/verify", DemoPayNotifyBack) // webhook verification example
 
 	s := &http.Server{
 		Addr:           ":8089",
@@ -28,7 +28,7 @@ func main() {
 
 var TestCreateOrderUrl = "https://admin.ccpayment.com/ccpayment/v1/pay/CreateTokenTradeOrder"
 
-// 创建订单方法
+// How to create an order
 func CreateOrder(ctx *gin.Context) {
 	bill := BillId()
 	jsonContent := &JsonContent{
@@ -44,10 +44,10 @@ func CreateOrder(ctx *gin.Context) {
 	//times := strconv.Itoa(int(timestamps))
 	//randStr := util.RandStr(5)
 	//serviceStr := "ccpayment_id=" + mchid + "&app_id=" + arr.Appid + "&json_content=" + string(content) + "&timestamp=" + times + "&noncestr=" + randStr
-	// todo 1. 拼接签名字符串,注意字段顺序
+	// todo 1. Switching signature string, pay attention to the sequence of the field
 	serviceStr := "ccpayment_id=CP10001&app_id=202301170950281615285414881132544&json_content={\"token_id\":\"e8f64d3d-df5b-411d-897f-c6d8d30206b7\",\"chain\":\"BSC\",\"amount\":\"1\",\"contract\":\"0x2170ed0880ac9a755fd29b2688956bd959f933f8\",\"out_order_no\":\"" + bill + "\",\"fiat_name\":\"USD\"}&timestamp=1672299548&noncestr=ylaDo"
 	fmt.Println(serviceStr)
-	// todo 2. 使用私钥进行加密
+	// todo 2. Use the private key for encryption
 	bt, err := RsaSignWithSha256([]byte(serviceStr), []byte(PrivateKey))
 	if err != nil {
 		fmt.Println("Sign err:", err)
@@ -69,7 +69,7 @@ func CreateOrder(ctx *gin.Context) {
 		Noncestr: "ylaDo", // Random string。util.RandStr(5)
 	}
 	bytes, _ := json.Marshal(req)
-	// todo 3 向ccpayment 发送创建订单请求
+	// todo 3 Send an order request to CCPayment
 	response, err := http.Post(TestCreateOrderUrl, "application/json", strings.NewReader(string(bytes)))
 	if err != nil {
 		fmt.Println("err:", err.Error())
@@ -86,7 +86,7 @@ func CreateOrder(ctx *gin.Context) {
 	}
 }
 
-// webhook 验证例子
+// webhook verification example
 func DemoPayNotifyBack(ctx *gin.Context) {
 
 	encryptParam := struct {
