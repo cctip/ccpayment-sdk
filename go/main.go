@@ -13,8 +13,8 @@ import (
 func main() {
 	router := gin.Default()
 
-	router.POST("/create/order", CreateOrder)         // How to create an order？
-	router.POST("/webhook/verify", DemoPayNotifyBack) // webhook verification example
+	router.POST("/create/order", CreateOrder)         // Method for creating orders
+	router.POST("/webhook/verify", DemoPayNotifyBack) // Example of Webhook Verification
 
 	s := &http.Server{
 		Addr:           ":8089",
@@ -28,7 +28,7 @@ func main() {
 
 var TestCreateOrderUrl = "https://admin.ccpayment.com/ccpayment/v1/pay/CreateTokenTradeOrder"
 
-// How to create an order
+// Method for creating orders
 func CreateOrder(ctx *gin.Context) {
 	bill := BillId()
 	jsonContent := &JsonContent{
@@ -44,7 +44,7 @@ func CreateOrder(ctx *gin.Context) {
 	//times := strconv.Itoa(int(timestamps))
 	//randStr := util.RandStr(5)
 	//serviceStr := "ccpayment_id=" + mchid + "&app_id=" + arr.Appid + "&json_content=" + string(content) + "&timestamp=" + times + "&noncestr=" + randStr
-	// todo 1. Switching signature string, pay attention to the sequence of the field
+	// todo 1. Concatenating signature string, Please make sure the field order
 	serviceStr := "ccpayment_id=CP10001&app_id=202301170950281615285414881132544&json_content={\"token_id\":\"e8f64d3d-df5b-411d-897f-c6d8d30206b7\",\"chain\":\"BSC\",\"amount\":\"1\",\"contract\":\"0x2170ed0880ac9a755fd29b2688956bd959f933f8\",\"out_order_no\":\"" + bill + "\",\"fiat_name\":\"USD\"}&timestamp=1672299548&noncestr=ylaDo"
 	fmt.Println(serviceStr)
 	// todo 2. Use the private key for encryption
@@ -86,7 +86,7 @@ func CreateOrder(ctx *gin.Context) {
 	}
 }
 
-// webhook verification example
+// Example of Webhook Verification
 func DemoPayNotifyBack(ctx *gin.Context) {
 
 	encryptParam := struct {
