@@ -97,3 +97,35 @@ func RsaDecrypt(ciphertext, keyBytes []byte) ([]byte, error) {
 	}
 	return data, nil
 }
+
+/**
+todo php
+function SHA256Hex($str){
+    $re=hash('sha256', $str, true);
+    return bin2hex($re);
+}
+
+todo nodejs:
+
+ let hash = crypto.createHash('sha256')
+	.update(str, 'utf8')
+        .digest('hex');
+
+todo java:
+https://www.geeksforgeeks.org/sha-256-hash-in-java/
+
+todo python:
+import hashlib
+
+a_string = 'GeeksForGeeks'
+
+hashed_string = hashlib.sha256(a_string.encode('utf-8')).hexdigest()
+print(hashed_string)
+*/
+
+// todo golang
+func Hash256(byte2 []byte) string {
+	hash := sha256.Sum256(byte2)
+	code := hex.EncodeToString(hash[:]) //hex
+	return code
+}

@@ -26,6 +26,8 @@ type EncryptData struct {
 	Timestamp   int64               `json:"timestamp"`    // Current timestamp and it is accurate to the second
 	OutOrderNo  string              `json:"out_order_no"` // Merchant order ID
 	PayStatus   string              `json:"pay_status"`   // Payment status: success
+	Sign        string              `json:"sign"`
+	Noncestr    string              `json:"noncestr"`
 	JsonContent *EncryptJsonContent `json:"json_content"`
 }
 
