@@ -16,10 +16,12 @@ func main() {
 	// public key
 	router.POST("/create/order", CreateOrder)         // Method for creating orders
 	router.POST("/webhook/verify", DemoPayNotifyBack) // Example of Webhook Verification
+	router.POST("/concise/url/get", GetPaymentUrl)
 
 	// hash256
 	router.POST("/create/order/simple", CreateSimpleOrder)         // Method for creating orders
 	router.POST("/webhook/verify/simple", DemoSimplePayNotifyBack) // Example of Webhook Verification
+	router.POST("/concise/url/get/simple", GetSimplePaymentUrl)    // url mode
 
 	s := &http.Server{
 		Addr:           ":8089",
@@ -142,7 +144,7 @@ func CreateSimpleOrder(ctx *gin.Context) {
 	//randStr := util.RandStr(5)
 	// todo 1. Concatenating signature string, Please make sure the field order
 	// todo app_secret
-	serviceStr := "ccpayment_id=CP10001&app_id=202301170950281615285414881132544&app_secret=xxxxxxx&json_content={\"token_id\":\"e8f64d3d-df5b-411d-897f-c6d8d30206b7\",\"chain\":\"BSC\",\"amount\":\"1\",\"contract\":\"0x2170ed0880ac9a755fd29b2688956bd959f933f8\",\"out_order_no\":\"" + bill + "\",\"fiat_name\":\"USD\"}&timestamp=1672299548&noncestr=ylaDo"
+	serviceStr := "ccpayment_id=CP10001&app_id=202301170950281615285414881132544&app_secret=62fbff1f796c42c50bb44d4d3d065390&json_content={\"token_id\":\"e8f64d3d-df5b-411d-897f-c6d8d30206b7\",\"chain\":\"BSC\",\"amount\":\"1\",\"contract\":\"0x2170ed0880ac9a755fd29b2688956bd959f933f8\",\"out_order_no\":\"" + bill + "\",\"fiat_name\":\"USD\"}&timestamp=1672299548&noncestr=ylaDo"
 	fmt.Println(serviceStr)
 	// todo 2. get hash256
 	bt := Hash256([]byte(serviceStr))
@@ -211,7 +213,7 @@ func DemoSimplePayNotifyBack(ctx *gin.Context) {
 	}
 
 	// todo app_secret
-	serviceStr := fmt.Sprintf("app_id=%s&app_secret=%s&out_order_no=%s&timestamp=%d&noncestr=%s", data.AppId, "app_secret", data.OutOrderNo, data.Timestamp, data.Noncestr)
+	serviceStr := fmt.Sprintf("app_id=%s&app_secret=%s&out_order_no=%s&timestamp=%d&noncestr=%s", data.AppId, "62fbff1f796c42c50bb44d4d3d065390", data.OutOrderNo, data.Timestamp, data.Noncestr)
 	fmt.Println(serviceStr)
 	// todo 2. get hash256
 	bt := Hash256([]byte(serviceStr))
@@ -224,5 +226,68 @@ func DemoSimplePayNotifyBack(ctx *gin.Context) {
 	fmt.Printf("4444 %+v\n", *data.JsonContent)
 
 	ctx.String(http.StatusOK, "Success")
+	return
+}
+
+type GetPaymentUrlReq struct {
+	MerchantId     string `json:"ccpayment_id" binding:"required"`
+	AppId          string `json:"app_id" binding:"required"`
+	Timestamp      uint64 `json:"timestamp" binding:"required"`
+	ValidTimestamp uint64 `json:"valid_timestamp"`
+	Amount         string `json:"amount" binding:"required"`
+	OutOrderNo     string `json:"out_order_no" binding:"required"`
+	ProductName    string `json:"product_name" binding:"required"`
+	Sign           string `json:"sign" binding:"required"`
+	Noncestr       string `json:"noncestr" binding:"required"`
+	ReturnUrl      string `json:"return_url"`
+	Uuid           string `json:"uuid"`
+	Mid            int64  `json:"mid"`
+	MerchantTitle  string `json:"merchant_title"`
+	MerchantLogo   string `json:"merchant_logo"`
+}
+
+func GetPaymentUrl(ctx *gin.Context) {
+	args := &GetPaymentUrlReq{}
+	if err := ctx.BindJSON(args); err != nil {
+		fmt.Printf("1111 %+v\n", err)
+		ctx.String(http.StatusOK, "Failed")
+		return
+	}
+	str := fmt.Sprintf("ccpayment_id=%s&app_id=%s&app_secret=%s&timestamp=%d&amount=%s&out_order_no=%s&product_name=%s&noncestr=%s",
+		args.MerchantId, args.AppId, "62fbff1f796c42c50bb44d4d3d065390", args.Timestamp, args.Amount, args.OutOrderNo, args.ProductName, args.Noncestr)
+
+	fmt.Println(str)
+	dd, err := RsaSignWithSha256([]byte(str), []byte(PrivateKey))
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(dd)
+
+	bol := RsaVerySignWithSha256([]byte(str), []byte(dd), PublicKey)
+
+	fmt.Println(bol)
+	fmt.Println(err)
+	ctx.String(http.StatusOK, "success")
+	return
+}
+
+func GetSimplePaymentUrl(ctx *gin.Context) {
+	args := &GetPaymentUrlReq{}
+	if err := ctx.BindJSON(args); err != nil {
+		fmt.Printf("1111 %+v\n", err)
+		ctx.String(http.StatusOK, "Failed")
+		return
+	}
+	str := fmt.Sprintf("ccpayment_id=%s&app_id=%s&app_secret=%s&timestamp=%d&amount=%s&out_order_no=%s&product_name=%s&noncestr=%s",
+		args.MerchantId, args.AppId, "62fbff1f796c42c50bb44d4d3d065390", args.Timestamp, args.Amount, args.OutOrderNo, args.ProductName, args.Noncestr)
+
+	fmt.Println(str)
+	if Hash256([]byte(str)) != args.Sign {
+		fmt.Printf("22222 %+v\n", args.Sign)
+		ctx.String(http.StatusOK, "Failed")
+		return
+	}
+	fmt.Printf("33333 %+v\n", args)
+	ctx.String(http.StatusOK, "success")
 	return
 }
