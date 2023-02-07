@@ -105,6 +105,7 @@ func DemoPayNotifyBack(ctx *gin.Context) {
 		return
 	}
 
+	// RSA Decrypt
 	decryptData, err := RsaDecrypt(encryptParam.EncryptData, []byte(PrivateKey))
 
 	if err != nil {
@@ -217,7 +218,7 @@ func DemoSimplePayNotifyBack(ctx *gin.Context) {
 	fmt.Println(serviceStr)
 	// todo 2. get hash256
 	bt := Hash256([]byte(serviceStr))
-	if data.Sign != bt {
+	if data.Sign != bt { // Verification signature
 		fmt.Printf("3333 sign err \n")
 		ctx.String(http.StatusOK, "Failed")
 		return
