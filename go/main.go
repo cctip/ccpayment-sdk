@@ -10,15 +10,18 @@ import (
 	"time"
 )
 
+/**
+
+ */
 func main() {
 	router := gin.Default()
 
-	// public key
+	// Examples of the three use scenarios of RSA encryption
 	router.POST("/create/order", CreateOrder)         // Method for creating orders
 	router.POST("/webhook/verify", DemoPayNotifyBack) // Example of Webhook Verification
 	router.POST("/concise/url/get", GetPaymentUrl)
 
-	// hash256
+	// Examples of three scenes signed with SHA-256
 	router.POST("/create/order/simple", CreateSimpleOrder)         // Method for creating orders
 	router.POST("/webhook/verify/simple", DemoSimplePayNotifyBack) // Example of Webhook Verification
 	router.POST("/concise/url/get/simple", GetSimplePaymentUrl)    // url mode
@@ -128,7 +131,32 @@ func DemoPayNotifyBack(ctx *gin.Context) {
 	return
 }
 
-// Method for creating orders
+func GetPaymentUrl(ctx *gin.Context) {
+	args := &GetPaymentUrlReq{}
+	if err := ctx.BindJSON(args); err != nil {
+		fmt.Printf("1111 %+v\n", err)
+		ctx.String(http.StatusOK, "Failed")
+		return
+	}
+	str := fmt.Sprintf("ccpayment_id=%s&app_id=%s&app_secret=%s&timestamp=%d&amount=%s&out_order_no=%s&product_name=%s&noncestr=%s",
+		args.MerchantId, args.AppId, "62fbff1f796c42c50bb44d4d3d065390", args.Timestamp, args.Amount, args.OutOrderNo, args.ProductName, args.Noncestr)
+
+	fmt.Println(str)
+	dd, err := RsaSignWithSha256([]byte(str), []byte(PrivateKey))
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(dd)
+
+	bol := RsaVerySignWithSha256([]byte(str), []byte(dd), PublicKey)
+
+	fmt.Println(bol)
+	fmt.Println(err)
+	ctx.String(http.StatusOK, "success")
+	return
+}
+
+// Method for creating orders  -- SHA-256
 func CreateSimpleOrder(ctx *gin.Context) {
 	bill := BillId()
 	jsonContent := &JsonContent{
@@ -183,8 +211,8 @@ func CreateSimpleOrder(ctx *gin.Context) {
 	}
 }
 
-// Example of Webhook Verification
 /**
+webhook returns parameter samples
 {
     "app_id": "202301170950281615285414881132544",
     "timestamp": 1675409439,
@@ -204,6 +232,7 @@ func CreateSimpleOrder(ctx *gin.Context) {
     }
 }
 */
+// Example of Webhook Verification -- SHA-256
 func DemoSimplePayNotifyBack(ctx *gin.Context) {
 
 	data := &EncryptData{}
@@ -247,31 +276,7 @@ type GetPaymentUrlReq struct {
 	MerchantLogo   string `json:"merchant_logo"`
 }
 
-func GetPaymentUrl(ctx *gin.Context) {
-	args := &GetPaymentUrlReq{}
-	if err := ctx.BindJSON(args); err != nil {
-		fmt.Printf("1111 %+v\n", err)
-		ctx.String(http.StatusOK, "Failed")
-		return
-	}
-	str := fmt.Sprintf("ccpayment_id=%s&app_id=%s&app_secret=%s&timestamp=%d&amount=%s&out_order_no=%s&product_name=%s&noncestr=%s",
-		args.MerchantId, args.AppId, "62fbff1f796c42c50bb44d4d3d065390", args.Timestamp, args.Amount, args.OutOrderNo, args.ProductName, args.Noncestr)
-
-	fmt.Println(str)
-	dd, err := RsaSignWithSha256([]byte(str), []byte(PrivateKey))
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(dd)
-
-	bol := RsaVerySignWithSha256([]byte(str), []byte(dd), PublicKey)
-
-	fmt.Println(bol)
-	fmt.Println(err)
-	ctx.String(http.StatusOK, "success")
-	return
-}
-
+//  -- SHA-256
 func GetSimplePaymentUrl(ctx *gin.Context) {
 	args := &GetPaymentUrlReq{}
 	if err := ctx.BindJSON(args); err != nil {
