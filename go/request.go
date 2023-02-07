@@ -9,7 +9,7 @@ type SubmitCreateTradeOrderRequest struct {
 	NotifyUrl   string       `json:"notify_url" binding:"required"`
 	Remark      string       `json:"remark"`
 	Device      string       `json:"device" binding:"required"`
-	Noncestr    string       `json:"noncestr" binding:"required"`
+	Noncestr    string       `json:"noncestr" binding:"required"` // 5 digit random string
 }
 
 type JsonContent struct {
@@ -27,7 +27,7 @@ type EncryptData struct {
 	OutOrderNo  string              `json:"out_order_no"` // Merchant order ID
 	PayStatus   string              `json:"pay_status"`   // Payment status: success
 	Sign        string              `json:"sign"`
-	Noncestr    string              `json:"noncestr"`
+	Noncestr    string              `json:"noncestr"` // 5 digit random string
 	JsonContent *EncryptJsonContent `json:"json_content"`
 }
 

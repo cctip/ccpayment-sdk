@@ -52,7 +52,7 @@ func CreateOrder(ctx *gin.Context) {
 	//content, _ := json.Marshal(jsonContent)
 	//timestamps := int64(1672261484)
 	//times := strconv.Itoa(int(timestamps))
-	//randStr := util.RandStr(5)
+	//randStr := util.RandStr(5) // 5 digit random string
 	//serviceStr := "ccpayment_id=" + mchid + "&app_id=" + arr.Appid+"&app_secret=xxxxxxx" + "&json_content=" + string(content) + "&timestamp=" + times + "&noncestr=" + randStr
 	// todo 1. Concatenating signature string, Please make sure the field order
 	serviceStr := "ccpayment_id=CP10001&app_id=202301170950281615285414881132544&app_secret=xxxxxxxx&json_content={\"token_id\":\"e8f64d3d-df5b-411d-897f-c6d8d30206b7\",\"chain\":\"BSC\",\"amount\":\"1\",\"contract\":\"0x2170ed0880ac9a755fd29b2688956bd959f933f8\",\"out_order_no\":\"" + bill + "\",\"fiat_name\":\"USD\"}&timestamp=1672299548&noncestr=ylaDo"
