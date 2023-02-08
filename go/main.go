@@ -96,11 +96,15 @@ func CreateOrder(ctx *gin.Context) {
 	}
 }
 
+/**
+{"EncryptData":"SIrTQCsGNzNqwEH8jHRl5Gotcw1x/HPNdHMg4ePUzr90e1o/0CD5+ro/HaO9vZu/qQ8MwDYkle7qCQYvoe5TgRyZ2RLtOf9ZO/Dk7i8hXcT+w0NsfkwhgKC2LgxeTYpx4WQnKtLrSeHg9bsSNQIbJgXvnoIqBfDSnryXlS1YVtyR3F0gZZy5CPjbbmVH+gFJkU8AM0ZW6RcixaT5TJQnuxr8duJEAb1pxkc6hTBjkKQUOFdf6mHYFQ8iwKN5KscIjU5lgcxkE5pkCL2oYTSKttmdvXuAjGRMTW1nGNdHe8HoUcgtyI9C5t+wWsHa/4Jm8YxQ7WYkKe8aqDLof+UvWgd/IvuctQ0+OnT+fOLEZJCgSY03gpenlIrWPxC/Ah0i8Xzam79ScPFbEai6FY9tHuDrxDBJZoDOpx4h3nMzs12l5FwPUErPSINGQqjJhB7ZZJn0V9gkvU6N3BJakoolessFIshMX+kvdFXAsa91eaxskSkq22VwQXm6+QW7ALhc+M7bR5b/+jcgTEKMiGuvHy8ebu/lHBg6+hFzDVVvv0crHDgd1SR9lXmXAp4UUOvggploV5JgKJW7uwaZ56Le/bz0XcdqPnp27vnRhxW7UT658l+NQAfjZsRbxdMsx2x3eEM4qMNyvkCK3vD6CJmecLtqADNuuWBVEIDAq0LhBTzeJGg96GHGgx58yyawlBbmD2rrattO1N3neX58dBUe9nYN5aOGONbXrYU3OjKIF6HpcvbZ7Nnwespp2ORNknBytkRStetgLtZRXrsaV2wfgptdmVu+sWw1w1Frc8RttkzXx3rLC7KgZjqRWjgtdPMuAnF8SvKg4KPCtu/HNNFavQ=="}
+*/
 // Example of Webhook Verification
+
 func DemoPayNotifyBack(ctx *gin.Context) {
 
 	encryptParam := struct {
-		EncryptData []byte `json:"encrypt_data"`
+		EncryptData []byte `json:"EncryptData"`
 	}{}
 	if err := ctx.BindJSON(&encryptParam); err != nil {
 		fmt.Printf("1111 %+v\n", err)
