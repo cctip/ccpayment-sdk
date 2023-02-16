@@ -1,4 +1,4 @@
-package main
+package util
 
 type SubmitCreateTradeOrderRequest struct {
 	CcpaymentId string       `json:"ccpayment_id" binding:"required"`
