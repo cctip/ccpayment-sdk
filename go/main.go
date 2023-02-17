@@ -54,9 +54,9 @@ func CreateOrder(ctx *gin.Context) {
 	//timestamps := int64(1672261484)
 	//times := strconv.Itoa(int(timestamps))
 	//randStr := util.RandStr(5) // 5 digit random string
-	//serviceStr := "ccpayment_id=" + mchid + "&app_id=" + arr.Appid+"&app_secret=xxxxxxx" + "&json_content=" + string(content) + "&timestamp=" + times + "&noncestr=" + randStr
 	// todo 1. Concatenating signature string, Please make sure the field order
-	serviceStr := "ccpayment_id=CP10001&app_id=202301170950281615285414881132544&app_secret=xxxxxxxx&json_content={\"token_id\":\"e8f64d3d-df5b-411d-897f-c6d8d30206b7\",\"chain\":\"BSC\",\"amount\":\"1\",\"contract\":\"0x2170ed0880ac9a755fd29b2688956bd959f933f8\",\"out_order_no\":\"" + bill + "\",\"fiat_name\":\"USD\"}&timestamp=1672299548&noncestr=ylaDo"
+	// ccpayment_id,app_id,app_secret,out_order_no,amount,timestamp,noncestr
+	serviceStr := "ccpayment_id=CP10001&app_id=202301170950281615285414881132544&app_secret=xxxxxxxx&out_order_no=" + jsonContent.OutOrderNo + "&amount" + jsonContent.Amount + "&timestamp=1672299548&noncestr=ylaDo"
 	fmt.Println(serviceStr)
 	// todo 2. Use the private key for encryption
 	bt, err := util.RsaSignWithSha256([]byte(serviceStr), []byte(util.PrivateKey))
@@ -143,8 +143,8 @@ func GetPaymentUrl(ctx *gin.Context) {
 		ctx.String(http.StatusOK, "Failed")
 		return
 	}
-	str := fmt.Sprintf("ccpayment_id=%s&app_id=%s&app_secret=%s&timestamp=%d&amount=%s&out_order_no=%s&product_name=%s&noncestr=%s",
-		args.MerchantId, args.AppId, "62fbff1f796c42c50bb44d4d3d065390", args.Timestamp, args.Amount, args.OutOrderNo, args.ProductName, args.Noncestr)
+	str := fmt.Sprintf("ccpayment_id=%s&app_id=%s&app_secret=%s&out_order_no=%s&amount=%s&timestamp=%d&noncestr=%s",
+		args.MerchantId, args.AppId, "62fbff1f796c42c50bb44d4d3d065390", args.OutOrderNo, args.Amount, args.Timestamp, args.Noncestr)
 
 	fmt.Println(str)
 	dd, err := util.RsaSignWithSha256([]byte(str), []byte(util.PrivateKey))
@@ -178,7 +178,7 @@ func CreateSimpleOrder(ctx *gin.Context) {
 	//randStr := util.RandStr(5)
 	// todo 1. Concatenating signature string, Please make sure the field order
 	// todo app_secret
-	serviceStr := "ccpayment_id=CP10001&app_id=202301170950281615285414881132544&app_secret=62fbff1f796c42c50bb44d4d3d065390&json_content={\"token_id\":\"e8f64d3d-df5b-411d-897f-c6d8d30206b7\",\"chain\":\"BSC\",\"amount\":\"1\",\"contract\":\"0x2170ed0880ac9a755fd29b2688956bd959f933f8\",\"out_order_no\":\"" + bill + "\",\"fiat_name\":\"USD\"}&timestamp=1672299548&noncestr=ylaDo"
+	serviceStr := "ccpayment_id=CP10001&app_id=202301170950281615285414881132544&app_secret=xxxxxxxx&out_order_no=" + jsonContent.OutOrderNo + "&amount" + jsonContent.Amount + "&timestamp=1672299548&noncestr=ylaDo"
 	fmt.Println(serviceStr)
 	// todo 2. get hash256
 	bt := util.Hash256([]byte(serviceStr))
@@ -248,7 +248,7 @@ func DemoSimplePayNotifyBack(ctx *gin.Context) {
 	}
 
 	// todo app_secret
-	serviceStr := fmt.Sprintf("app_id=%s&app_secret=%s&out_order_no=%s&timestamp=%d&noncestr=%s", data.AppId, "62fbff1f796c42c50bb44d4d3d065390", data.OutOrderNo, data.Timestamp, data.Noncestr)
+	serviceStr := fmt.Sprintf("app_id=%s&app_secret=%s&timestamp=%d&noncestr=%s", data.AppId, "62fbff1f796c42c50bb44d4d3d065390", data.Timestamp, data.Noncestr)
 	fmt.Println(serviceStr)
 	// todo 2. get hash256
 	bt := util.Hash256([]byte(serviceStr))
@@ -289,8 +289,9 @@ func GetSimplePaymentUrl(ctx *gin.Context) {
 		ctx.String(http.StatusOK, "Failed")
 		return
 	}
-	str := fmt.Sprintf("ccpayment_id=%s&app_id=%s&app_secret=%s&timestamp=%d&amount=%s&out_order_no=%s&product_name=%s&noncestr=%s",
-		args.MerchantId, args.AppId, "62fbff1f796c42c50bb44d4d3d065390", args.Timestamp, args.Amount, args.OutOrderNo, args.ProductName, args.Noncestr)
+
+	str := fmt.Sprintf("ccpayment_id=%s&app_id=%s&app_secret=%s&out_order_no=%s&amount=%s&timestamp=%d&noncestr=%s",
+		args.MerchantId, args.AppId, "62fbff1f796c42c50bb44d4d3d065390", args.OutOrderNo, args.Amount, args.Timestamp, args.Noncestr)
 
 	fmt.Println(str)
 	if util.Hash256([]byte(str)) != args.Sign {
