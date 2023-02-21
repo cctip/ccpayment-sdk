@@ -130,7 +130,7 @@ func DemoPayNotifyBack(ctx *gin.Context) {
 		return
 	}
 
-	fmt.Printf("4444 %+v\n", *data.JsonContent)
+	fmt.Printf("4444 %+v\n", *data)
 
 	ctx.String(http.StatusOK, "Success")
 	return
@@ -258,7 +258,7 @@ func DemoSimplePayNotifyBack(ctx *gin.Context) {
 		return
 	}
 
-	fmt.Printf("4444 %+v\n", *data.JsonContent)
+	fmt.Printf("4444 %+v\n", data)
 
 	ctx.String(http.StatusOK, "Success")
 	return
