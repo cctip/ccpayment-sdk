@@ -22,11 +22,7 @@ type JsonContent struct {
 }
 
 type EncryptData struct {
-	AppId        string         `json:"app_id"`
-	Timestamp    int64          `json:"timestamp"`     //当前时间戳
-	Noncestr     string         `json:"noncestr"`      // 随机字符串
 	PayStatus    string         `json:"pay_status"`    // 支付状态
-	Sign         string         `json:"sign"`          // 使用 sha-256 的签名字段
 	BillType     string         `json:"bill_type"`     // Api、Invoice
 	RecordId     string         `json:"record_id"`     // ccpyament的交易记录，唯一
 	OrderNo      string         `json:"order_no"`      // ccpyament的订单号码
