@@ -143,8 +143,8 @@ func GetPaymentUrl(ctx *gin.Context) {
 		ctx.String(http.StatusOK, "Failed")
 		return
 	}
-	str := fmt.Sprintf("ccpayment_id=%s&app_id=%s&app_secret=%s&out_order_no=%s&amount=%s&timestamp=%d&noncestr=%s",
-		args.MerchantId, args.AppId, "62fbff1f796c42c50bb44d4d3d065390", args.OutOrderNo, args.Amount, args.Timestamp, args.Noncestr)
+	str := fmt.Sprintf("ccpayment_id=%s&app_id=%s&app_secret=%s&out_order_no=%s&amount=%s&timestamp=%d",
+		args.MerchantId, args.AppId, "62fbff1f796c42c50bb44d4d3d065390", args.OutOrderNo, args.Amount, args.Timestamp)
 
 	fmt.Println(str)
 	dd, err := util.RsaSignWithSha256([]byte(str), []byte(util.PrivateKey))
@@ -248,11 +248,11 @@ func DemoSimplePayNotifyBack(ctx *gin.Context) {
 	}
 
 	// todo app_secret
-	serviceStr := fmt.Sprintf("app_id=%s&app_secret=%s&timestamp=%d&noncestr=%s", data.AppId, "62fbff1f796c42c50bb44d4d3d065390", data.Timestamp, data.Noncestr)
+	serviceStr := fmt.Sprintf("app_id=%s&app_secret=%s&timestamp=%s", ctx.GetHeader("x-appid"), "62fbff1f796c42c50bb44d4d3d065390", ctx.GetHeader("x-timestamp"))
 	fmt.Println(serviceStr)
 	// todo 2. get hash256
 	bt := util.Hash256([]byte(serviceStr))
-	if data.Sign != bt { // Verification signature
+	if ctx.GetHeader("x-sign") != bt { // Verification signature
 		fmt.Printf("3333 sign err \n")
 		ctx.String(http.StatusOK, "Failed")
 		return
@@ -272,8 +272,6 @@ type GetPaymentUrlReq struct {
 	Amount         string `json:"amount" binding:"required"`
 	OutOrderNo     string `json:"out_order_no" binding:"required"`
 	ProductName    string `json:"product_name" binding:"required"`
-	Sign           string `json:"sign" binding:"required"`
-	Noncestr       string `json:"noncestr" binding:"required"`
 	ReturnUrl      string `json:"return_url"`
 	Uuid           string `json:"uuid"`
 	Mid            int64  `json:"mid"`
@@ -290,12 +288,12 @@ func GetSimplePaymentUrl(ctx *gin.Context) {
 		return
 	}
 
-	str := fmt.Sprintf("ccpayment_id=%s&app_id=%s&app_secret=%s&out_order_no=%s&amount=%s&timestamp=%d&noncestr=%s",
-		args.MerchantId, args.AppId, "62fbff1f796c42c50bb44d4d3d065390", args.OutOrderNo, args.Amount, args.Timestamp, args.Noncestr)
+	str := fmt.Sprintf("ccpayment_id=%s&app_id=%s&app_secret=%s&out_order_no=%s&amount=%s&timestamp=%d",
+		args.MerchantId, args.AppId, "62fbff1f796c42c50bb44d4d3d065390", args.OutOrderNo, args.Amount, args.Timestamp)
 
 	fmt.Println(str)
-	if util.Hash256([]byte(str)) != args.Sign {
-		fmt.Printf("22222 %+v\n", args.Sign)
+	if util.Hash256([]byte(str)) != ctx.GetHeader("x-sign") {
+		fmt.Printf("22222 %+v\n", ctx.GetHeader("x-sign"))
 		ctx.String(http.StatusOK, "Failed")
 		return
 	}
