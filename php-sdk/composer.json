@@ -1,0 +1,16 @@
+{
+  "name": "ccpayment/php-sdk",
+  "description": "ccpayment library written in PHP, for human beings.",
+  "homepage": "https://ccpayment.com/",
+  "license": "ISC",
+  "type": "library",
+  "require": {
+    "rmccue/requests": "^2.0",
+    "php": ">=7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "CCPayment\\": ["./"]
+    }
+  }
+}
