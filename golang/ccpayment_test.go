@@ -17,9 +17,7 @@ var (
 func TestCreateOrder(t *testing.T) {
 	order := OrderParams{
 		TokenId:         "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
-		Chain:           "TRX",
 		Amount:          "6",
-		Contract:        "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
 		MerchantOrderId: "1121241232",
 		FiatCurrency:    "USD",
 		Remark:          "",

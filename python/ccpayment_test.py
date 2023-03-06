@@ -11,8 +11,6 @@ class TestCreateOrder(unittest.TestCase):
     oc = ccpayment.OrderClass()
 
     oc.amount = '6'
-    oc.chain = 'TRX'
-    oc.contract = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
     oc.merchant_order_id = '1640938137795209'
     oc.token_id = '8e5741cf-6e51-4892-9d04-3d40e1dd0128'
     oc.fiat_currency = 'USD'

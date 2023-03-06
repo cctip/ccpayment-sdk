@@ -7,8 +7,6 @@ import const
 
 # crate order
 class OrderClass:
-    chain = ''
-    contract = ''
     amount = ''
     merchant_order_id = ''
     token_id = ''
