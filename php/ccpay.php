@@ -185,7 +185,7 @@ class CCPay
         }
         self::setHeaders($appId, $appSecret);
 
-        $resource = json_decode(array("token_id"=>$originData["token_id"]));
+        $resource = json_encode(array("token_id"=>$originData["token_id"]));
 
         self::SHA256Hex($resource);
 
