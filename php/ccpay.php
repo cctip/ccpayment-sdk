@@ -54,9 +54,7 @@ class CCPay
      * $originData = [
          * "remark"=>"",
          * "token_id"=>"8e5741cf-6e51-4892-9d04-3d40e1dd0128",// required
-         * "chain"=>"TRX", // required
          * "amount"=>"0.5", // required
-         * "contract"=>"TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", // required
          * "merchant_order_id"=>"3735077979050379", // merchant order, todo required
          * "fiat_currency"=> "USD" // default USD
      * ];
@@ -77,39 +75,34 @@ class CCPay
         * }
     * }
      */
-    public static function CreateOrder(array $originData, string $appId, string $appSecret): array
-    {
+      public static function CreateOrder(array $originData, string $appId, string $appSecret): array
+      {
+           if ( $originData["token_id"] == "" || $originData["amount"] == ""  || $originData["merchant_order_id"] == "") {
+               return ["code"=>10008, "msg"=>"param is err"];
+           }
+           $originData["fiat_currency"] = $originData["fiat_currency"]??"USD";
 
-        if ( $originData["token_id"] == "" || $originData["chain"] == "" ||
-            $originData["amount"] == "" || $originData["contract"] == "" || $originData["merchant_order_id"] == "") {
-            return ["code"=>10008, "msg"=>"param is err"];
-        }
-        $originData["fiat_currency"] = $originData["fiat_currency"]??"USD";
+           self::setHeaders($appId, $appSecret);
 
-        self::setHeaders($appId, $appSecret);
+           $data = self::getCreateOrderData($originData);
 
-        $data = self::getCreateOrderData($originData);
+           $resource = json_encode($data);
 
-        $resource = json_encode($data);
+           self::SHA256Hex($resource);
 
-        self::SHA256Hex($resource);
+           return self::SendRequest(self::$urls["CreateOrderUrl"], $resource);
+       }
 
-        return self::SendRequest(self::$urls["CreateOrderUrl"], $resource);
-    }
-
-    private function getCreateOrderData(array $originData): array
-    {
-        return [
-            "remark" => $originData["remark"],
-            "token_id" => $originData["token_id"],
-            "chain" => $originData["chain"],
-            "amount" => $originData["amount"],
-            "contract" => $originData["contract"],
-            "merchant_order_id" => $originData["merchant_order_id"],
-            "fiat_currency" => $originData["fiat_currency"] // 默认USD
-        ];
-    }
-
+       private function getCreateOrderData(array $originData): array
+       {
+           return [
+               "remark" => $originData["remark"],
+               "token_id" => $originData["token_id"],
+               "amount" => $originData["amount"],
+               "merchant_order_id" => $originData["merchant_order_id"],
+               "fiat_currency" => $originData["fiat_currency"] // 默认USD
+           ];
+       }
     /**
      * fetch token list
      * @return array
@@ -185,7 +178,7 @@ class CCPay
         }
         self::setHeaders($appId, $appSecret);
 
-        $resource = json_decode(array("token_id"=>$originData["token_id"]));
+        $resource = json_encode(array("token_id"=>$originData["token_id"]));
 
         self::SHA256Hex($resource);
 
