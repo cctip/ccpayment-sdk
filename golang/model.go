@@ -1,4 +1,4 @@
-package ccpayment_go_sdk
+package golang
 
 // OrderParams api create order params
 type OrderParams struct {

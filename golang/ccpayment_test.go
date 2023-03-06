@@ -1,4 +1,4 @@
-package ccpayment_go_sdk
+package golang
 
 import (
 	"fmt"
