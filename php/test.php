@@ -24,9 +24,7 @@ header('Content-type: application/json');
 // $resp =  CCPay::CreateOrder( [
 //      "remark"=>"",
 //      "token_id"=>"8e5741cf-6e51-4892-9d04-3d40e1dd0128",
-//      "chain"=>"TRX",
 //      "amount"=>"0.5",
-//      "contract"=>"TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
 //      "merchant_order_id"=>"3735077979050373",
 //      "fiat_currency"=> "USD"
 //     ],"202302010636261620672405236006912","62fbff1f796c42c50bb44d4d3d065390");
