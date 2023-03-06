@@ -1,11 +1,9 @@
-package ccpayment_go_sdk
+package golang
 
 // OrderParams api create order params
 type OrderParams struct {
 	TokenId         string `json:"token_id"`
-	Chain           string `json:"chain"`
 	Amount          string `json:"amount"`
-	Contract        string `json:"contract"`
 	MerchantOrderId string `json:"merchant_order_id"`
 	FiatCurrency    string `json:"fiat_currency"` // USD
 	Remark          string `json:"remark"`

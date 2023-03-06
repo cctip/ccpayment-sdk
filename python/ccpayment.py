@@ -7,8 +7,6 @@ import const
 
 # crate order
 class OrderClass:
-    chain = ''
-    contract = ''
     amount = ''
     merchant_order_id = ''
     token_id = ''
@@ -215,14 +213,14 @@ def _send_post(url, data_str, app_id, app_secret, sign_str, timestamp):
     # post
     resp = urllib.request.urlopen(req)
     if resp.code != 200:
-        return {}, -1
+        return {}, False
 
     data_str = resp.read().decode('utf-8')
 
     data = json.loads(data_str)
 
     if data['code'] != 10000:
-        return data, -1
+        return data, False
 
     # header
     signature = resp.headers[const.SIGN_HEADER_KEY]
@@ -230,6 +228,6 @@ def _send_post(url, data_str, app_id, app_secret, sign_str, timestamp):
 
     # verify
     if _hash256(data_str, app_id, app_secret, ts) == signature and signature != "":
-        return data, 0
+        return data, True
 
-    return data, -1
+    return data, False

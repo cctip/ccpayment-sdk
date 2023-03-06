@@ -1,4 +1,3 @@
-import time
 import unittest
 import ccpayment
 
@@ -12,15 +11,13 @@ class TestCreateOrder(unittest.TestCase):
     oc = ccpayment.OrderClass()
 
     oc.amount = '6'
-    oc.chain = 'TRX'
-    oc.contract = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t'
     oc.merchant_order_id = '1640938137795209'
     oc.token_id = '8e5741cf-6e51-4892-9d04-3d40e1dd0128'
     oc.fiat_currency = 'USD'
     oc.remark = ''
 
-    result, status = oc.create_order(app_id, app_secret)
-    if status == 0:
+    result, is_true = oc.create_order(app_id, app_secret)
+    if is_true:
         print("verify success")
     else:
         print("verify error")
@@ -50,8 +47,8 @@ class TestCheckoutUrlClass(unittest.TestCase):
     pu.product_name = 'test'
     pu.return_url = 'http://localhost/index.html'
 
-    result, status = pu.get_checkout_url(app_id, app_secret)
-    if status == 0:
+    result, is_true = pu.get_checkout_url(app_id, app_secret)
+    if is_true:
         print("verify success")
     else:
         print("verify error")
@@ -61,8 +58,8 @@ class TestCheckoutUrlClass(unittest.TestCase):
 
 # get support token list
 class TestSupportTokens(unittest.TestCase):
-    result, status = ccpayment.get_support_tokens(app_id, app_secret)
-    if status == 0:
+    result, is_true = ccpayment.get_support_tokens(app_id, app_secret)
+    if is_true:
         print("verify success")
     else:
         print("verify error")
@@ -74,8 +71,8 @@ class TestSupportTokens(unittest.TestCase):
 class TestTokenChain(unittest.TestCase):
     tc = ccpayment.TokenChainClass()
     tc.token_id = '8e5741cf-6e51-4892-9d04-3d40e1dd0128'
-    result, status = tc.get_token_chain(app_id, app_secret)
-    if status == 0:
+    result, is_true = tc.get_token_chain(app_id, app_secret)
+    if is_true:
         print("verify success")
     else:
         print("verify error")
@@ -88,8 +85,8 @@ class TestTokenRate(unittest.TestCase):
     tr = ccpayment.TokenRateClass()
     tr.token_id = '8e5741cf-6e51-4892-9d04-3d40e1dd0128'
     tr.amount = '12'
-    result, status = tr.get_token_rate(app_id, app_secret)
-    if status == 0:
+    result, is_true = tr.get_token_rate(app_id, app_secret)
+    if is_true:
         print("verify success")
     else:
         print("verify error")
