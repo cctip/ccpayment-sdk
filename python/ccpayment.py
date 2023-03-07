@@ -32,8 +32,6 @@ class OrderClass:
         timestamp = int(time.time())
 
         data = {
-            "chain": self.chain,
-            "contract": self.contract,
             "amount": self.amount,
             "merchant_order_id": self.merchant_order_id,
             "token_id": self.token_id,
