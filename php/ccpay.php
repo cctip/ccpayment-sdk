@@ -28,7 +28,7 @@ class CCPay
     const APPID = 'Appid';
     const TIMESTAMP = 'Timestamp';
     const SIGN = 'Sign';
-    private static $urls = [
+    public static $urls = [
         "CreateOrderUrl" => "https://admin.ccpayment.com/ccpayment/v1/bill/create",
         "CheckUrl" => "https://admin.ccpayment.com/ccpayment/v1/concise/url/get", // Zlib marker - level 1.
         "SupportToken" => "https://admin.ccpayment.com/ccpayment/v1/support/token",
@@ -41,16 +41,16 @@ class CCPay
     ];
 
 
-    private static $headers = [
+    public static $headers = [
         'Content-Type' => 'application/json',
         self::APPID => "",
         self::TIMESTAMP => "",
         self::SIGN => ""
     ];
 
-    private static $appSecret = "";
+    public static $appSecret = "";
 
-    private function setHeaders($appid, $appSecret)
+    public function setHeaders($appid, $appSecret)
     {
         self::$headers[self::TIMESTAMP] = strval(time());
         self::$headers[self::APPID] = $appid;
@@ -101,7 +101,7 @@ class CCPay
            return self::SendRequest(self::$urls["CreateOrderUrl"], $resource);
        }
 
-       private function getCreateOrderData(array $originData): array
+       public static function getCreateOrderData(array $originData): array
        {
            return [
                "remark" => $originData["remark"],
@@ -167,6 +167,7 @@ class CCPay
         "data": {
             "list":[
                     {
+                    "token_id":"8addd19b-37df-4faf-bd74-e61e214b008a",
                     "crypto": "ETH",
                     "logo": "https://resource.cwallet.com/token/icon/ETH.png",
                     "name": "Ethereum",
@@ -270,7 +271,7 @@ class CCPay
         return self::SendRequest(self::$urls["CheckUrl"], $resource);
     }
 
-    private function getCheckUrlData(array $originData): array
+    public static function getCheckUrlData(array $originData): array
     {
         return [
             "return_url" => $originData["return_url"],
@@ -368,7 +369,7 @@ class CCPay
         return self::SendRequest(self::$urls["Withdraw"], $resource);
     }
 
-    private function getWithdrawData(array $originData): array
+    public static function getWithdrawData(array $originData): array
     {
         return [
             "token_id" => $originData["token_id"],
@@ -441,7 +442,7 @@ class CCPay
      * @param string $data
      * @return array|mixed
      */
-    private function SendRequest(string $url, string $data= "")
+    public static function SendRequest(string $url, string $data= "")
     {
         $resp = Requests::post($url, self::$headers, $data);
 
