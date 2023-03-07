@@ -15,7 +15,7 @@ var (
 
 // create order
 func TestCreateOrder(t *testing.T) {
-	order := OrderParams{
+	order := OrderReq{
 		TokenId:         "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
 		Amount:          "6",
 		MerchantOrderId: "1121241232",
@@ -32,7 +32,7 @@ func TestCreateOrder(t *testing.T) {
 
 // get checkout url
 func TestCheckoutUrl(t *testing.T) {
-	curl := GetPaymentUrlParams{
+	curl := GetPaymentUrlReq{
 		Amount:          "12",
 		MerchantOrderId: "test_xxxx",
 		ProductName:     "name_1",
@@ -70,7 +70,7 @@ func TestGetWebhookDataAndValidate(t *testing.T) {
 }
 
 func PayNotifyBack(c *gin.Context) {
-	var result WebhookParams
+	var result WebhookReq
 
 	// style 1: get and verify
 	if err := result.GetWebhookDataAndValidate(c.Request, appId, appSecret); err != nil {
@@ -106,7 +106,7 @@ func PayNotifyBack(c *gin.Context) {
 
 // get support tokens
 func TestGetSupportTokens(t *testing.T) {
-	st := &SupportTokenParam{}
+	st := &SupportTokenReq{}
 	data, err := st.GetSupportTokens(appId, appSecret)
 	if err != nil {
 		fmt.Println(`GetSupportTokens error: `, err)
@@ -116,7 +116,7 @@ func TestGetSupportTokens(t *testing.T) {
 
 // get token chain
 func TestGetTokenChain(t *testing.T) {
-	tc := &TokenChainParams{
+	tc := &TokenChainReq{
 		TokenId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
 	}
 	data, err := tc.GetTokenChain(appId, appSecret)
@@ -128,7 +128,7 @@ func TestGetTokenChain(t *testing.T) {
 
 // get token rate
 func TestGetTokenRate(t *testing.T) {
-	tc := &GetTokenRateParams{
+	tc := &GetTokenRateReq{
 		Amount:  "12",
 		TokenId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
 	}
@@ -139,6 +139,7 @@ func TestGetTokenRate(t *testing.T) {
 	fmt.Printf(`data: %+v`, data)
 }
 
+// create api withdrawal
 func TestWithdrawApi(t *testing.T) {
 	tc := &WithdrawApiReq{
 		TokenID:         "f137d42c-f3a6-4f23-9402-76f0395d0cfe",
@@ -153,7 +154,7 @@ func TestWithdrawApi(t *testing.T) {
 	fmt.Printf(`data: %+v`, data)
 }
 
-// get token rate
+// get user asset
 func TestCheckUser(t *testing.T) {
 	tc := &CheckUserReq{
 		CId: "9454818",
@@ -164,6 +165,8 @@ func TestCheckUser(t *testing.T) {
 	}
 	fmt.Printf(`data: %+v`, data)
 }
+
+// get token asset
 func TestAssets(t *testing.T) {
 	tc := &AssetsReq{
 		TokenId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
@@ -175,7 +178,7 @@ func TestAssets(t *testing.T) {
 	fmt.Printf(`data: %+v`, data)
 }
 
-// get token rate
+// get network fee
 func TestNetworkFee(t *testing.T) {
 	tc := &NetworkFeeReq{
 		TokenId: "f137d42c-f3a6-4f23-9402-76f0395d0cfe",
