@@ -282,15 +282,15 @@ func sendPost(data interface{}, dst string, url, appId, appSecret, signStr strin
 			code = d.Code
 			goto validate
 		case *CheckUserResp:
-			d := data.(*BillTradeResultData)
+			d := data.(*CheckUserResp)
 			code = d.Code
 			goto validate
 		case *NetworkFeeResp:
-			d := data.(*BillTradeResultData)
+			d := data.(*NetworkFeeResp)
 			code = d.Code
 			goto validate
 		case *AssetsResp:
-			d := data.(*BillTradeResultData)
+			d := data.(*AssetsResp)
 			code = d.Code
 			goto validate
 

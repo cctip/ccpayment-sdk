@@ -156,7 +156,7 @@ func TestWithdrawApi(t *testing.T) {
 // get token rate
 func TestCheckUser(t *testing.T) {
 	tc := &CheckUserReq{
-		CId: "12",
+		CId: "9454818",
 	}
 	data, err := tc.CheckUser(appId, appSecret)
 	if err != nil {
@@ -178,7 +178,7 @@ func TestAssets(t *testing.T) {
 // get token rate
 func TestNetworkFee(t *testing.T) {
 	tc := &NetworkFeeReq{
-		TokenId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
+		TokenId: "f137d42c-f3a6-4f23-9402-76f0395d0cfe",
 	}
 	data, err := tc.NetworkFee(appId, appSecret)
 	if err != nil {
