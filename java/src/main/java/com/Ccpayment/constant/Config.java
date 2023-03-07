@@ -2,8 +2,10 @@ package com.Ccpayment.constant;
 
 //appId := "202302010636261620672405236006912"
 //appSecret := "62fbff1f796c42c50bb44d4d3d065390"
+// dev http://74ab25e1merchant.cwallet.com/ccpayment/v1
+// produce https://admin.ccpayment.com/ccpayment/v1
 public class Config {
-    public static final String ApiUrl = "http://74ab25e1merchant.cwallet.com/ccpayment/v1";
+    public static final String ApiUrl = "https://admin.ccpayment.com/ccpayment/v1";
     public static final String AppId = "202302010636261620672405236006912";
     public static final String AppSecrete = "62fbff1f796c42c50bb44d4d3d065390";
     public static final String HeaderAppId = "Appid";
