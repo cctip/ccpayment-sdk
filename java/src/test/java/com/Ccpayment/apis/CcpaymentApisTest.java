@@ -10,13 +10,9 @@ class CcpaymentApisTest {
         PaymentIntentCreateParam param = new PaymentIntentCreateParam();
         param.setNotifyUrl("https://www.xxxx.com/callback");
         param.setAmount("1.34");
-        param.setChain("eth");
-        //fetch from CcpaymentApis.tokenChain
-        param.setContract("1");
-        //fetch from CcpaymentApis.supportTokens
-        param.setTokenId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
+        param.setTokenId("1e614496-f9ce-4ec7-8e68-563733deacbf");
         param.setRemark("222222");
-        param.setMerchantOrderId("thisisoutorderno");
+        param.setMerchantOrderId("thisisoutordern1o");
         param.setFiatCurrency("USD");
         PaymentIntentCreateResponse resp = CcpaymentApis.paymentIntentCreate(param);
         System.out.println(resp);

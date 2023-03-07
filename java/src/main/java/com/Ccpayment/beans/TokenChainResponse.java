@@ -23,6 +23,8 @@ public class TokenChainResponse {
         private String typeSymbol;
         @JsonProperty("chain_logo")
         private String chainLogo;
+        @JsonProperty("token_id")
+        private String tokenId;
 
         public String getLogo() {
             return logo;
@@ -82,6 +84,14 @@ public class TokenChainResponse {
 
         public String getCrypto() {
             return crypto;
+        }
+
+        public String getTokenId() {
+            return tokenId;
+        }
+
+        public void setTokenId(String tokenId) {
+            this.tokenId = tokenId;
         }
 
         public void setCrypto(String crypto) {

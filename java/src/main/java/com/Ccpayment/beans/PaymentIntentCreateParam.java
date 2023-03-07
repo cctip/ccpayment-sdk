@@ -25,12 +25,8 @@ public class PaymentIntentCreateParam {
      */
     @JsonProperty("token_id")
     private String tokenId;
-    @JsonProperty("chain")
-    private String chain;
     @JsonProperty("amount")
     private String amount;
-    @JsonProperty("contract")
-    private String contract;
     @JsonProperty("merchant_order_id")
     private String merchantOrderId;
     @JsonProperty("fiat_currency")
@@ -61,28 +57,12 @@ public class PaymentIntentCreateParam {
         this.tokenId = tokenId;
     }
 
-    public String getChain() {
-        return chain;
-    }
-
-    public void setChain(String chain) {
-        this.chain = chain;
-    }
-
     public String getAmount() {
         return amount;
     }
 
     public void setAmount(String amount) {
         this.amount = amount;
-    }
-
-    public String getContract() {
-        return contract;
-    }
-
-    public void setContract(String contract) {
-        this.contract = contract;
     }
 
     public String getMerchantOrderId() {
