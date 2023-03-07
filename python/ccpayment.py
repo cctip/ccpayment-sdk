@@ -139,7 +139,7 @@ class TokenChainClass:
         "data": {
             "list": [
                 {
-                    "id": "",
+                    "token_id": "",
                     "chain": "",
                     "contract": "",
                     "crypto": "",
