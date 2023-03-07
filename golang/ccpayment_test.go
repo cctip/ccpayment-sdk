@@ -138,3 +138,51 @@ func TestGetTokenRate(t *testing.T) {
 	}
 	fmt.Printf(`data: %+v`, data)
 }
+
+func TestWithdrawApi(t *testing.T) {
+	tc := &WithdrawApiReq{
+		TokenID:         "f137d42c-f3a6-4f23-9402-76f0395d0cfe",
+		Address:         "9454818",
+		Value:           "12",
+		MerchantOrderId: fmt.Sprintf("%d", time.Now().UnixMicro()),
+	}
+	data, err := tc.WithdrawApi(appId, appSecret)
+	if err != nil {
+		fmt.Println(`WithdrawApi error: `, err)
+	}
+	fmt.Printf(`data: %+v`, data)
+}
+
+// get token rate
+func TestCheckUser(t *testing.T) {
+	tc := &CheckUserReq{
+		CId: "12",
+	}
+	data, err := tc.CheckUser(appId, appSecret)
+	if err != nil {
+		fmt.Println(`CheckUser error: `, err)
+	}
+	fmt.Printf(`data: %+v`, data)
+}
+func TestAssets(t *testing.T) {
+	tc := &AssetsReq{
+		TokenId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
+	}
+	data, err := tc.Assets(appId, appSecret)
+	if err != nil {
+		fmt.Println(`Assets error: `, err)
+	}
+	fmt.Printf(`data: %+v`, data)
+}
+
+// get token rate
+func TestNetworkFee(t *testing.T) {
+	tc := &NetworkFeeReq{
+		TokenId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
+	}
+	data, err := tc.NetworkFee(appId, appSecret)
+	if err != nil {
+		fmt.Println(`GetTokenRate error: `, err)
+	}
+	fmt.Printf(`data: %+v`, data)
+}

@@ -140,6 +140,66 @@ func (tr *GetTokenRateParams) GetTokenRate(appId, appSecret string) (data *Token
 	return data, err
 }
 
+func (tr *WithdrawApiReq) WithdrawApi(appId, appSecret string) (data *WithdrawApiResp, err error) {
+	timeStamp := time.Now().Unix()
+
+	dst, signStr, err := SignStr(*tr, appId, appSecret, timeStamp)
+	if err != nil {
+		return nil, err
+	}
+
+	data = &WithdrawApiResp{}
+
+	err = sendPost(data, dst, WithdrawApiUrl, appId, appSecret, signStr, timeStamp)
+
+	return data, err
+}
+
+func (tr *CheckUserReq) CheckUser(appId, appSecret string) (data *CheckUserResp, err error) {
+	timeStamp := time.Now().Unix()
+
+	dst, signStr, err := SignStr(*tr, appId, appSecret, timeStamp)
+	if err != nil {
+		return nil, err
+	}
+
+	data = &CheckUserResp{}
+
+	err = sendPost(data, dst, CheckUserUrl, appId, appSecret, signStr, timeStamp)
+
+	return data, err
+}
+
+func (tr *AssetsReq) Assets(appId, appSecret string) (data *AssetsResp, err error) {
+	timeStamp := time.Now().Unix()
+
+	dst, signStr, err := SignStr(*tr, appId, appSecret, timeStamp)
+	if err != nil {
+		return nil, err
+	}
+
+	data = &AssetsResp{}
+
+	err = sendPost(data, dst, AssetsUrl, appId, appSecret, signStr, timeStamp)
+
+	return data, err
+}
+
+func (tr *NetworkFeeReq) NetworkFee(appId, appSecret string) (data *NetworkFeeResp, err error) {
+	timeStamp := time.Now().Unix()
+
+	dst, signStr, err := SignStr(*tr, appId, appSecret, timeStamp)
+	if err != nil {
+		return nil, err
+	}
+
+	data = &NetworkFeeResp{}
+
+	err = sendPost(data, dst, NetworkFeeUrl, appId, appSecret, signStr, timeStamp)
+
+	return data, err
+}
+
 func sendPost(data interface{}, dst string, url, appId, appSecret, signStr string, timeStamp int64) (err error) {
 
 	req, err := http.NewRequest(http.MethodPost, url, strings.NewReader(dst))
@@ -214,6 +274,22 @@ func sendPost(data interface{}, dst string, url, appId, appSecret, signStr strin
 			goto validate
 
 		case *BillTradeResultData:
+			d := data.(*BillTradeResultData)
+			code = d.Code
+			goto validate
+		case *WithdrawApiResp:
+			d := data.(*WithdrawApiResp)
+			code = d.Code
+			goto validate
+		case *CheckUserResp:
+			d := data.(*BillTradeResultData)
+			code = d.Code
+			goto validate
+		case *NetworkFeeResp:
+			d := data.(*BillTradeResultData)
+			code = d.Code
+			goto validate
+		case *AssetsResp:
 			d := data.(*BillTradeResultData)
 			code = d.Code
 			goto validate

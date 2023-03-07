@@ -162,3 +162,72 @@ type BillTradeResultData struct {
 		} `json:"list"`
 	} `json:"data"`
 }
+
+type WithdrawApiReq struct {
+	TokenID         string `json:"token_id"  binding:"required"`
+	Address         string `json:"address,omitempty" binding:"required"`
+	Memo            string `json:"memo,omitempty"`
+	Value           string `json:"value,omitempty" binding:"required"`
+	MerchantOrderId string `json:"merchant_order_id"  binding:"required"`
+}
+
+type WithdrawApiResp struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data struct {
+		BillId     string `json:"bill_id"`
+		Type       string `json:"type"`
+		NetworkFee string `json:"network_fee"`
+	} `json:"data"`
+}
+
+// ccpay
+type CheckUserReq struct {
+	CId string `json:"c_id"  binding:"required"`
+}
+
+type CheckUserResp struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data struct {
+		CId      string `json:"c_id"` // cwallet id
+		Nickname string `json:"nickname"`
+	} `json:"data"`
+}
+
+// ccpay
+type AssetsReq struct {
+	TokenId string `json:"token_id"` // 某个币的tokenID
+}
+
+type AssetEntity struct {
+	TokenId string `json:"token_id"`
+	Crypto  string `json:"crypto"`
+	Name    string `json:"name"`
+	Value   string `json:"value"`
+	Price   string `json:"price"`
+	Logo    string `json:"logo"`
+}
+type AssetsResp struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data struct {
+		List []*AssetEntity `json:"list"`
+	} `json:"data"`
+}
+
+// ccpay
+type NetworkFeeReq struct {
+	TokenId string `json:"token_id"  binding:"required"`
+	Address string `json:"address"`
+	Memo    string `json:"memo"`
+}
+type NetworkFeeResp struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data struct {
+		TokenId string `json:"token_id"`
+		Crypto  string `json:"crypto"`
+		Fee     string `json:"fee"`
+	} `json:"data"`
+}
