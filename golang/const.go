@@ -1,9 +1,8 @@
 package golang
 
 const (
-	//Host           = "https://admin.ccpayment.com"
-	Host = "https://ebc65a6dtestpaymentadmin.cwallet.com"
-	//Host               = "http://localhost:9001"
+	//Host           = "https://admin.ccpayment.com" // produce
+	Host               = "https://ebc65a6dtestpaymentadmin.cwallet.com" // dev
 	CheckoutUrl        = Host + "/ccpayment/v1/concise/url/get"
 	CreateOrderUrl     = Host + "/ccpayment/v1/bill/create"
 	GetSupportTokenUrl = Host + "/ccpayment/v1/support/token"

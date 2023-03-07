@@ -1,4 +1,5 @@
-HOST = "https://ebc65a6dtestpaymentadmin.cwallet.com"
+HOST = "https://ebc65a6dtestpaymentadmin.cwallet.com" # dev
+##HOST = "https://admin.ccpayment.com" # produce
 
 CREATE_ORDER_URL = HOST + "/ccpayment/v1/bill/create"
 
