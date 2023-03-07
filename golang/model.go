@@ -108,7 +108,7 @@ type TokenChainResultData struct {
 }
 
 type TokenChain struct {
-	Id        string `json:"id"`
+	TokenId   string `json:"token_id"`
 	Crypto    string `json:"crypto"`
 	Logo      string `json:"logo"`
 	Name      string `json:"name"`
