@@ -12,7 +12,11 @@ use \WpOrg\Requests\Requests;
  * GetSupportToken(string $appId, string $appSecret)
  * GetTokenChain(array $originData, string $appId, string $appSecret)
  * GetTokenRate(array $originData, string $appId, string $appSecret)
- * Webhook(Client\Request $req, string $appSecret)
+ * Webhook(string $body, array $headers, string $appSecret)
+ * Withdraw(array $originData, string $appId, string $appSecret): array
+ * CheckUser(string $cID, string $appId, string $appSecret)
+ * Assets(string $tokenID,string $appId, string $appSecret)
+ * NetworkFee(array $originData,string $appId, string $appSecret)
  * ["code"=>10008, "msg"=>"param is err"];
  * ["code"=>10007, "msg"=>"http body is empty"];
  * ["code"=>10006, "msg"=>"sign verify value is err"];
@@ -30,6 +34,10 @@ class CCPay
         "SupportToken" => "https://admin.ccpayment.com/ccpayment/v1/support/token",
         "TokenChain" => "https://admin.ccpayment.com/ccpayment/v1/token/chain",
         "TokenRate" => "https://admin.ccpayment.com/ccpayment/v1/token/rate",
+        "Withdraw" => "https://admin.ccpayment.com/ccpayment/v1/withdraw",
+        "CheckUser" => "https://admin.ccpayment.com/ccpayment/v1/check/user",
+        "Assets" => "https://admin.ccpayment.com/ccpayment/v1/assets",
+        "NetworkFee" => "https://admin.ccpayment.com/ccpayment/v1/network/fee",
     ];
 
 
@@ -54,9 +62,7 @@ class CCPay
      * $originData = [
          * "remark"=>"",
          * "token_id"=>"8e5741cf-6e51-4892-9d04-3d40e1dd0128",// required
-         * "chain"=>"TRX", // required
          * "amount"=>"0.5", // required
-         * "contract"=>"TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", // required
          * "merchant_order_id"=>"3735077979050379", // merchant order, todo required
          * "fiat_currency"=> "USD" // default USD
      * ];
@@ -77,39 +83,34 @@ class CCPay
         * }
     * }
      */
-    public static function CreateOrder(array $originData, string $appId, string $appSecret): array
-    {
+      public static function CreateOrder(array $originData, string $appId, string $appSecret): array
+      {
+           if ( $originData["token_id"] == "" || $originData["amount"] == ""  || $originData["merchant_order_id"] == "") {
+               return ["code"=>10008, "msg"=>"param is err"];
+           }
+           $originData["fiat_currency"] = $originData["fiat_currency"]??"USD";
 
-        if ( $originData["token_id"] == "" || $originData["chain"] == "" ||
-            $originData["amount"] == "" || $originData["contract"] == "" || $originData["merchant_order_id"] == "") {
-            return ["code"=>10008, "msg"=>"param is err"];
-        }
-        $originData["fiat_currency"] = $originData["fiat_currency"]??"USD";
+           self::setHeaders($appId, $appSecret);
 
-        self::setHeaders($appId, $appSecret);
+           $data = self::getCreateOrderData($originData);
 
-        $data = self::getCreateOrderData($originData);
+           $resource = json_encode($data);
 
-        $resource = json_encode($data);
+           self::SHA256Hex($resource);
 
-        self::SHA256Hex($resource);
+           return self::SendRequest(self::$urls["CreateOrderUrl"], $resource);
+       }
 
-        return self::SendRequest(self::$urls["CreateOrderUrl"], $resource);
-    }
-
-    private function getCreateOrderData(array $originData): array
-    {
-        return [
-            "remark" => $originData["remark"],
-            "token_id" => $originData["token_id"],
-            "chain" => $originData["chain"],
-            "amount" => $originData["amount"],
-            "contract" => $originData["contract"],
-            "merchant_order_id" => $originData["merchant_order_id"],
-            "fiat_currency" => $originData["fiat_currency"] // 默认USD
-        ];
-    }
-
+       private function getCreateOrderData(array $originData): array
+       {
+           return [
+               "remark" => $originData["remark"],
+               "token_id" => $originData["token_id"],
+               "amount" => $originData["amount"],
+               "merchant_order_id" => $originData["merchant_order_id"],
+               "fiat_currency" => $originData["fiat_currency"] // 默认USD
+           ];
+       }
     /**
      * fetch token list
      * @return array
@@ -185,7 +186,7 @@ class CCPay
         }
         self::setHeaders($appId, $appSecret);
 
-        $resource = json_decode(array("token_id"=>$originData["token_id"]));
+        $resource = json_encode(array("token_id"=>$originData["token_id"]));
 
         self::SHA256Hex($resource);
 
@@ -308,7 +309,7 @@ class CCPay
      * @param string $appSecret
      * @return array
      */
-    public static function Webhook(string $body,array $headers, string $appSecret): array
+    public static function Webhook(string $body, array $headers, string $appSecret): array
     {
 
         self::$appSecret = $appSecret;
@@ -337,6 +338,104 @@ class CCPay
         return $originData;
     }
 
+  /**
+     * @param array $originData
+     * $originData = [
+     *  "token_id"=>"xxxxxxx-xxxxxxx", //required
+     *  "value"=>"1.2", // required
+     *  "address"=>"345555",// required address or cwallet id
+     *  "merchant_order_id"=>"xxxxx",// required
+     *  "memo"=>"",
+     * ]
+     * @param string $appId
+     * @param string $appSecret
+     * @return array
+     */
+    public static function Withdraw(array $originData, string $appId, string $appSecret): array
+    {
+
+        if ($originData["token_id"] == "" || $originData["value"] == "" || $originData["address"] == "" || $originData["merchant_order_id"] == "") {
+            return ["code"=>10008, "msg"=>"param is err"];
+        }
+        self::setHeaders($appId, $appSecret);
+
+        $data = self::getWithdrawData($originData);
+
+        $resource = json_encode($data);
+
+        self::SHA256Hex($resource);
+
+        return self::SendRequest(self::$urls["Withdraw"], $resource);
+    }
+
+    private function getWithdrawData(array $originData): array
+    {
+        return [
+            "token_id" => $originData["token_id"],
+            "address" => $originData["address"],
+            "value" => $originData["value"],
+            "merchant_order_id" => $originData["merchant_order_id"],
+            "memo" => $originData["memo"]
+        ];
+    }
+
+    /**
+     * @param string $cID cwallet id
+     * @param string $appId
+     * @param string $appSecret
+     * @return array
+     */
+    public static function CheckUser(string $cID, string $appId, string $appSecret): array
+    {
+        if ($cID == "" ) {
+            return ["code"=>10008, "msg"=>"param is err"];
+        }
+        self::setHeaders($appId, $appSecret);
+
+        $resource = json_encode(["c_id"=>$cID]);
+
+        self::SHA256Hex($resource);
+
+        return self::SendRequest(self::$urls["CheckUser"],$resource);
+    }
+
+    /**
+     * @param string $tokenID
+     * @param string $appId
+     * @param string $appSecret
+     * @return array
+     */
+    public static function Assets(string $appId, string $appSecret,string $tokenID = ""): array
+    {
+
+        self::setHeaders($appId, $appSecret);
+
+        $resource = json_encode(["token_id"=>$tokenID]);
+
+        self::SHA256Hex($resource);
+
+        return self::SendRequest(self::$urls["Assets"], $resource);
+    }
+
+    /**
+     * @param array $originData
+     * @param string $appId
+     * @param string $appSecret
+     * @return array
+     */
+    public static function NetworkFee(array $originData,string $appId, string $appSecret): array
+    {
+        if ($originData["token_id"] == "" ) {
+            return ["code"=>10008, "msg"=>"param is err"];
+        }
+        self::setHeaders($appId, $appSecret);
+
+        $resource = json_encode(["token_id"=>$originData['token_id'],'address'=>$originData['address'], 'memo'=>$originData['memo']]);
+
+        self::SHA256Hex($resource);
+
+        return self::SendRequest(self::$urls["NetworkFee"], $resource);
+    }
     /**
      * @param string $url
      * @param string $data
@@ -367,7 +466,7 @@ class CCPay
         return $originData;
     }
 
-    public function SHA256Hex($originStr): string
+    public function SHA256Hex($originStr = ""): string
     {
         $str = self::$headers[self::APPID]. self::$appSecret.self::$headers[self::TIMESTAMP].$originStr;
         $re = hash('sha256', $str, true);
