@@ -16,7 +16,7 @@ var SignVerifyErr = fmt.Errorf(`data signature verify error`)
 
 // ---------- api create order ----------
 
-func (order *OrderParams) CreateOrder(appId, appSecret string) (data *OrderResultData, err error) {
+func (order *OrderReq) CreateOrder(appId, appSecret string) (data *OrderResp, err error) {
 	timeStamp := time.Now().Unix()
 
 	dst, signStr, err := SignStr(*order, appId, appSecret, timeStamp)
@@ -24,7 +24,7 @@ func (order *OrderParams) CreateOrder(appId, appSecret string) (data *OrderResul
 		return nil, err
 	}
 
-	data = &OrderResultData{}
+	data = &OrderResp{}
 
 	err = sendPost(data, dst, CreateOrderUrl, appId, appSecret, signStr, timeStamp)
 
@@ -33,7 +33,7 @@ func (order *OrderParams) CreateOrder(appId, appSecret string) (data *OrderResul
 
 // ---------- get checkout url ----------
 
-func (pu *GetPaymentUrlParams) GetCheckoutUrl(appId, appSecret string) (data *PaymentUrlResultData, err error) {
+func (pu *GetPaymentUrlReq) GetCheckoutUrl(appId, appSecret string) (data *PaymentUrlResp, err error) {
 	timeStamp := time.Now().Unix()
 
 	dst, signStr, err := SignStr(*pu, appId, appSecret, timeStamp)
@@ -41,7 +41,7 @@ func (pu *GetPaymentUrlParams) GetCheckoutUrl(appId, appSecret string) (data *Pa
 		return nil, err
 	}
 
-	data = &PaymentUrlResultData{}
+	data = &PaymentUrlResp{}
 
 	err = sendPost(data, dst, CheckoutUrl, appId, appSecret, signStr, timeStamp)
 
@@ -60,7 +60,7 @@ func (wv *WebhookValidate) WebhookValidate(appId, appSecret string) bool {
 // ---------- webhook data and verify ----------
 
 // result get data and validate
-func (result *WebhookParams) GetWebhookDataAndValidate(req *http.Request, appId, appSecret string) error {
+func (result *WebhookReq) GetWebhookDataAndValidate(req *http.Request, appId, appSecret string) error {
 	byt, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		return err
@@ -79,7 +79,7 @@ func (result *WebhookParams) GetWebhookDataAndValidate(req *http.Request, appId,
 	return SignVerifyErr
 }
 
-func (result *WebhookParams) webhookSignStr(req *http.Request, appId, appSecret string, byt []byte) bool {
+func (result *WebhookReq) webhookSignStr(req *http.Request, appId, appSecret string, byt []byte) bool {
 	timestamp := req.Header.Get(TimestampHeaderKey)
 	signStr := req.Header.Get(SignHeaderKey)
 
@@ -91,7 +91,7 @@ func (result *WebhookParams) webhookSignStr(req *http.Request, appId, appSecret 
 
 // ---------- get support token ----------
 
-func (st *SupportTokenParam) GetSupportTokens(appId, appSecret string) (data *SupportTokenResultData, err error) {
+func (st *SupportTokenReq) GetSupportTokens(appId, appSecret string) (data *SupportTokenResultData, err error) {
 	timeStamp := time.Now().Unix()
 
 	dst, signStr, err := SignStr(*st, appId, appSecret, timeStamp)
@@ -108,7 +108,7 @@ func (st *SupportTokenParam) GetSupportTokens(appId, appSecret string) (data *Su
 
 // ---------- get token chain ----------
 
-func (tc *TokenChainParams) GetTokenChain(appId, appSecret string) (data *TokenChainResultData, err error) {
+func (tc *TokenChainReq) GetTokenChain(appId, appSecret string) (data *TokenChainResultData, err error) {
 	timeStamp := time.Now().Unix()
 
 	dst, signStr, err := SignStr(*tc, appId, appSecret, timeStamp)
@@ -125,7 +125,7 @@ func (tc *TokenChainParams) GetTokenChain(appId, appSecret string) (data *TokenC
 
 // ---------- get token rate ----------
 
-func (tr *GetTokenRateParams) GetTokenRate(appId, appSecret string) (data *TokenRateResultData, err error) {
+func (tr *GetTokenRateReq) GetTokenRate(appId, appSecret string) (data *TokenRateResp, err error) {
 	timeStamp := time.Now().Unix()
 
 	dst, signStr, err := SignStr(*tr, appId, appSecret, timeStamp)
@@ -133,7 +133,7 @@ func (tr *GetTokenRateParams) GetTokenRate(appId, appSecret string) (data *Token
 		return nil, err
 	}
 
-	data = &TokenRateResultData{}
+	data = &TokenRateResp{}
 
 	err = sendPost(data, dst, GetTokenRateUrl, appId, appSecret, signStr, timeStamp)
 
@@ -248,13 +248,13 @@ func sendPost(data interface{}, dst string, url, appId, appSecret, signStr strin
 		var code int
 
 		switch data.(type) {
-		case *OrderResultData:
-			d := data.(*OrderResultData)
+		case *OrderResp:
+			d := data.(*OrderResp)
 			code = d.Code
 			goto validate
 
-		case *PaymentUrlResultData:
-			d := data.(*PaymentUrlResultData)
+		case *PaymentUrlResp:
+			d := data.(*PaymentUrlResp)
 			code = d.Code
 			goto validate
 
@@ -268,13 +268,13 @@ func sendPost(data interface{}, dst string, url, appId, appSecret, signStr strin
 			code = d.Code
 			goto validate
 
-		case *TokenRateResultData:
-			d := data.(*TokenRateResultData)
+		case *TokenRateResp:
+			d := data.(*TokenRateResp)
 			code = d.Code
 			goto validate
 
-		case *BillTradeResultData:
-			d := data.(*BillTradeResultData)
+		case *BillTradeResp:
+			d := data.(*BillTradeResp)
 			code = d.Code
 			goto validate
 		case *WithdrawApiResp:

@@ -14,8 +14,6 @@ module.exports = {
   appId: null,
   appSecret: null,
 
-  axios: axios,
-
   createTimestamp(threshold = 0) {
     return parseInt(Date.now() / 1000, 10) + threshold
   },
@@ -104,6 +102,6 @@ module.exports = {
 
   webHookNotify(timeStamp, sign, data, callback) {
     const compareSignture = this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
-    callback && callback(compareSignture === sign ? 'success!' : Error('http code error'))
+    callback && callback(compareSignture === sign)
   }
 }

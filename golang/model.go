@@ -1,7 +1,7 @@
 package golang
 
-// OrderParams api create order params
-type OrderParams struct {
+// OrderReq api create order params
+type OrderReq struct {
 	TokenId         string `json:"token_id"`
 	Amount          string `json:"amount"`
 	MerchantOrderId string `json:"merchant_order_id"`
@@ -9,8 +9,8 @@ type OrderParams struct {
 	Remark          string `json:"remark"`
 }
 
-// OrderResultData api create order response
-type OrderResultData struct {
+// OrderResp api create order response
+type OrderResp struct {
 	Code int       `json:"code"`
 	Msg  string    `json:"msg"`
 	Data OrderInfo `json:"data"`
@@ -25,8 +25,8 @@ type OrderInfo struct {
 	Crypto     string `json:"crypto"`
 }
 
-// GetPaymentUrlParams checkout url params
-type GetPaymentUrlParams struct {
+// GetPaymentUrlReq checkout url params
+type GetPaymentUrlReq struct {
 	ValidTimestamp  int64  `json:"valid_timestamp"` // s
 	Amount          string `json:"amount"`
 	MerchantOrderId string `json:"merchant_order_id"`
@@ -34,8 +34,8 @@ type GetPaymentUrlParams struct {
 	ReturnUrl       string `json:"return_url"`
 }
 
-// PaymentUrlResultData checkout url response
-type PaymentUrlResultData struct {
+// PaymentUrlResp checkout url response
+type PaymentUrlResp struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data struct {
@@ -50,8 +50,8 @@ type WebhookValidate struct {
 	Signature string `json:"signature"`
 }
 
-// WebhookParams webhook response
-type WebhookParams struct {
+// WebhookReq webhook response
+type WebhookReq struct {
 	PayStatus    string         `json:"pay_status"`
 	OrderType    string         `json:"order_type"`
 	RecordId     string         `json:"record_id"`
@@ -73,8 +73,8 @@ type WebhookExtend struct {
 	MerchantOrderId string `json:"merchant_order_id"`
 }
 
-// SupportTokenParam get support token list
-type SupportTokenParam struct {
+// SupportTokenReq get support token list
+type SupportTokenReq struct {
 }
 
 type SupportTokenResultData struct {
@@ -94,8 +94,8 @@ type SupportToken struct {
 	TokenId string `json:"token_id"`
 }
 
-// TokenChainParams get token chain
-type TokenChainParams struct {
+// TokenChainReq get token chain
+type TokenChainReq struct {
 	TokenId string `json:"token_id"`
 }
 
@@ -118,13 +118,13 @@ type TokenChain struct {
 	ChainLogo string `json:"chain_logo"`
 }
 
-// GetTokenRateParams get token rate
-type GetTokenRateParams struct {
+// GetTokenRateReq get token rate
+type GetTokenRateReq struct {
 	Amount  string `json:"amount"`
 	TokenId string `json:"token_id"`
 }
 
-type TokenRateResultData struct {
+type TokenRateResp struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data struct {
@@ -133,12 +133,12 @@ type TokenRateResultData struct {
 	} `json:"data"`
 }
 
-// OrderTradeParams get API trade data
-type OrderTradeParams struct {
+// OrderTradeReq get API trade data
+type OrderTradeReq struct {
 	MerchantOrderId string `json:"merchant_order_id"`
 }
 
-type BillTradeResultData struct {
+type BillTradeResp struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data struct {

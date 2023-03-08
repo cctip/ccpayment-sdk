@@ -28,8 +28,7 @@ class OrderClass:
         }
     }
     """
-    def create_order(self, app_id, app_secret):
-        timestamp = int(time.time())
+    def create_deposit_order(self, app_id, app_secret):
 
         data = {
             "amount": self.amount,
@@ -39,10 +38,7 @@ class OrderClass:
             "remark": self.remark
         }
 
-        data_str = json.dumps(data)
-        sign_str = _hash256(data_str, app_id, app_secret, timestamp)
-
-        return _send_post(const.CREATE_ORDER_URL, data_str, app_id, app_secret, sign_str, timestamp)
+        return _send_post(const.CREATE_ORDER_URL, data, app_id, app_secret)
 
 
 # get checkout url
@@ -64,7 +60,6 @@ class PaymentUrlClass:
     }
     """
     def get_checkout_url(self, app_id, app_secret):
-        timestamp = int(time.time())
 
         data = {
             "amount": self.amount,
@@ -74,10 +69,7 @@ class PaymentUrlClass:
             "return_url": self.return_url
         }
 
-        data_str = json.dumps(data)
-        sign_str = _hash256(data_str, app_id, app_secret, timestamp)
-
-        return _send_post(const.CHECKOUT_URL, data_str, app_id, app_secret, sign_str, timestamp)
+        return _send_post(const.CHECKOUT_URL, data, app_id, app_secret)
 
 
 # webhook validate
@@ -115,14 +107,9 @@ def get_support_tokens(app_id, app_secret):
     }
     """
 
-    timestamp = int(time.time())
-
     data = {}
 
-    data_str = json.dumps(data)
-    sign_str = _hash256(data_str, app_id, app_secret, timestamp)
-
-    return _send_post(const.SUPPORT_TOKEN_URL, data_str, app_id, app_secret, sign_str, timestamp)
+    return _send_post(const.SUPPORT_TOKEN_URL, data, app_id, app_secret)
 
 
 # get token chains
@@ -151,16 +138,12 @@ class TokenChainClass:
     }
     """
     def get_token_chain(self, app_id, app_secret):
-        timestamp = int(time.time())
 
         data = {
             "token_id": self.token_id
         }
 
-        data_str = json.dumps(data)
-        sign_str = _hash256(data_str, app_id, app_secret, timestamp)
-
-        return _send_post(const.TOKEN_CHAIN_URL, data_str, app_id, app_secret, sign_str, timestamp)
+        return _send_post(const.TOKEN_CHAIN_URL, data, app_id, app_secret)
 
 
 # get token rate
@@ -180,17 +163,129 @@ class TokenRateClass:
     }
     """
     def get_token_rate(self, app_id, app_secret):
-        timestamp = int(time.time())
 
         data = {
             "token_id": self.token_id,
             "amount": self.amount
         }
 
-        data_str = json.dumps(data)
-        sign_str = _hash256(data_str, app_id, app_secret, timestamp)
+        return _send_post(const.TOKEN_RATE_URL, data, app_id, app_secret)
 
-        return _send_post(const.TOKEN_RATE_URL, data_str, app_id, app_secret, sign_str, timestamp)
+
+# create api withdrawal
+class ApiWithdrawClass:
+    token_id = ''
+    address = ''
+    memo = ''
+    value = ''
+    merchant_order_id = ''
+
+    """
+    * return success
+    {
+        "code": 10000,
+        "msg": "",
+        "data": {
+            "bill_id": "",
+            "type": "",
+            "network_fee": ""
+        }
+    }
+    """
+    def create_withdraw_order(self, app_id, app_secret):
+
+        data = {
+            "token_id": self.token_id,
+            "address": self.address,
+            "memo": self.memo,
+            "value": self.value,
+            "merchant_order_id": self.merchant_order_id
+        }
+
+        return _send_post(const.WITHDRAW_API_URL, data, app_id, app_secret)
+
+
+# check user
+class CheckUserClass:
+    c_id = ''
+
+    """
+    * return success
+    {
+        "code": 10000,
+        "msg": "",
+        "data": {
+            "c_id": "",
+            "nickname": ""
+        }
+    }
+    """
+    def check_user(self, app_id, app_secret):
+
+        data = {
+            "c_id": self.c_id
+        }
+
+        return _send_post(const.CHECK_USER_URL, data, app_id, app_secret)
+
+
+# get token assets
+class TokenAssetClass:
+    token_id = ''
+
+    """
+    * return success
+    {
+        "code": 10000,
+        "msg": "",
+        "data": [
+            {
+                "token_id": "",
+                "crypto": "",
+                "name": "",
+                "value": "",
+                "price": "",
+                "logo": ""
+            }
+        ]
+    }
+    """
+    def get_token_assets(self, app_id, app_secret):
+
+        data = {
+            "token_id": self.token_id
+        }
+
+        return _send_post(const.ASSETS_URL, data, app_id, app_secret)
+
+
+# network fee
+class NetworkFeeClass:
+    token_id = ''
+    address = ''
+    memo = ''
+
+    """
+    * return success
+    {
+        "code": 10000,
+        "msg": "",
+        "data": {
+            "token_id": "",
+            "crypto": "",
+            "fee": ""
+        }
+    }
+    """
+    def get_network_fee(self, app_id, app_secret):
+
+        data = {
+            "token_id": self.token_id,
+            "address": self.address,
+            "memo": self.memo
+        }
+
+        return _send_post(const.ASSETS_URL, data, app_id, app_secret)
 
 
 def _hash256(txt, app_id, app_secret, timestamp):
@@ -199,7 +294,12 @@ def _hash256(txt, app_id, app_secret, timestamp):
     return hashlib.sha256(txt.encode("utf-8")).hexdigest()
 
 
-def _send_post(url, data_str, app_id, app_secret, sign_str, timestamp):
+def _send_post(url, data, app_id, app_secret):
+    timestamp = int(time.time())
+
+    data_str = json.dumps(data)
+    sign_str = _hash256(data_str, app_id, app_secret, timestamp)
+
     req = urllib.request.Request(url=url, method="POST", data=data_str.encode("utf-8"))
 
     req.add_header(const.APP_ID_HEADER_KEY, app_id)
