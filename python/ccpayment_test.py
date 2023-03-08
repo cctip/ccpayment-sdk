@@ -27,16 +27,16 @@ class TestCreateOrder(unittest.TestCase):
 
 
 # webhook validate
-# class TestWebhookValidate(unittest.TestCase):
-#     wk = ccpayment.WebhookClass()
-#     wk.data_str = ''
-#     wk.signature = ''
-#     wk.timestamp = ''
-#
-#     if wk.webhook_validate(app_id, app_secret):
-#         print('TestWebhookValidate: verify success')
-#     else:
-#         print('TestWebhookValidate: verify error')
+class TestWebhookValidate(unittest.TestCase):
+    wk = ccpayment.WebhookClass()
+    wk.data_str = ''
+    wk.signature = ''
+    wk.timestamp = ''
+
+    if wk.webhook_validate(app_id, app_secret):
+        print('TestWebhookValidate: verify success')
+    else:
+        print('TestWebhookValidate: verify error')
 
 
 # get checkout url
