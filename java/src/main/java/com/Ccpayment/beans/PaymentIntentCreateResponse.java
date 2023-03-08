@@ -11,8 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class PaymentIntentCreateResponse {
     @JsonProperty("amount")
     private String amount;
-    @JsonProperty("bill_id")
-    private String billId;
+    @JsonProperty("order_id")
+    private String orderId;
     @JsonProperty("logo")
     private String logo;
     @JsonProperty("network")
@@ -30,12 +30,12 @@ public class PaymentIntentCreateResponse {
         this.amount = amount;
     }
 
-    public String getBillId() {
-        return billId;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setBillId(String billId) {
-        this.billId = billId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getLogo() {

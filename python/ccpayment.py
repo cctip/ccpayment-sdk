@@ -19,7 +19,7 @@ class OrderClass:
         "code": 10000,
         "msg": "",
         "data": {
-            "bill_id": "",
+            "order_id": "",
             "amount": "",
             "logo": "",
             "network": "",

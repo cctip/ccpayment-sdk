@@ -17,7 +17,7 @@ type OrderResp struct {
 }
 
 type OrderInfo struct {
-	BillId     string `json:"bill_id"`
+	OrderId    string `json:"order_id"`
 	Amount     string `json:"amount"`
 	Logo       string `json:"logo"`
 	Network    string `json:"network"`

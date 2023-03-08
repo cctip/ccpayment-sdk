@@ -75,7 +75,7 @@ class CCPay
         * "msg": "success",
         * "data": {
             * "amount": "0.5",
-            * "bill_id": "202301090616511612332555323101184",
+            * "order_id": "202301090616511612332555323101184",
             * "logo": "https://resource.cwallet.com/token/icon/usdt.png",
             * "network": "TRC20",
             * "pay_address": "TYWnk1EGALQyYst2yFSd29QQQTEkuKMbyt",
