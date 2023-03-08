@@ -1,3 +1,4 @@
+import time
 import unittest
 import ccpayment
 
@@ -16,7 +17,7 @@ class TestCreateOrder(unittest.TestCase):
     oc.fiat_currency = 'USD'
     oc.remark = ''
 
-    result, is_true = oc.create_order(app_id, app_secret)
+    result, is_true = oc.create_deposit_order(app_id, app_secret)
     if is_true:
         print("verify success")
     else:
@@ -86,6 +87,68 @@ class TestTokenRate(unittest.TestCase):
     tr.token_id = '8e5741cf-6e51-4892-9d04-3d40e1dd0128'
     tr.amount = '12'
     result, is_true = tr.get_token_rate(app_id, app_secret)
+    if is_true:
+        print("verify success")
+    else:
+        print("verify error")
+
+    print(result)
+
+
+# create api withdrawal
+class TestApiWithdraw(unittest.TestCase):
+    aw = ccpayment.ApiWithdrawClass()
+    aw.token_id = 'f137d42c-f3a6-4f23-9402-76f0395d0cfe'
+    aw.Address = '9512479'
+    aw.memo = ''
+    aw.value = '12'
+    aw.merchant_order_id = str(time.time())
+
+    result, is_true = aw.create_withdraw_order(app_id, app_secret)
+    if is_true:
+        print("verify success")
+    else:
+        print("verify error")
+
+    print(result)
+
+
+# check user
+class TestCheckUser(unittest.TestCase):
+    cu = ccpayment.CheckUserClass()
+    cu.c_id = '9512479'
+
+    result, is_true = cu.check_user(app_id, app_secret)
+    if is_true:
+        print("verify success")
+    else:
+        print("verify error")
+
+    print(result)
+
+
+# get token assets
+class TestTokenAsset(unittest.TestCase):
+    ta = ccpayment.TokenAssetClass()
+    ta.token_id = '8e5741cf-6e51-4892-9d04-3d40e1dd0128'
+
+    result, is_true = ta.get_token_assets(app_id, app_secret)
+    if is_true:
+        print("verify success")
+    else:
+        print("verify error")
+
+    print(result)
+
+
+# network fee
+class TestNetworkFee(unittest.TestCase):
+    nf = ccpayment.NetworkFeeClass()
+    nf.token_id = 'f137d42c-f3a6-4f23-9402-76f0395d0cfe'
+    nf.address = ''
+    nf.memo = ''
+
+    result, is_true = nf.get_network_fee(app_id, app_secret)
     if is_true:
         print("verify success")
     else:

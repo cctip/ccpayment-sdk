@@ -154,7 +154,7 @@ func TestWithdrawApi(t *testing.T) {
 	fmt.Printf(`data: %+v`, data)
 }
 
-// get user asset
+// c user check
 func TestCheckUser(t *testing.T) {
 	tc := &CheckUserReq{
 		CId: "9454818",
@@ -166,7 +166,7 @@ func TestCheckUser(t *testing.T) {
 	fmt.Printf(`data: %+v`, data)
 }
 
-// get token asset
+// get token assets
 func TestAssets(t *testing.T) {
 	tc := &AssetsReq{
 		TokenId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
