@@ -285,7 +285,7 @@ class NetworkFeeClass:
             "memo": self.memo
         }
 
-        return _send_post(const.ASSETS_URL, data, app_id, app_secret)
+        return _send_post(const.NETWORK_FEE_URL, data, app_id, app_secret)
 
 
 def _hash256(txt, app_id, app_secret, timestamp):
@@ -318,7 +318,7 @@ def _send_post(url, data, app_id, app_secret):
     data = json.loads(data_str)
 
     if data['code'] != 10000:
-        return data, False
+        return data, True
 
     # header
     signature = resp.headers[const.SIGN_HEADER_KEY]

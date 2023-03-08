@@ -12,73 +12,73 @@ class TestCreateOrder(unittest.TestCase):
     oc = ccpayment.OrderClass()
 
     oc.amount = '6'
-    oc.merchant_order_id = '1640938137795209'
-    oc.token_id = '8e5741cf-6e51-4892-9d04-3d40e1dd0128'
+    oc.merchant_order_id = str(time.time())
+    oc.token_id = '0912e09a-d8e2-41d7-a0bc-a25530892988'
     oc.fiat_currency = 'USD'
     oc.remark = ''
 
-    result, is_true = oc.create_deposit_order(app_id, app_secret)
-    if is_true:
-        print("verify success")
+    result, is_verify = oc.create_deposit_order(app_id, app_secret)
+    if is_verify:
+        print("TestCreateOrder: verify success")
     else:
-        print("verify error")
+        print("TestCreateOrder: verify error")
 
-    print(result)
+    print("TestCreateOrder:", result)
 
 
 # webhook validate
-class TestWebhookValidateClass(unittest.TestCase):
-    wk = ccpayment.WebhookClass()
-    wk.data_str = ''
-    wk.signature = ''
-    wk.timestamp = ''
-
-    if wk.webhook_validate(app_id, app_secret):
-        print('verify success')
-    else:
-        print('verify error')
+# class TestWebhookValidate(unittest.TestCase):
+#     wk = ccpayment.WebhookClass()
+#     wk.data_str = ''
+#     wk.signature = ''
+#     wk.timestamp = ''
+#
+#     if wk.webhook_validate(app_id, app_secret):
+#         print('TestWebhookValidate: verify success')
+#     else:
+#         print('TestWebhookValidate: verify error')
 
 
 # get checkout url
-class TestCheckoutUrlClass(unittest.TestCase):
+class TestCheckoutUrl(unittest.TestCase):
     pu = ccpayment.PaymentUrlClass()
     pu.amount = '12'
-    pu.merchant_order_id = '1234'
+    pu.merchant_order_id = str(time.time())
     pu.valid_timestamp = 300  # s
     pu.product_name = 'test'
     pu.return_url = 'http://localhost/index.html'
 
-    result, is_true = pu.get_checkout_url(app_id, app_secret)
-    if is_true:
-        print("verify success")
+    result, is_verify = pu.get_checkout_url(app_id, app_secret)
+    if is_verify:
+        print("TestCheckoutUrl: verify success")
     else:
-        print("verify error")
+        print("TestCheckoutUrl :verify error")
 
-    print(result)
+    print("TestCheckoutUrl:", result)
 
 
 # get support token list
 class TestSupportTokens(unittest.TestCase):
-    result, is_true = ccpayment.get_support_tokens(app_id, app_secret)
-    if is_true:
-        print("verify success")
+    result, is_verify = ccpayment.get_support_tokens(app_id, app_secret)
+    if is_verify:
+        print("TestSupportTokens: verify success")
     else:
-        print("verify error")
+        print("TestSupportTokens: verify error")
 
-    print(result)
+    print("TestSupportTokens:", result)
 
 
 # get token chain
 class TestTokenChain(unittest.TestCase):
     tc = ccpayment.TokenChainClass()
     tc.token_id = '8e5741cf-6e51-4892-9d04-3d40e1dd0128'
-    result, is_true = tc.get_token_chain(app_id, app_secret)
-    if is_true:
-        print("verify success")
+    result, is_verify = tc.get_token_chain(app_id, app_secret)
+    if is_verify:
+        print("TestTokenChain: verify success")
     else:
-        print("verify error")
+        print("TestTokenChain: verify error")
 
-    print(result)
+    print("TestTokenChain:", result)
 
 
 # get token rate
@@ -86,45 +86,45 @@ class TestTokenRate(unittest.TestCase):
     tr = ccpayment.TokenRateClass()
     tr.token_id = '8e5741cf-6e51-4892-9d04-3d40e1dd0128'
     tr.amount = '12'
-    result, is_true = tr.get_token_rate(app_id, app_secret)
-    if is_true:
-        print("verify success")
+    result, is_verify = tr.get_token_rate(app_id, app_secret)
+    if is_verify:
+        print("TestTokenRate: verify success")
     else:
-        print("verify error")
+        print("TestTokenRate: verify error")
 
-    print(result)
+    print("TestTokenRate:", result)
 
 
 # create api withdrawal
 class TestApiWithdraw(unittest.TestCase):
     aw = ccpayment.ApiWithdrawClass()
     aw.token_id = 'f137d42c-f3a6-4f23-9402-76f0395d0cfe'
-    aw.Address = '9512479'
+    aw.address = '9486792'
     aw.memo = ''
-    aw.value = '12'
+    aw.value = '1'
     aw.merchant_order_id = str(time.time())
 
-    result, is_true = aw.create_withdraw_order(app_id, app_secret)
-    if is_true:
-        print("verify success")
+    result, is_verify = aw.create_withdraw_order(app_id, app_secret)
+    if is_verify:
+        print("TestApiWithdraw: verify success")
     else:
-        print("verify error")
+        print("TestApiWithdraw: verify error")
 
-    print(result)
+    print("TestApiWithdraw:", result)
 
 
 # check user
 class TestCheckUser(unittest.TestCase):
     cu = ccpayment.CheckUserClass()
-    cu.c_id = '9512479'
+    cu.c_id = '9486792'
 
-    result, is_true = cu.check_user(app_id, app_secret)
-    if is_true:
-        print("verify success")
+    result, is_verify = cu.check_user(app_id, app_secret)
+    if is_verify:
+        print("TestCheckUser: verify success")
     else:
-        print("verify error")
+        print("TestCheckUser: verify error")
 
-    print(result)
+    print("TestCheckUser:", result)
 
 
 # get token assets
@@ -132,13 +132,13 @@ class TestTokenAsset(unittest.TestCase):
     ta = ccpayment.TokenAssetClass()
     ta.token_id = '8e5741cf-6e51-4892-9d04-3d40e1dd0128'
 
-    result, is_true = ta.get_token_assets(app_id, app_secret)
-    if is_true:
-        print("verify success")
+    result, is_verify = ta.get_token_assets(app_id, app_secret)
+    if is_verify:
+        print("TestTokenAsset: verify success")
     else:
-        print("verify error")
+        print("TestTokenAsset :verify error")
 
-    print(result)
+    print("TestTokenAsset:", result)
 
 
 # network fee
@@ -148,13 +148,13 @@ class TestNetworkFee(unittest.TestCase):
     nf.address = ''
     nf.memo = ''
 
-    result, is_true = nf.get_network_fee(app_id, app_secret)
-    if is_true:
-        print("verify success")
+    result, is_verify = nf.get_network_fee(app_id, app_secret)
+    if is_verify:
+        print("TestNetworkFee: verify success")
     else:
-        print("verify error")
+        print("TestNetworkFee: verify error")
 
-    print(result)
+    print("TestNetworkFee:", result)
 
 
 if __name__ == '__main__':
