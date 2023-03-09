@@ -12,7 +12,7 @@ class TestCreateOrder(unittest.TestCase):
     oc = ccpayment.OrderClass()
 
     oc.amount = '6'
-    oc.merchant_order_id = str(time.time())
+    oc.merchant_order_id = str(int(time.time()))
     oc.token_id = '0912e09a-d8e2-41d7-a0bc-a25530892988'
     oc.fiat_currency = 'USD'
     oc.remark = ''
@@ -43,7 +43,7 @@ class TestWebhookValidate(unittest.TestCase):
 class TestCheckoutUrl(unittest.TestCase):
     pu = ccpayment.PaymentUrlClass()
     pu.amount = '12'
-    pu.merchant_order_id = str(time.time())
+    pu.merchant_order_id = str(int(time.time()))
     pu.valid_timestamp = 300  # s
     pu.product_name = 'test'
     pu.return_url = 'http://localhost/index.html'
@@ -102,7 +102,7 @@ class TestApiWithdraw(unittest.TestCase):
     aw.address = '9486792'
     aw.memo = ''
     aw.value = '1'
-    aw.merchant_order_id = str(time.time())
+    aw.merchant_order_id = str(int(time.time()))
 
     result, is_verify = aw.create_withdraw_order(app_id, app_secret)
     if is_verify:
