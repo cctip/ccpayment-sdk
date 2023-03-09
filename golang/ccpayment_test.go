@@ -140,7 +140,7 @@ func TestGetTokenRate(t *testing.T) {
 // create api withdrawal
 func TestWithdrawApi(t *testing.T) {
 	tc := &WithdrawApiReq{
-		TokenID:         "f137d42c-f3a6-4f23-9402-76f0395d0cfe",
+		TokenID:         "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
 		Address:         "9454818",
 		Value:           "12",
 		MerchantOrderId: fmt.Sprintf("%d", time.Now().UnixMicro()),
