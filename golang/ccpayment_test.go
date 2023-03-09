@@ -2,8 +2,6 @@ package golang
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"net/http"
 	"testing"
 	"time"
 )
@@ -50,59 +48,59 @@ func TestCheckoutUrl(t *testing.T) {
 }
 
 // webhook validate
-func TestGetWebhookDataAndValidate(t *testing.T) {
-	router := gin.Default()
+//func TestGetWebhookDataAndValidate(t *testing.T) {
+//	router := gin.Default()
+//
+//	router.POST("/webhook/verify/simple", PayNotifyBack) // Example of Webhook Verification
+//
+//	s := &http.Server{
+//		Addr:           ":8089",
+//		Handler:        router,
+//		ReadTimeout:    10 * time.Second,
+//		WriteTimeout:   10 * time.Second,
+//		MaxHeaderBytes: 1 << 20,
+//	}
+//	err := s.ListenAndServe()
+//	if err != nil {
+//		fmt.Println(`ListenAndServe error: `, err)
+//		return
+//	}
+//}
 
-	router.POST("/webhook/verify/simple", PayNotifyBack) // Example of Webhook Verification
-
-	s := &http.Server{
-		Addr:           ":8089",
-		Handler:        router,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
-		MaxHeaderBytes: 1 << 20,
-	}
-	err := s.ListenAndServe()
-	if err != nil {
-		fmt.Println(`ListenAndServe error: `, err)
-		return
-	}
-}
-
-func PayNotifyBack(c *gin.Context) {
-	var result WebhookReq
-
-	// style 1: get and verify
-	if err := result.GetWebhookDataAndValidate(c.Request, appId, appSecret); err != nil {
-		fmt.Printf(`PayNotifyBack - GetWebhookDataAndValidate error: %v`, err)
-		c.String(200, "error")
-		return
-	}
-
-	fmt.Printf(`%+v`, result)
-
-	// style 2: verify
-	/*
-		byt, err := ioutil.ReadAll(c.Request.Body)
-		if err != nil {
-			fmt.Printf(`PayNotifyBack - ReadAll error: %v`, err)
-			return
-		}
-		wv := &WebhookValidate{
-			Data:      byt,
-			Signature: c.Request.Header.Get(SignHeaderKey),
-			Timestamp: c.Request.Header.Get(TimestampHeaderKey),
-		}
-		if wv.WebhookValidate(appId, appSecret) {
-			fmt.Println(`success`)
-		} else {
-			fmt.Println(`error`)
-			return
-		}
-	*/
-
-	c.String(200, "success")
-}
+// webhook
+//func PayNotifyBack(c *gin.Context) {
+//	var result WebhookReq
+//
+//	// style 1: get and verify
+//	if err := result.GetWebhookDataAndValidate(c.Request, appId, appSecret); err != nil {
+//		fmt.Printf(`PayNotifyBack - GetWebhookDataAndValidate error: %v`, err)
+//		c.String(200, "error")
+//		return
+//	}
+//
+//	fmt.Printf(`%+v`, result)
+//
+//	// style 2: verify
+//
+//	byt, err := ioutil.ReadAll(c.Request.Body)
+//	if err != nil {
+//		fmt.Printf(`PayNotifyBack - ReadAll error: %v`, err)
+//		return
+//	}
+//	wv := &WebhookValidate{
+//		Data:      byt,
+//		Signature: c.Request.Header.Get(SignHeaderKey),
+//		Timestamp: c.Request.Header.Get(TimestampHeaderKey),
+//	}
+//	if wv.WebhookValidate(appId, appSecret) {
+//		fmt.Println(`success`)
+//	} else {
+//		fmt.Println(`error`)
+//		return
+//	}
+//
+//	c.String(200, "success")
+//}
 
 // get support tokens
 func TestGetSupportTokens(t *testing.T) {
