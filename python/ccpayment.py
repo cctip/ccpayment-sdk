@@ -6,8 +6,6 @@ import const
 
 
 class CCPaymentClass:
-    app_id = ''
-    app_secret = ''
 
     def __init__(self, app_id, app_secret):
         self.app_id = app_id
