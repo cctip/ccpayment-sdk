@@ -1,16 +1,19 @@
 const axios = require('axios');
 const crypto = require('crypto');
 
+const HOST = 'https://admin.ccpayment.com'
+
 const requestAPI = {
-  checkoutURL: 'https://admin.ccpayment.com/ccpayment/v1/concise/url/get',
-  selectTokenURL: 'https://admin.ccpayment.com/ccpayment/v1/support/token',
-  selectChainURL: 'https://admin.ccpayment.com/ccpayment/v1/token/chain',
-  submitOrderURL: 'https://admin.ccpayment.com/ccpayment/v1/bill/create',
-  tokenRateURL: 'https://admin.ccpayment.com/ccpayment/v1/token/rate'
+  checkoutURL: `${HOST}/ccpayment/v1/concise/url/get`,
+  selectTokenURL: `${HOST}/ccpayment/v1/support/token`,
+  selectChainURL: `${HOST}/ccpayment/v1/token/chain`,
+  submitOrderURL: `${HOST}/ccpayment/v1/bill/create`,
+  tokenRateURL: `${HOST}/ccpayment/v1/token/rate`
 }
 
 
 module.exports = {
+  
   appId: null,
   appSecret: null,
 
