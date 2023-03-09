@@ -67,7 +67,7 @@ class TestCCPaymentClass(unittest.TestCase):
     print("TestTokenRate:", data)
 
     # create api withdraw order
-    data, is_verify = cp.create_withdraw_order(token_id='0912e09a-d8e2-41d7-a0bc-a25530892988',
+    data, is_verify = cp.create_withdraw_order(token_id='8e5741cf-6e51-4892-9d04-3d40e1dd0128',
                                                address='9486792',
                                                value='1',
                                                merchant_order_id=str(int(time.time())))
