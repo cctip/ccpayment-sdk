@@ -1,0 +1,9 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "main": "./ccpayment.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "0.27.2"
+  }
+}
