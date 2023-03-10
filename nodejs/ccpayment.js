@@ -27,7 +27,11 @@ module.exports = {
     return hash.update(data, 'utf-8').digest('hex');
   },
 
-
+  /*
+   * @param {String} appId
+   * @param {String} appSecret
+   * @returns {void}
+   */
   init(appId, appSecret) {
     this.appId = appId
     this.appSecret = appSecret
@@ -57,6 +61,10 @@ module.exports = {
 
   },
 
+  /*
+   * @param {Function} callback 
+   * @returns {void}
+   */
   async getSupportToken(callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.supportTokenURL, null)
     if (result) {
@@ -64,7 +72,12 @@ module.exports = {
     }
   },
 
-
+  /*
+   * @param {Object} data
+   * @param {String} data.token_id
+   * @param {Function} callback 
+   * @returns {void}
+   */
   async getTokenChain(data, callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.tokenChainURL, {
       ...data
@@ -74,6 +87,16 @@ module.exports = {
     }
   },
 
+  /*
+   * @param {Object} data
+   * @param {String} data.remark
+   * @param {String} data.token_id
+   * @param {String} data.amount
+   * @param {String} data.merchant_order_id
+   * @param {String} data.fiat_currency
+   * @param {Function} callback 
+   * @returns {void}
+   */
   async createOrder(data, callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.createOrderURL, {
       ...data
@@ -83,6 +106,15 @@ module.exports = {
     }
   },
 
+  /*
+   * @param {Object} data
+   * @param {Number} data.valid_timestamp
+   * @param {String} data.amount
+   * @param {String} data.product_name
+   * @param {String} data.return_url
+   * @param {Function} callback 
+   * @returns {void}
+   */
   async checkoutURL(data, callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.checkoutURL, {
       ...data
@@ -92,6 +124,13 @@ module.exports = {
     }
   },
 
+  /*
+   * @param {Object} data
+   * @param {String} data.token_id
+   * @param {String} data.amount
+   * @param {Function} callback 
+   * @returns {void}
+   */
   async getTokenRate(data, callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.tokenRateURL, {
       ...data
@@ -101,6 +140,13 @@ module.exports = {
     }
   },
 
+  /*
+   * @param {Number} timeStamp
+   * @param {String} sign
+   * @param {Object} data
+   * @param {Function} callback 
+   * @returns {void}
+   */
   webhook(timeStamp, sign, data, callback) {
     const compareSignture = this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
     callback && callback(compareSignture === sign)
