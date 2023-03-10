@@ -58,7 +58,6 @@ module.exports = {
   },
 
   async getSupportToken(callback) {
-
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.supportTokenURL, null)
     if (result) {
       callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
@@ -67,7 +66,6 @@ module.exports = {
 
 
   async getTokenChain(data, callback) {
-
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.tokenChainURL, {
       ...data
     })
@@ -108,3 +106,5 @@ module.exports = {
     callback && callback(compareSignture === sign)
   }
 }
+
+
