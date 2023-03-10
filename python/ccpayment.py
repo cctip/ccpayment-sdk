@@ -3,15 +3,14 @@ import time
 import urllib.request
 import json
 import const
+import contextlib
 
 
-# crate order
-class OrderClass:
-    amount = ''
-    merchant_order_id = ''
-    token_id = ''
-    fiat_currency = ''
-    remark = ''
+class CCPaymentClass:
+
+    def __init__(self, app_id, app_secret):
+        self.app_id = app_id
+        self.app_secret = app_secret
 
     """
     * return success
@@ -28,26 +27,17 @@ class OrderClass:
         }
     }
     """
-    def create_deposit_order(self, app_id, app_secret):
-
+    # create api deposit order
+    def create_deposit_order(self, token_id, amount, merchant_order_id, fiat_currency, remark=None):
         data = {
-            "amount": self.amount,
-            "merchant_order_id": self.merchant_order_id,
-            "token_id": self.token_id,
-            "fiat_currency": self.fiat_currency,
-            "remark": self.remark
+            "amount": amount,
+            "merchant_order_id": merchant_order_id,
+            "token_id": token_id,
+            "fiat_currency": fiat_currency
         }
-
-        return _send_post(const.CREATE_ORDER_URL, data, app_id, app_secret)
-
-
-# get checkout url
-class PaymentUrlClass:
-    amount = ''
-    merchant_order_id = ''
-    valid_timestamp = 0  # s
-    product_name = ''
-    return_url = ''
+        if remark:
+            data["remark"] = remark
+        return self._send_post(const.CREATE_ORDER_URL, data)
 
     """
     * return success
@@ -59,34 +49,24 @@ class PaymentUrlClass:
         }
     }
     """
-    def get_checkout_url(self, app_id, app_secret):
-
+    # get checkout url
+    def get_checkout_url(self, amount, merchant_order_id, valid_timestamp, product_name, return_url=None):
         data = {
-            "amount": self.amount,
-            "merchant_order_id": self.merchant_order_id,
-            "valid_timestamp": self.valid_timestamp,
-            "product_name": self.product_name,
-            "return_url": self.return_url
+            "amount": amount,
+            "merchant_order_id": merchant_order_id,
+            "valid_timestamp": valid_timestamp,
+            "product_name": product_name
         }
+        if return_url:
+            data["return_url"] = return_url
+        return self._send_post(const.CHECKOUT_URL, data)
 
-        return _send_post(const.CHECKOUT_URL, data, app_id, app_secret)
-
-
-# webhook validate
-class WebhookClass:
-    data_str = ''  # from header key: Appid
-    signature = ''  # from header key: Sign
-    timestamp = ''  # from header key: Timestamp
-
-    def webhook_validate(self, app_id, app_secret):
-        if _hash256(self.data_str, app_id, app_secret, self.timestamp) == self.signature and self.signature != "":
+    def webhook_validate(self, data_str, timestamp, signature):
+        if self._hash256(data_str, timestamp) == signature and signature != "":
             return True
 
         return False
 
-
-# get support token list
-def get_support_tokens(app_id, app_secret):
     """
     * return success
     {
@@ -106,15 +86,9 @@ def get_support_tokens(app_id, app_secret):
         }
     }
     """
-
-    data = {}
-
-    return _send_post(const.SUPPORT_TOKEN_URL, data, app_id, app_secret)
-
-
-# get token chains
-class TokenChainClass:
-    token_id = ''
+    def get_support_tokens(self):
+        data = {}
+        return self._send_post(const.SUPPORT_TOKEN_URL, data)
 
     """
     * return success
@@ -137,19 +111,11 @@ class TokenChainClass:
         }
     }
     """
-    def get_token_chain(self, app_id, app_secret):
-
+    def get_token_chain(self, token_id):
         data = {
-            "token_id": self.token_id
+            "token_id": token_id
         }
-
-        return _send_post(const.TOKEN_CHAIN_URL, data, app_id, app_secret)
-
-
-# get token rate
-class TokenRateClass:
-    amount = ''
-    token_id = ''
+        return self._send_post(const.TOKEN_CHAIN_URL, data)
 
     """
     * return success
@@ -162,23 +128,12 @@ class TokenRateClass:
         }
     }
     """
-    def get_token_rate(self, app_id, app_secret):
-
+    def get_token_rate(self, token_id, amount):
         data = {
-            "token_id": self.token_id,
-            "amount": self.amount
+            "token_id": token_id,
+            "amount": amount
         }
-
-        return _send_post(const.TOKEN_RATE_URL, data, app_id, app_secret)
-
-
-# create api withdrawal
-class ApiWithdrawClass:
-    token_id = ''
-    address = ''
-    memo = ''
-    value = ''
-    merchant_order_id = ''
+        return self._send_post(const.TOKEN_RATE_URL, data)
 
     """
     * return success
@@ -192,22 +147,16 @@ class ApiWithdrawClass:
         }
     }
     """
-    def create_withdraw_order(self, app_id, app_secret):
-
+    def create_withdraw_order(self, token_id, address, value, merchant_order_id, memo=None):
         data = {
-            "token_id": self.token_id,
-            "address": self.address,
-            "memo": self.memo,
-            "value": self.value,
-            "merchant_order_id": self.merchant_order_id
+            "token_id": token_id,
+            "address": address,
+            "value": value,
+            "merchant_order_id": merchant_order_id
         }
-
-        return _send_post(const.WITHDRAW_API_URL, data, app_id, app_secret)
-
-
-# check user
-class CheckUserClass:
-    c_id = ''
+        if memo:
+            data["memo"] = memo
+        return self._send_post(const.WITHDRAW_API_URL, data)
 
     """
     * return success
@@ -220,18 +169,11 @@ class CheckUserClass:
         }
     }
     """
-    def check_user(self, app_id, app_secret):
-
+    def check_user(self, c_id):
         data = {
-            "c_id": self.c_id
+            "c_id": c_id
         }
-
-        return _send_post(const.CHECK_USER_URL, data, app_id, app_secret)
-
-
-# get token assets
-class TokenAssetClass:
-    token_id = ''
+        return self._send_post(const.CHECK_USER_URL, data)
 
     """
     * return success
@@ -250,20 +192,11 @@ class TokenAssetClass:
         ]
     }
     """
-    def get_token_assets(self, app_id, app_secret):
-
+    def get_token_assets(self, token_id):
         data = {
-            "token_id": self.token_id
+            "token_id": token_id
         }
-
-        return _send_post(const.ASSETS_URL, data, app_id, app_secret)
-
-
-# network fee
-class NetworkFeeClass:
-    token_id = ''
-    address = ''
-    memo = ''
+        return self._send_post(const.ASSETS_URL, data)
 
     """
     * return success
@@ -277,55 +210,59 @@ class NetworkFeeClass:
         }
     }
     """
-    def get_network_fee(self, app_id, app_secret):
-
+    def get_network_fee(self, token_id, address=None, memo=None):
         data = {
-            "token_id": self.token_id,
-            "address": self.address,
-            "memo": self.memo
+            "token_id": token_id
         }
+        if memo:
+            data["memo"] = memo
+        if address:
+            data["address"] = address
+        return self._send_post(const.NETWORK_FEE_URL, data)
 
-        return _send_post(const.NETWORK_FEE_URL, data, app_id, app_secret)
+    def _hash256(self, txt, timestamp):
+        txt = self.app_id + self.app_secret + str(timestamp) + txt
+        return hashlib.sha256(txt.encode("utf-8")).hexdigest()
 
+    def _send_post(self, url, data):
+        timestamp = int(time.time())
 
-def _hash256(txt, app_id, app_secret, timestamp):
-    txt = app_id + app_secret + str(timestamp) + txt
+        data_str = json.dumps(data)
+        sign_str = self._hash256(data_str, timestamp)
 
-    return hashlib.sha256(txt.encode("utf-8")).hexdigest()
+        req = urllib.request.Request(url=url, method="POST", data=data_str.encode("utf-8"), headers={
+            "Content-Type": "application/json;charset=uf8",
+            const.APP_ID_HEADER_KEY: self.app_id,
+            const.SIGN_HEADER_KEY: sign_str,
+            const.TIMESTAMP_HEADER_KEY: str(timestamp)
+        })
 
+        req.timeout = 60  # s
 
-def _send_post(url, data, app_id, app_secret):
-    timestamp = int(time.time())
+        # post
+        resp = urllib.request.urlopen(req)
 
-    data_str = json.dumps(data)
-    sign_str = _hash256(data_str, app_id, app_secret, timestamp)
+        data, is_valid = self._deal_and_valid(resp)
+        if resp:
+            resp.close()
 
-    req = urllib.request.Request(url=url, method="POST", data=data_str.encode("utf-8"))
+        return data, is_valid
 
-    req.add_header(const.APP_ID_HEADER_KEY, app_id)
-    req.add_header(const.SIGN_HEADER_KEY, sign_str)
-    req.add_header(const.TIMESTAMP_HEADER_KEY, str(timestamp))
+    def _deal_and_valid(self, resp):
+        if resp.code != 200:
+            return {}, False
 
-    req.timeout = 30  # s
+        data_str = resp.read().decode('utf-8')
+        data = json.loads(data_str)
 
-    # post
-    resp = urllib.request.urlopen(req)
-    if resp.code != 200:
-        return {}, False
+        if data['code'] != 10000:
+            return data, True
 
-    data_str = resp.read().decode('utf-8')
+        # header
+        signature = resp.headers[const.SIGN_HEADER_KEY]
+        ts = resp.headers[const.TIMESTAMP_HEADER_KEY]
 
-    data = json.loads(data_str)
-
-    if data['code'] != 10000:
-        return data, True
-
-    # header
-    signature = resp.headers[const.SIGN_HEADER_KEY]
-    ts = resp.headers[const.TIMESTAMP_HEADER_KEY]
-
-    # verify
-    if _hash256(data_str, app_id, app_secret, ts) == signature and signature != "":
-        return data, True
-
-    return data, False
+        # verify
+        if self._hash256(data_str, ts) == signature and signature != "":
+            return data, True
+        return data, False

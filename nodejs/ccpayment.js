@@ -1,16 +1,19 @@
 const axios = require('axios');
 const crypto = require('crypto');
 
+const HOST = 'https://admin.ccpayment.com'
+
 const requestAPI = {
-  checkoutURL: 'https://admin.ccpayment.com/ccpayment/v1/concise/url/get',
-  supportTokenURL: 'https://admin.ccpayment.com/ccpayment/v1/support/token',
-  tokenChainURL: 'https://admin.ccpayment.com/ccpayment/v1/token/chain',
-  createOrderURL: 'https://admin.ccpayment.com/ccpayment/v1/bill/create',
-  tokenRateURL: 'https://admin.ccpayment.com/ccpayment/v1/token/rate'
+  checkoutURL: `${HOST}/ccpayment/v1/concise/url/get`,
+  selectTokenURL: `${HOST}/ccpayment/v1/support/token`,
+  selectChainURL: `${HOST}/ccpayment/v1/token/chain`,
+  submitOrderURL: `${HOST}/ccpayment/v1/bill/create`,
+  tokenRateURL: `${HOST}/ccpayment/v1/token/rate`
 }
 
 
 module.exports = {
+  
   appId: null,
   appSecret: null,
 
@@ -54,18 +57,18 @@ module.exports = {
 
   },
 
-  async getSupportToken(callback) {
+  async selectToken(callback) {
 
-    const { compareSignture, sign, result } = await this.sendPost(requestAPI.supportTokenURL, null)
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.selectTokenURL, null)
     if (result) {
       callback && callback(compareSignture === sign ? result.data : Error('http code error'))
     }
   },
 
 
-  async getTokenChain(data, callback) {
+  async selectChain(data, callback) {
 
-    const { compareSignture, sign, result } = await this.sendPost(requestAPI.tokenChainURL, {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.selectChainURL, {
       ...data
     })
     if (result) {
@@ -73,8 +76,8 @@ module.exports = {
     }
   },
 
-  async createOrder(data, callback) {
-    const { compareSignture, sign, result } = await this.sendPost(requestAPI.createOrderURL, {
+  async submitOrder(data, callback) {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.submitOrderURL, {
       ...data
     })
     if (result) {
@@ -100,7 +103,7 @@ module.exports = {
     }
   },
 
-  webhook(timeStamp, sign, data, callback) {
+  webHookNotify(timeStamp, sign, data, callback) {
     const compareSignture = this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
     callback && callback(compareSignture === sign)
   }
