@@ -103,11 +103,11 @@ func TestCheckoutUrl(t *testing.T) {
 //}
 
 // get support tokens
-func TestGetSupportTokens(t *testing.T) {
+func TestGetSupportToken(t *testing.T) {
 	st := &SupportTokenReq{}
-	data, err := st.GetSupportTokens(appId, appSecret)
+	data, err := st.GetSupportToken(appId, appSecret)
 	if err != nil {
-		fmt.Println(`GetSupportTokens error: `, err)
+		fmt.Println(`GetSupportToken error: `, err)
 	}
 	fmt.Printf(`data: %+v`, data)
 }

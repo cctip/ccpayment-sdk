@@ -27,8 +27,8 @@ class CCPaymentClass:
         }
     }
     """
-    # create api deposit order
-    def create_deposit_order(self, token_id, amount, merchant_order_id, fiat_currency, remark=None):
+    # create api order
+    def create_order(self, token_id, amount, merchant_order_id, fiat_currency, remark=None):
         data = {
             "amount": amount,
             "merchant_order_id": merchant_order_id,
@@ -50,7 +50,7 @@ class CCPaymentClass:
     }
     """
     # get checkout url
-    def get_checkout_url(self, amount, merchant_order_id, valid_timestamp, product_name, return_url=None):
+    def checkout_url(self, amount, merchant_order_id, valid_timestamp, product_name, return_url=None):
         data = {
             "amount": amount,
             "merchant_order_id": merchant_order_id,
@@ -61,7 +61,7 @@ class CCPaymentClass:
             data["return_url"] = return_url
         return self._send_post(const.CHECKOUT_URL, data)
 
-    def webhook_validate(self, data_str, timestamp, signature):
+    def webhook(self, data_str, timestamp, signature):
         if self._hash256(data_str, timestamp) == signature and signature != "":
             return True
 
@@ -86,7 +86,7 @@ class CCPaymentClass:
         }
     }
     """
-    def get_support_tokens(self):
+    def get_support_token(self):
         data = {}
         return self._send_post(const.SUPPORT_TOKEN_URL, data)
 
@@ -147,7 +147,7 @@ class CCPaymentClass:
         }
     }
     """
-    def create_withdraw_order(self, token_id, address, value, merchant_order_id, memo=None):
+    def withdraw(self, token_id, address, value, merchant_order_id, memo=None):
         data = {
             "token_id": token_id,
             "address": address,
@@ -192,7 +192,7 @@ class CCPaymentClass:
         ]
     }
     """
-    def get_token_assets(self, token_id):
+    def assets(self, token_id):
         data = {
             "token_id": token_id
         }
@@ -210,7 +210,7 @@ class CCPaymentClass:
         }
     }
     """
-    def get_network_fee(self, token_id, address=None, memo=None):
+    def network_fee(self, token_id, address=None, memo=None):
         data = {
             "token_id": token_id
         }

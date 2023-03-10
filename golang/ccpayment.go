@@ -91,7 +91,7 @@ func (result *WebhookReq) webhookSignStr(req *http.Request, appId, appSecret str
 
 // ---------- get support token ----------
 
-func (st *SupportTokenReq) GetSupportTokens(appId, appSecret string) (data *SupportTokenResultData, err error) {
+func (st *SupportTokenReq) GetSupportToken(appId, appSecret string) (data *SupportTokenResultData, err error) {
 	timeStamp := time.Now().Unix()
 
 	dst, signStr, err := SignStr(*st, appId, appSecret, timeStamp)

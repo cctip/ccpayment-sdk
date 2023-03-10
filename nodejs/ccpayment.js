@@ -5,9 +5,9 @@ const HOST = 'https://admin.ccpayment.com'
 
 const requestAPI = {
   checkoutURL: `${HOST}/ccpayment/v1/concise/url/get`,
-  selectTokenURL: `${HOST}/ccpayment/v1/support/token`,
-  selectChainURL: `${HOST}/ccpayment/v1/token/chain`,
-  submitOrderURL: `${HOST}/ccpayment/v1/bill/create`,
+  supportTokenURL: `${HOST}/ccpayment/v1/support/token`,
+  tokenChainURL: `${HOST}/ccpayment/v1/token/chain`,
+  createOrderURL: `${HOST}/ccpayment/v1/bill/create`,
   tokenRateURL: `${HOST}/ccpayment/v1/token/rate`
 }
 
@@ -57,18 +57,18 @@ module.exports = {
 
   },
 
-  async selectToken(callback) {
+  async getSupportToken(callback) {
 
-    const { compareSignture, sign, result } = await this.sendPost(requestAPI.selectTokenURL, null)
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.supportTokenURL, null)
     if (result) {
       callback && callback(compareSignture === sign ? result.data : Error('http code error'))
     }
   },
 
 
-  async selectChain(data, callback) {
+  async getTokenChain(data, callback) {
 
-    const { compareSignture, sign, result } = await this.sendPost(requestAPI.selectChainURL, {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.tokenChainURL, {
       ...data
     })
     if (result) {
@@ -77,7 +77,7 @@ module.exports = {
   },
 
   async submitOrder(data, callback) {
-    const { compareSignture, sign, result } = await this.sendPost(requestAPI.submitOrderURL, {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.createOrderURL, {
       ...data
     })
     if (result) {
@@ -94,7 +94,7 @@ module.exports = {
     }
   },
 
-  async tokenRate(data, callback) {
+  async getTokenRate(data, callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.tokenRateURL, {
       ...data
     })
@@ -103,7 +103,7 @@ module.exports = {
     }
   },
 
-  webHookNotify(timeStamp, sign, data, callback) {
+  webhook(timeStamp, sign, data, callback) {
     const compareSignture = this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
     callback && callback(compareSignture === sign)
   }
