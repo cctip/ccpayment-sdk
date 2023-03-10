@@ -76,7 +76,7 @@ module.exports = {
     }
   },
 
-  async submitOrder(data, callback) {
+  async createOrder(data, callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.createOrderURL, {
       ...data
     })
