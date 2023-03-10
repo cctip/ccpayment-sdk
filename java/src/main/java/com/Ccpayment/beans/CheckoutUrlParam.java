@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CheckUrlParam {
+public class CheckoutUrlParam {
     @JsonProperty("valid_timestamp")
     private Integer validTimestamp;
     @JsonProperty("product_name")

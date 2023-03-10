@@ -7,49 +7,49 @@ class CcpaymentApisTest {
 
     @Test
     void paymentIntentCreate() throws Exception {
-        PaymentIntentCreateParam param = new PaymentIntentCreateParam();
+        CreateOrderParam param = new CreateOrderParam();
         param.setNotifyUrl("https://www.xxxx.com/callback");
         param.setAmount("1.34");
         param.setTokenId("1e614496-f9ce-4ec7-8e68-563733deacbf");
         param.setRemark("222222");
         param.setMerchantOrderId("thisisoutordern1o");
         param.setFiatCurrency("USD");
-        PaymentIntentCreateResponse resp = CcpaymentApis.paymentIntentCreate(param);
+        CreateOrderResponse resp = CcpaymentApis.createOrder(param);
         System.out.println(resp);
     }
 
     @Test
     void supportTokens() throws Exception{
-       SupportTokenResponse resp = CcpaymentApis.supportTokens();
+       GetSupportTokenResponse resp = CcpaymentApis.getSupportToken();
        System.out.println(resp);
     }
 
     @Test
     void tokenChain() throws Exception{
-        TokenChainParam param = new TokenChainParam();
+        GetTokenChainParam param = new GetTokenChainParam();
         param.setTokenId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
-        TokenChainResponse resp = CcpaymentApis.tokenChain(param);
+        GetTokenChainResponse resp = CcpaymentApis.getTokenChain(param);
         System.out.println(resp);
     }
 
     @Test
     void checkUrl() throws Exception{
-        CheckUrlParam param = new CheckUrlParam();
+        CheckoutUrlParam param = new CheckoutUrlParam();
         param.setAmount("1000");
         param.setMerchantOrderId("thisisoutorderno");
         param.setReturnUrl("https://www.xxxx.com/callback");
         param.setValidTimestamp(3600);
         param.setProductName("this is product name");
-        CheckUrlResponse resp = CcpaymentApis.checkUrl(param);
+        CheckoutUrlResponse resp = CcpaymentApis.checkoutUrl(param);
         System.out.println(resp);
     }
 
     @Test
     void tokenRate() throws Exception{
-        TokenRateParam param = new TokenRateParam();
+        GetTokenRateParam param = new GetTokenRateParam();
         param.setAmount("1000");
         param.setTokenId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
-        TokenRateResponse resp = CcpaymentApis.tokenRate(param);
+        GetTokenRateResponse resp = CcpaymentApis.getTokenRate(param);
         System.out.println(resp);
     }
 
