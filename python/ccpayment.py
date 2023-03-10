@@ -36,7 +36,7 @@ class CCPaymentClass:
         }
         if remark:
             data["remark"] = remark
-        return _send_post(const.CREATE_ORDER_URL, data, self.app_id, self.app_secret)
+        return self._send_post(const.CREATE_ORDER_URL, data)
 
     """
     * return success
@@ -58,10 +58,10 @@ class CCPaymentClass:
         }
         if return_url:
             data["return_url"] = return_url
-        return _send_post(const.CHECKOUT_URL, data, self.app_id, self.app_secret)
+        return self._send_post(const.CHECKOUT_URL, data)
 
     def webhook_validate(self, data_str, timestamp, signature):
-        if _hash256(self.app_id, self.app_secret, data_str, timestamp) == signature and signature != "":
+        if self._hash256(data_str, timestamp) == signature and signature != "":
             return True
 
         return False
@@ -106,7 +106,7 @@ class CCPaymentClass:
         }
         """
         data = {}
-        return _send_post(const.SUPPORT_TOKEN_URL, data, self.app_id, self.app_secret)
+        return self._send_post(const.SUPPORT_TOKEN_URL, data)
 
     """
     * return success
@@ -133,7 +133,7 @@ class CCPaymentClass:
         data = {
             "token_id": token_id
         }
-        return _send_post(const.TOKEN_CHAIN_URL, data, self.app_id, self.app_secret)
+        return self._send_post(const.TOKEN_CHAIN_URL, data)
 
     """
     * return success
@@ -151,7 +151,7 @@ class CCPaymentClass:
             "token_id": token_id,
             "amount": amount
         }
-        return _send_post(const.TOKEN_RATE_URL, data, self.app_id, self.app_secret)
+        return self._send_post(const.TOKEN_RATE_URL, data)
 
     """
     * return success
@@ -174,7 +174,7 @@ class CCPaymentClass:
         }
         if memo:
             data["memo"] = memo
-        return _send_post(const.WITHDRAW_API_URL, data, self.app_id, self.app_secret)
+        return self._send_post(const.WITHDRAW_API_URL, data)
 
     """
     * return success
@@ -191,7 +191,7 @@ class CCPaymentClass:
         data = {
             "c_id": c_id
         }
-        return _send_post(const.CHECK_USER_URL, data, self.app_id, self.app_secret)
+        return self._send_post(const.CHECK_USER_URL, data)
 
     """
     * return success
@@ -214,7 +214,7 @@ class CCPaymentClass:
         data = {
             "token_id": token_id
         }
-        return _send_post(const.ASSETS_URL, data, self.app_id, self.app_secret)
+        return self._send_post(const.ASSETS_URL, data)
 
     """
     * return success
@@ -236,46 +236,44 @@ class CCPaymentClass:
             data["memo"] = memo
         if address:
             data["address"] = address
-        return _send_post(const.NETWORK_FEE_URL, data, self.app_id, self.app_secret)
+        return self._send_post(const.NETWORK_FEE_URL, data)
 
+    def _hash256(self, txt, timestamp):
+        txt = self.app_id + self.app_secret + str(timestamp) + txt
+        return hashlib.sha256(txt.encode("utf-8")).hexdigest()
 
-def _hash256(app_id, app_secret, txt, timestamp):
-    txt = app_id + app_secret + str(timestamp) + txt
-    return hashlib.sha256(txt.encode("utf-8")).hexdigest()
+    def _send_post(self, url, data):
+        timestamp = int(time.time())
 
+        data_str = json.dumps(data)
+        sign_str = self._hash256(data_str, timestamp)
 
-def _send_post(url, data, app_id, app_secret):
-    timestamp = int(time.time())
+        req = urllib.request.Request(url=url, method="POST", data=data_str.encode("utf-8"))
 
-    data_str = json.dumps(data)
-    sign_str = _hash256(app_id, app_secret, data_str, timestamp)
+        req.add_header(const.APP_ID_HEADER_KEY, self.app_id)
+        req.add_header(const.SIGN_HEADER_KEY, sign_str)
+        req.add_header(const.TIMESTAMP_HEADER_KEY, str(timestamp))
 
-    req = urllib.request.Request(url=url, method="POST", data=data_str.encode("utf-8"))
+        req.timeout = 30  # s
 
-    req.add_header(const.APP_ID_HEADER_KEY, app_id)
-    req.add_header(const.SIGN_HEADER_KEY, sign_str)
-    req.add_header(const.TIMESTAMP_HEADER_KEY, str(timestamp))
+        # post
+        resp = urllib.request.urlopen(req)
+        if resp.code != 200:
+            return {}, False
 
-    req.timeout = 30  # s
+        data_str = resp.read().decode('utf-8')
 
-    # post
-    resp = urllib.request.urlopen(req)
-    if resp.code != 200:
-        return {}, False
+        data = json.loads(data_str)
 
-    data_str = resp.read().decode('utf-8')
+        if data['code'] != 10000:
+            return data, True
 
-    data = json.loads(data_str)
+        # header
+        signature = resp.headers[const.SIGN_HEADER_KEY]
+        ts = resp.headers[const.TIMESTAMP_HEADER_KEY]
 
-    if data['code'] != 10000:
-        return data, True
+        # verify
+        if self._hash256(data_str, ts) == signature and signature != "":
+            return data, True
 
-    # header
-    signature = resp.headers[const.SIGN_HEADER_KEY]
-    ts = resp.headers[const.TIMESTAMP_HEADER_KEY]
-
-    # verify
-    if _hash256(app_id, app_secret, data_str, ts) == signature and signature != "":
-        return data, True
-
-    return data, False
+        return data, False
