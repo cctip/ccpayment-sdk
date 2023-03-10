@@ -47,8 +47,8 @@ public final class CcpaymentApis {
      * @return pay order info
      * @throws Exception
      */
-    public static PaymentIntentCreateResponse paymentIntentCreate(PaymentIntentCreateParam param) throws Exception {
-        return doSend("/bill/create", param, PaymentIntentCreateResponse.class);
+    public static CreateOrderResponse createOrder(CreateOrderParam param) throws Exception {
+        return doSend("/bill/create", param, CreateOrderResponse.class);
     }
 
     /**
@@ -57,8 +57,8 @@ public final class CcpaymentApis {
      * @return token list
      * @throws Exception
      */
-    public static SupportTokenResponse supportTokens() throws Exception {
-        return doSend("/support/token", new Object(), SupportTokenResponse.class);
+    public static GetSupportTokenResponse getSupportToken() throws Exception {
+        return doSend("/support/token", new Object(), GetSupportTokenResponse.class);
     }
 
     /**
@@ -68,8 +68,8 @@ public final class CcpaymentApis {
      * @return pay url
      * @throws Exception
      */
-    public static CheckUrlResponse checkUrl(CheckUrlParam param) throws Exception {
-        return doSend("/concise/url/get", param, CheckUrlResponse.class);
+    public static CheckoutUrlResponse checkoutUrl(CheckoutUrlParam param) throws Exception {
+        return doSend("/concise/url/get", param, CheckoutUrlResponse.class);
     }
 
     /**
@@ -79,8 +79,8 @@ public final class CcpaymentApis {
      * @return
      * @throws Exception
      */
-    public static TokenChainResponse tokenChain(TokenChainParam param) throws Exception {
-        return doSend("/token/chain", param, TokenChainResponse.class);
+    public static GetTokenChainResponse getTokenChain(GetTokenChainParam param) throws Exception {
+        return doSend("/token/chain", param, GetTokenChainResponse.class);
     }
 
     /**
@@ -90,8 +90,8 @@ public final class CcpaymentApis {
      * @return
      * @throws Exception
      */
-    public static TokenRateResponse tokenRate(TokenRateParam param) throws Exception {
-        return doSend("/token/rate", param, TokenRateResponse.class);
+    public static GetTokenRateResponse getTokenRate(GetTokenRateParam param) throws Exception {
+        return doSend("/token/rate", param, GetTokenRateResponse.class);
     }
 
     /**
