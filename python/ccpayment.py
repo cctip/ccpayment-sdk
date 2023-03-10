@@ -3,6 +3,7 @@ import time
 import urllib.request
 import json
 import const
+import contextlib
 
 
 class CCPaymentClass:
@@ -86,25 +87,6 @@ class CCPaymentClass:
     }
     """
     def get_support_tokens(self):
-        """
-        * return success
-        {
-            "code": 10000,
-            "msg": "",
-            "data": {
-                "list": [
-                    {
-                        "crypto": "",
-                        "name": "",
-                        "logo": "",
-                        "min": "",
-                        "price": "",
-                        "token_id": ""
-                    }
-                ]
-            }
-        }
-        """
         data = {}
         return self._send_post(const.SUPPORT_TOKEN_URL, data)
 
@@ -248,21 +230,29 @@ class CCPaymentClass:
         data_str = json.dumps(data)
         sign_str = self._hash256(data_str, timestamp)
 
-        req = urllib.request.Request(url=url, method="POST", data=data_str.encode("utf-8"))
+        req = urllib.request.Request(url=url, method="POST", data=data_str.encode("utf-8"), headers={
+            "Content-Type": "application/json;charset=uf8",
+            const.APP_ID_HEADER_KEY: self.app_id,
+            const.SIGN_HEADER_KEY: sign_str,
+            const.TIMESTAMP_HEADER_KEY: str(timestamp)
+        })
 
-        req.add_header(const.APP_ID_HEADER_KEY, self.app_id)
-        req.add_header(const.SIGN_HEADER_KEY, sign_str)
-        req.add_header(const.TIMESTAMP_HEADER_KEY, str(timestamp))
-
-        req.timeout = 30  # s
+        req.timeout = 60  # s
 
         # post
         resp = urllib.request.urlopen(req)
+
+        data, is_valid = self._deal_and_valid(resp)
+        if resp:
+            resp.close()
+
+        return data, is_valid
+
+    def _deal_and_valid(self, resp):
         if resp.code != 200:
             return {}, False
 
         data_str = resp.read().decode('utf-8')
-
         data = json.loads(data_str)
 
         if data['code'] != 10000:
@@ -275,5 +265,4 @@ class CCPaymentClass:
         # verify
         if self._hash256(data_str, ts) == signature and signature != "":
             return data, True
-
         return data, False
