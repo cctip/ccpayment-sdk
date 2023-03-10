@@ -16,7 +16,7 @@ var SignVerifyErr = fmt.Errorf(`data signature verify error`)
 
 // ---------- api create order ----------
 
-func (order *OrderReq) CreateOrder(appId, appSecret string) (data *OrderResp, err error) {
+func (order *CreateOrderReq) CreateOrder(appId, appSecret string) (data *CreateOrderResp, err error) {
 	timeStamp := time.Now().Unix()
 
 	dst, signStr, err := SignStr(*order, appId, appSecret, timeStamp)
@@ -24,7 +24,7 @@ func (order *OrderReq) CreateOrder(appId, appSecret string) (data *OrderResp, er
 		return nil, err
 	}
 
-	data = &OrderResp{}
+	data = &CreateOrderResp{}
 
 	err = sendPost(data, dst, CreateOrderUrl, appId, appSecret, signStr, timeStamp)
 
@@ -33,7 +33,7 @@ func (order *OrderReq) CreateOrder(appId, appSecret string) (data *OrderResp, er
 
 // ---------- get checkout url ----------
 
-func (pu *GetPaymentUrlReq) GetCheckoutUrl(appId, appSecret string) (data *PaymentUrlResp, err error) {
+func (pu *CheckoutUrlReq) CheckoutUrl(appId, appSecret string) (data *CheckoutUrlResp, err error) {
 	timeStamp := time.Now().Unix()
 
 	dst, signStr, err := SignStr(*pu, appId, appSecret, timeStamp)
@@ -41,7 +41,7 @@ func (pu *GetPaymentUrlReq) GetCheckoutUrl(appId, appSecret string) (data *Payme
 		return nil, err
 	}
 
-	data = &PaymentUrlResp{}
+	data = &CheckoutUrlResp{}
 
 	err = sendPost(data, dst, CheckoutUrl, appId, appSecret, signStr, timeStamp)
 
@@ -140,7 +140,7 @@ func (tr *GetTokenRateReq) GetTokenRate(appId, appSecret string) (data *TokenRat
 	return data, err
 }
 
-func (tr *WithdrawApiReq) WithdrawApi(appId, appSecret string) (data *WithdrawApiResp, err error) {
+func (tr *WithdrawReq) Withdraw(appId, appSecret string) (data *WithdrawResp, err error) {
 	timeStamp := time.Now().Unix()
 
 	dst, signStr, err := SignStr(*tr, appId, appSecret, timeStamp)
@@ -148,7 +148,7 @@ func (tr *WithdrawApiReq) WithdrawApi(appId, appSecret string) (data *WithdrawAp
 		return nil, err
 	}
 
-	data = &WithdrawApiResp{}
+	data = &WithdrawResp{}
 
 	err = sendPost(data, dst, WithdrawApiUrl, appId, appSecret, signStr, timeStamp)
 
@@ -248,13 +248,13 @@ func sendPost(data interface{}, dst string, url, appId, appSecret, signStr strin
 		var code int
 
 		switch data.(type) {
-		case *OrderResp:
-			d := data.(*OrderResp)
+		case *CreateOrderResp:
+			d := data.(*CreateOrderResp)
 			code = d.Code
 			goto validate
 
-		case *PaymentUrlResp:
-			d := data.(*PaymentUrlResp)
+		case *CheckoutUrlResp:
+			d := data.(*CheckoutUrlResp)
 			code = d.Code
 			goto validate
 
@@ -277,8 +277,8 @@ func sendPost(data interface{}, dst string, url, appId, appSecret, signStr strin
 			d := data.(*BillTradeResp)
 			code = d.Code
 			goto validate
-		case *WithdrawApiResp:
-			d := data.(*WithdrawApiResp)
+		case *WithdrawResp:
+			d := data.(*WithdrawResp)
 			code = d.Code
 			goto validate
 		case *CheckUserResp:

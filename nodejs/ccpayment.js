@@ -3,9 +3,9 @@ const crypto = require('crypto');
 
 const requestAPI = {
   checkoutURL: 'https://admin.ccpayment.com/ccpayment/v1/concise/url/get',
-  selectTokenURL: 'https://admin.ccpayment.com/ccpayment/v1/support/token',
-  selectChainURL: 'https://admin.ccpayment.com/ccpayment/v1/token/chain',
-  submitOrderURL: 'https://admin.ccpayment.com/ccpayment/v1/bill/create',
+  supportTokenURL: 'https://admin.ccpayment.com/ccpayment/v1/support/token',
+  tokenChainURL: 'https://admin.ccpayment.com/ccpayment/v1/token/chain',
+  createOrderURL: 'https://admin.ccpayment.com/ccpayment/v1/bill/create',
   tokenRateURL: 'https://admin.ccpayment.com/ccpayment/v1/token/rate'
 }
 
@@ -54,18 +54,18 @@ module.exports = {
 
   },
 
-  async selectToken(callback) {
+  async getSupportToken(callback) {
 
-    const { compareSignture, sign, result } = await this.sendPost(requestAPI.selectTokenURL, null)
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.supportTokenURL, null)
     if (result) {
       callback && callback(compareSignture === sign ? result.data : Error('http code error'))
     }
   },
 
 
-  async selectChain(data, callback) {
+  async getTokenChain(data, callback) {
 
-    const { compareSignture, sign, result } = await this.sendPost(requestAPI.selectChainURL, {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.tokenChainURL, {
       ...data
     })
     if (result) {
@@ -73,8 +73,8 @@ module.exports = {
     }
   },
 
-  async submitOrder(data, callback) {
-    const { compareSignture, sign, result } = await this.sendPost(requestAPI.submitOrderURL, {
+  async createOrder(data, callback) {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.createOrderURL, {
       ...data
     })
     if (result) {
@@ -100,7 +100,7 @@ module.exports = {
     }
   },
 
-  webHookNotify(timeStamp, sign, data, callback) {
+  webhook(timeStamp, sign, data, callback) {
     const compareSignture = this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
     callback && callback(compareSignture === sign)
   }

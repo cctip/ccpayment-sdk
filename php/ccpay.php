@@ -8,7 +8,7 @@ use \WpOrg\Requests\Requests;
 /**
  * doc: https://doc.ccpayment.com/ccpayment-for-merchant/home
  * CreateOrder(array $originData, string $appId, string $appSecret)
- * CheckUrl(array $originData, string $appId, string $appSecret)
+ * CheckoutUrl(array $originData, string $appId, string $appSecret)
  * GetSupportToken(string $appId, string $appSecret)
  * GetTokenChain(array $originData, string $appId, string $appSecret)
  * GetTokenRate(array $originData, string $appId, string $appSecret)
@@ -30,7 +30,7 @@ class CCPay
     const SIGN = 'Sign';
     public static $urls = [
         "CreateOrderUrl" => "https://admin.ccpayment.com/ccpayment/v1/bill/create",
-        "CheckUrl" => "https://admin.ccpayment.com/ccpayment/v1/concise/url/get", // Zlib marker - level 1.
+        "CheckoutUrl" => "https://admin.ccpayment.com/ccpayment/v1/concise/url/get", // Zlib marker - level 1.
         "SupportToken" => "https://admin.ccpayment.com/ccpayment/v1/support/token",
         "TokenChain" => "https://admin.ccpayment.com/ccpayment/v1/token/chain",
         "TokenRate" => "https://admin.ccpayment.com/ccpayment/v1/token/rate",
@@ -254,7 +254,7 @@ class CCPay
         }
     }
      */
-    public static function CheckUrl(array $originData, string $appId, string $appSecret): array
+    public static function CheckoutUrl(array $originData, string $appId, string $appSecret): array
     {
         if ($originData["product_name"] == ""  || $originData["amount"] == "" || $originData["merchant_order_id"] == "") {
             return ["code"=>10008, "msg"=>"param is err"];
@@ -262,16 +262,16 @@ class CCPay
 
         self::setHeaders($appId, $appSecret);
 
-        $data = self::getCheckUrlData($originData);
+        $data = self::getCheckoutUrlData($originData);
 
         $resource = json_encode($data);
 
         self::SHA256Hex($resource);
 
-        return self::SendRequest(self::$urls["CheckUrl"], $resource);
+        return self::SendRequest(self::$urls["CheckoutUrl"], $resource);
     }
 
-    public static function getCheckUrlData(array $originData): array
+    public static function getCheckoutUrlData(array $originData): array
     {
         return [
             "return_url" => $originData["return_url"],

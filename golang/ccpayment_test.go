@@ -13,7 +13,7 @@ var (
 
 // create order
 func TestCreateOrder(t *testing.T) {
-	order := OrderReq{
+	order := CreateOrderReq{
 		TokenId:         "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
 		Amount:          "6",
 		MerchantOrderId: "1121241232",
@@ -30,7 +30,7 @@ func TestCreateOrder(t *testing.T) {
 
 // get checkout url
 func TestCheckoutUrl(t *testing.T) {
-	curl := GetPaymentUrlReq{
+	curl := CheckoutUrlReq{
 		Amount:          "12",
 		MerchantOrderId: "test_xxxx",
 		ProductName:     "name_1",
@@ -38,7 +38,7 @@ func TestCheckoutUrl(t *testing.T) {
 		ValidTimestamp:  300, // s
 	}
 
-	data, err := curl.GetCheckoutUrl(appId, appSecret)
+	data, err := curl.CheckoutUrl(appId, appSecret)
 	if err != nil {
 		fmt.Println(`GetCheckoutUrlByRsa error: `, err)
 		return
@@ -138,16 +138,16 @@ func TestGetTokenRate(t *testing.T) {
 }
 
 // create api withdrawal
-func TestWithdrawApi(t *testing.T) {
-	tc := &WithdrawApiReq{
+func TestWithdraw(t *testing.T) {
+	tc := &WithdrawReq{
 		TokenID:         "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
 		Address:         "9454818",
 		Value:           "12",
 		MerchantOrderId: fmt.Sprintf("%d", time.Now().UnixMicro()),
 	}
-	data, err := tc.WithdrawApi(appId, appSecret)
+	data, err := tc.Withdraw(appId, appSecret)
 	if err != nil {
-		fmt.Println(`WithdrawApi error: `, err)
+		fmt.Println(`Withdraw error: `, err)
 	}
 	fmt.Printf(`data: %+v`, data)
 }
