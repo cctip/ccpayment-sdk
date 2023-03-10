@@ -13,7 +13,7 @@ const requestAPI = {
 
 
 module.exports = {
-  
+
   appId: null,
   appSecret: null,
 
@@ -61,7 +61,7 @@ module.exports = {
 
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.supportTokenURL, null)
     if (result) {
-      callback && callback(compareSignture === sign ? result.data : Error('http code error'))
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
     }
   },
 
@@ -72,7 +72,7 @@ module.exports = {
       ...data
     })
     if (result) {
-      callback && callback(compareSignture === sign ? result.data : Error('http code error'))
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
     }
   },
 
@@ -81,7 +81,7 @@ module.exports = {
       ...data
     })
     if (result) {
-      callback && callback(compareSignture === sign ? result.data : Error('http code error'))
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
     }
   },
 
@@ -90,7 +90,7 @@ module.exports = {
       ...data
     })
     if (result) {
-      callback && callback(compareSignture === sign ? result.data : Error('http code error'))
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
     }
   },
 
@@ -99,7 +99,7 @@ module.exports = {
       ...data
     })
     if (result) {
-      callback && callback(compareSignture === sign ? result.data : Error('http code error'))
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
     }
   },
 

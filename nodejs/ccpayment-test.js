@@ -19,17 +19,17 @@ ccpaymentWidgets.checkoutURL({
   console.log('aaa:', result)
 })
 // select token
-ccpaymentWidgets.selectToken((result) => {
+ccpaymentWidgets.getSupportToken((result) => {
   console.log('bbb:', result)
 })
 // select chain
-ccpaymentWidgets.selectChain({
+ccpaymentWidgets.getTokenChain({
   "token_id": "8addd19b-37df-4faf-bd74-e61e214b008a"
 }, (result) => {
   console.log('ccc:', result)
 })
 // submit order
-ccpaymentWidgets.submitOrder({
+ccpaymentWidgets.createOrder({
   "remark": "eee",
   "token_id": "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
   "chain": "TRX",
@@ -41,7 +41,7 @@ ccpaymentWidgets.submitOrder({
   console.log('ddd:', result)
 })
 // token rate
-ccpaymentWidgets.tokenRate({
+ccpaymentWidgets.getTokenRate({
   "amount": "1000",
   "token_id": "f36ad1cf-222a-4933-9ad0-86df8069f916",
 }, (result) => {
