@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class CcpaymentApisTest {
 
     @Test
-    void paymentIntentCreate() throws Exception {
+    void createOrder() throws Exception {
         CreateOrderParam param = new CreateOrderParam();
         param.setNotifyUrl("https://www.xxxx.com/callback");
         param.setAmount("1.34");
@@ -19,13 +19,13 @@ class CcpaymentApisTest {
     }
 
     @Test
-    void supportTokens() throws Exception{
+    void getSupportToken() throws Exception{
        GetSupportTokenResponse resp = CcpaymentApis.getSupportToken();
        System.out.println(resp);
     }
 
     @Test
-    void tokenChain() throws Exception{
+    void getTokenChain() throws Exception{
         GetTokenChainParam param = new GetTokenChainParam();
         param.setTokenId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
         GetTokenChainResponse resp = CcpaymentApis.getTokenChain(param);
@@ -33,7 +33,7 @@ class CcpaymentApisTest {
     }
 
     @Test
-    void checkUrl() throws Exception{
+    void checkoutUrl() throws Exception{
         CheckoutUrlParam param = new CheckoutUrlParam();
         param.setAmount("1000");
         param.setMerchantOrderId("thisisoutorderno");
@@ -45,7 +45,7 @@ class CcpaymentApisTest {
     }
 
     @Test
-    void tokenRate() throws Exception{
+    void getTokenRate() throws Exception{
         GetTokenRateParam param = new GetTokenRateParam();
         param.setAmount("1000");
         param.setTokenId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
