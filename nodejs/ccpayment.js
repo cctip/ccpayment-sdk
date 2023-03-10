@@ -30,7 +30,7 @@ module.exports = {
   /*
    * @param {String} appId
    * @param {String} appSecret
-   * @returns {void}
+   * @return {void}
    */
   init(appId, appSecret) {
     this.appId = appId
@@ -63,7 +63,7 @@ module.exports = {
 
   /*
    * @param {Function} callback 
-   * @returns {void}
+   * @return {void}
    */
   async getSupportToken(callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.supportTokenURL, null)
@@ -76,7 +76,7 @@ module.exports = {
    * @param {Object} data
    * @param {String} data.token_id
    * @param {Function} callback 
-   * @returns {void}
+   * @return {void}
    */
   async getTokenChain(data, callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.tokenChainURL, {
@@ -95,7 +95,7 @@ module.exports = {
    * @param {String} data.merchant_order_id
    * @param {String} data.fiat_currency
    * @param {Function} callback 
-   * @returns {void}
+   * @return {void}
    */
   async createOrder(data, callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.createOrderURL, {
@@ -113,7 +113,7 @@ module.exports = {
    * @param {String} data.product_name
    * @param {String} data.return_url
    * @param {Function} callback 
-   * @returns {void}
+   * @return {void}
    */
   async checkoutURL(data, callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.checkoutURL, {
@@ -129,7 +129,7 @@ module.exports = {
    * @param {String} data.token_id
    * @param {String} data.amount
    * @param {Function} callback 
-   * @returns {void}
+   * @return {void}
    */
   async getTokenRate(data, callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.tokenRateURL, {
@@ -145,7 +145,7 @@ module.exports = {
    * @param {String} sign
    * @param {Object} data
    * @param {Function} callback 
-   * @returns {void}
+   * @return {void}
    */
   webhook(timeStamp, sign, data, callback) {
     const compareSignture = this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
