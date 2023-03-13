@@ -133,33 +133,48 @@ type TokenRateResp struct {
 	} `json:"data"`
 }
 
-// OrderTradeReq get API trade data
-type OrderTradeReq struct {
+// OrderInfoReq get API trade data
+type OrderInfoReq struct {
 	MerchantOrderId string `json:"merchant_order_id"`
 }
 
-type BillTradeResp struct {
+type BillInfoResp struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data struct {
-		FiatAmount      string `json:"fiat_amount"`
-		FiatCurrency    string `json:"fiat_currency"`
-		ProductName     string `json:"product_name"`
-		MerchantOrderId string `json:"merchant_order_id"`
-		Chain           string `json:"chain"`
-		Contract        string `json:"contract"`
-		Crypto          string `json:"crypto"`
-		List            []struct {
+		Detail struct {
+			FiatAmount      string `json:"fiat_amount"`
+			FiatCurrency    string `json:"fiat_currency"`
+			ProductName     string `json:"product_name"`
+			MerchantOrderId string `json:"merchant_order_id"`
+			Chain           string `json:"chain"`
+			Contract        string `json:"contract"`
+			Crypto          string `json:"crypto"`
+			TokenAmount     string `json:"token_amount"`
+			Status          string `json:"status"`
+			Created         int64  `json:"created"`
+		} `json:"detail"`
+		Received []struct {
 			Amount     string `json:"amount"`
 			Chain      string `json:"chain"`
 			Contract   string `json:"contract"`
 			Crypto     string `json:"crypto"`
-			NetworkFee string `json:"network_fee"`
-			Network    string `json:"network"`
+			ServiceFee string `json:"service_fee"`
 			PayTime    int64  `json:"pay_time"`
-			Txid       string `json:"txid"`
 			TokenRate  string `json:"token_rate"`
-		} `json:"list"`
+		} `json:"received"`
+		Refunds []struct {
+			Amount               string  `json:"amount"`
+			NetworkFee           string  `json:"network_fee"`
+			ActualReceivedAmount string  `json:"actual_received_amount"`
+			Chain                string  `json:"chain"`
+			Contract             string  `json:"contract"`
+			Crypto               string  `json:"crypto"`
+			Txid                 *string `json:"txid"`
+			Address              string  `json:"address"`
+			PayTime              int64   `json:"pay_time"`
+			Status               string  `json:"status"`
+		} `json:"refunds"`
 	} `json:"data"`
 }
 

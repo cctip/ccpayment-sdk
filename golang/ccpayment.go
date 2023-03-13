@@ -273,8 +273,8 @@ func sendPost(data interface{}, dst string, url, appId, appSecret, signStr strin
 			code = d.Code
 			goto validate
 
-		case *BillTradeResp:
-			d := data.(*BillTradeResp)
+		case *BillInfoResp:
+			d := data.(*BillInfoResp)
 			code = d.Code
 			goto validate
 		case *WithdrawApiResp:
@@ -332,4 +332,19 @@ func getHeadersAndValidate(resp *http.Response, appId, appSecret string, byt []b
 	}
 
 	return false
+}
+
+func (bt *OrderInfoReq) GetAPIOrderInfo(appId, appSecret string) (data *BillInfoResp, err error) {
+	timeStamp := time.Now().Unix()
+
+	dst, signStr, err := SignStr(*bt, appId, appSecret, timeStamp)
+	if err != nil {
+		return nil, err
+	}
+
+	data = &BillInfoResp{}
+
+	err = sendPost(data, dst, ApiOrderInfoUrl, appId, appSecret, signStr, timeStamp)
+
+	return data, err
 }

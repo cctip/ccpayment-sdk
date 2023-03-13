@@ -187,3 +187,15 @@ func TestNetworkFee(t *testing.T) {
 	}
 	fmt.Printf(`data: %+v`, data)
 }
+
+// get bill trade
+func TestGetAPIOrderInfo(t *testing.T) {
+	bt := &OrderInfoReq{
+		MerchantOrderId: "4445821684092051", // 2376655808480575  4445821684092051
+	}
+	data, err := bt.GetAPIOrderInfo(appId, appSecret)
+	if err != nil {
+		fmt.Println(`GetAPIOrderInfo error: `, err)
+	}
+	fmt.Printf(`data: %+v`, data)
+}

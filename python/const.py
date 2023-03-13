@@ -28,6 +28,9 @@ ASSETS_URL = HOST + "/ccpayment/v1/assets"
 # get network fee
 NETWORK_FEE_URL = HOST + "/ccpayment/v1/network/fee"
 
+# get order info
+API_ORDER_INFO_URL = HOST + "/ccpayment/v1/bill/info"
+
 # header key
 # app id
 APP_ID_HEADER_KEY = "Appid"

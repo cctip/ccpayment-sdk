@@ -220,6 +220,56 @@ class CCPaymentClass:
             data["address"] = address
         return self._send_post(const.NETWORK_FEE_URL, data)
 
+    """
+    {
+        "code":10000,
+        "msg":"success",
+        "data":{
+            "detail":{
+                "fiat_amount":"10",
+                "fiat_currency":"USD",
+                "merchant_order_id":"2376655808480575",
+                "chain":"ETH",
+                "contract":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                "crypto":"USDT",
+                "token_amount":"10",
+                "status":"Overpaid",
+                "created":1675022332000
+            },
+            "received":[
+                {
+                    "amount":"12",
+                    "chain":"ETH",
+                    "contract":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                    "crypto":"USDT",
+                    "service_fee":"0.006",
+                    "pay_time":1675022464000,
+                    "token_rate":"1"
+                }
+            ],
+            "refunds":[
+                {
+                    "amount":"1",
+                    "network_fee":"0",
+                    "actual_received_amount":"1",
+                    "chain":"ETH",
+                    "contract":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
+                    "crypto":"USDT",
+                    "txid":"",
+                    "address":"0xA9F422BFBeB46f1FbcBBaf947E15b84D8Fbba80C",
+                    "pay_time":1675272545000,
+                    "status":"Successful"
+                }
+            ]
+        }
+    }
+    """
+    def get_order_info(self, merchant_order_id):
+        data = {
+            "merchant_order_id": merchant_order_id
+        }
+        return self._send_post(const.API_ORDER_INFO_URL, data)
+
     def _hash256(self, txt, timestamp):
         txt = self.app_id + self.app_secret + str(timestamp) + txt
         return hashlib.sha256(txt.encode("utf-8")).hexdigest()
