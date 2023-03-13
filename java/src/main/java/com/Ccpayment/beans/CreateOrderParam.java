@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * doc: https://doc.ccpayment.com/ccpayment-for-developer/interface-details/create-ccpayment-order
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PaymentIntentCreateParam {
+public class CreateOrderParam {
     /**
      * the server notify callback url
      * when payment order is success, we'll notify to your server by this url
