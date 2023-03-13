@@ -1,7 +1,7 @@
 package golang
 
-// OrderReq api create order params
-type OrderReq struct {
+// CreateOrderReq api create order params
+type CreateOrderReq struct {
 	TokenId         string `json:"token_id"`
 	Amount          string `json:"amount"`
 	MerchantOrderId string `json:"merchant_order_id"`
@@ -9,8 +9,8 @@ type OrderReq struct {
 	Remark          string `json:"remark"`
 }
 
-// OrderResp api create order response
-type OrderResp struct {
+// CreateOrderResp api create order response
+type CreateOrderResp struct {
 	Code int       `json:"code"`
 	Msg  string    `json:"msg"`
 	Data OrderInfo `json:"data"`
@@ -25,8 +25,8 @@ type OrderInfo struct {
 	Crypto     string `json:"crypto"`
 }
 
-// GetPaymentUrlReq checkout url params
-type GetPaymentUrlReq struct {
+// CheckoutUrlReq checkout url params
+type CheckoutUrlReq struct {
 	ValidTimestamp  int64  `json:"valid_timestamp"` // s
 	Amount          string `json:"amount"`
 	MerchantOrderId string `json:"merchant_order_id"`
@@ -34,8 +34,8 @@ type GetPaymentUrlReq struct {
 	ReturnUrl       string `json:"return_url"`
 }
 
-// PaymentUrlResp checkout url response
-type PaymentUrlResp struct {
+// CheckoutUrlResp checkout url response
+type CheckoutUrlResp struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data struct {
@@ -178,7 +178,7 @@ type BillInfoResp struct {
 	} `json:"data"`
 }
 
-type WithdrawApiReq struct {
+type WithdrawReq struct {
 	TokenID         string `json:"token_id"  binding:"required"`
 	Address         string `json:"address,omitempty" binding:"required"`
 	Memo            string `json:"memo,omitempty"`
@@ -186,7 +186,7 @@ type WithdrawApiReq struct {
 	MerchantOrderId string `json:"merchant_order_id"  binding:"required"`
 }
 
-type WithdrawApiResp struct {
+type WithdrawResp struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data struct {

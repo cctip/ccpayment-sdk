@@ -5,15 +5,15 @@ const HOST = 'https://admin.ccpayment.com'
 
 const requestAPI = {
   checkoutURL: `${HOST}/ccpayment/v1/concise/url/get`,
-  selectTokenURL: `${HOST}/ccpayment/v1/support/token`,
-  selectChainURL: `${HOST}/ccpayment/v1/token/chain`,
-  submitOrderURL: `${HOST}/ccpayment/v1/bill/create`,
+  supportTokenURL: `${HOST}/ccpayment/v1/support/token`,
+  tokenChainURL: `${HOST}/ccpayment/v1/token/chain`,
+  createOrderURL: `${HOST}/ccpayment/v1/bill/create`,
   tokenRateURL: `${HOST}/ccpayment/v1/token/rate`
 }
 
 
 module.exports = {
-  
+
   appId: null,
   appSecret: null,
 
@@ -27,7 +27,11 @@ module.exports = {
     return hash.update(data, 'utf-8').digest('hex');
   },
 
-
+  /*
+   * @param {String} appId
+   * @param {String} appSecret
+   * @return {void}
+   */
   init(appId, appSecret) {
     this.appId = appId
     this.appSecret = appSecret
@@ -57,54 +61,96 @@ module.exports = {
 
   },
 
-  async selectToken(callback) {
-
-    const { compareSignture, sign, result } = await this.sendPost(requestAPI.selectTokenURL, null)
+  /*
+   * @param {Function} callback 
+   * @return {void}
+   */
+  async getSupportToken(callback) {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.supportTokenURL, null)
     if (result) {
-      callback && callback(compareSignture === sign ? result.data : Error('http code error'))
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
     }
   },
 
-
-  async selectChain(data, callback) {
-
-    const { compareSignture, sign, result } = await this.sendPost(requestAPI.selectChainURL, {
+  /*
+   * @param {Object} data
+   * @param {String} data.token_id
+   * @param {Function} callback 
+   * @return {void}
+   */
+  async getTokenChain(data, callback) {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.tokenChainURL, {
       ...data
     })
     if (result) {
-      callback && callback(compareSignture === sign ? result.data : Error('http code error'))
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
     }
   },
 
-  async submitOrder(data, callback) {
-    const { compareSignture, sign, result } = await this.sendPost(requestAPI.submitOrderURL, {
+  /*
+   * @param {Object} data
+   * @param {String} data.remark
+   * @param {String} data.token_id
+   * @param {String} data.amount
+   * @param {String} data.merchant_order_id
+   * @param {String} data.fiat_currency
+   * @param {Function} callback 
+   * @return {void}
+   */
+  async createOrder(data, callback) {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.createOrderURL, {
       ...data
     })
     if (result) {
-      callback && callback(compareSignture === sign ? result.data : Error('http code error'))
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
     }
   },
 
+  /*
+   * @param {Object} data
+   * @param {Number} data.valid_timestamp
+   * @param {String} data.amount
+   * @param {String} data.product_name
+   * @param {String} data.return_url
+   * @param {Function} callback 
+   * @return {void}
+   */
   async checkoutURL(data, callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.checkoutURL, {
       ...data
     })
     if (result) {
-      callback && callback(compareSignture === sign ? result.data : Error('http code error'))
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
     }
   },
 
-  async tokenRate(data, callback) {
+  /*
+   * @param {Object} data
+   * @param {String} data.token_id
+   * @param {String} data.amount
+   * @param {Function} callback 
+   * @return {void}
+   */
+  async getTokenRate(data, callback) {
     const { compareSignture, sign, result } = await this.sendPost(requestAPI.tokenRateURL, {
       ...data
     })
     if (result) {
-      callback && callback(compareSignture === sign ? result.data : Error('http code error'))
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
     }
   },
 
-  webHookNotify(timeStamp, sign, data, callback) {
+  /*
+   * @param {Number} timeStamp
+   * @param {String} sign
+   * @param {Object} data
+   * @param {Function} callback 
+   * @return {void}
+   */
+  webhook(timeStamp, sign, data, callback) {
     const compareSignture = this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
     callback && callback(compareSignture === sign)
   }
 }
+
+

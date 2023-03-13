@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * doc: https://doc.ccpayment.com/ccpayment-for-developer/interface-details/create-ccpayment-order
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PaymentIntentCreateResponse {
+public class CreateOrderResponse {
     @JsonProperty("amount")
     private String amount;
     @JsonProperty("order_id")

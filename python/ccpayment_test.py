@@ -10,10 +10,10 @@ class TestCCPaymentClass(unittest.TestCase):
     cp = ccpayment.CCPaymentClass(app_id, app_secret)
 
     # create api deposit order
-    data, is_verify = cp.create_deposit_order(token_id='0912e09a-d8e2-41d7-a0bc-a25530892988',
-                                              amount='6',
-                                              merchant_order_id=str(int(time.time())),
-                                              fiat_currency='USD')
+    data, is_verify = cp.create_order(token_id='0912e09a-d8e2-41d7-a0bc-a25530892988',
+                                      amount='6',
+                                      merchant_order_id=str(int(time.time())),
+                                      fiat_currency='USD')
     if is_verify:
         print("TestCreateOrder: verify success")
     else:
@@ -24,17 +24,17 @@ class TestCCPaymentClass(unittest.TestCase):
     # data_str body;
     # timestamp header
     # signature header
-    if cp.webhook_validate(data_str='', timestamp='', signature=''):
+    if cp.webhook(data_str='', timestamp='', signature=''):
         print('TestWebhookValidate: verify success')
     else:
         print('TestWebhookValidate: verify error')
 
     # get checkout url
-    data, is_verify = cp.get_checkout_url(amount='12',
-                                          merchant_order_id=str(int(time.time())),
-                                          valid_timestamp=300,
-                                          product_name='product_name',
-                                          return_url='return_url')
+    data, is_verify = cp.checkout_url(amount='12',
+                                      merchant_order_id=str(int(time.time())),
+                                      valid_timestamp=300,
+                                      product_name='product_name',
+                                      return_url='return_url')
     if is_verify:
         print("TestCheckoutUrl: verify success")
     else:
@@ -42,7 +42,7 @@ class TestCCPaymentClass(unittest.TestCase):
     print("TestCheckoutUrl:", data)
 
     # get support tokens
-    data, is_verify = cp.get_support_tokens()
+    data, is_verify = cp.get_support_token()
     if is_verify:
         print("TestSupportTokens: verify success")
     else:
@@ -67,10 +67,10 @@ class TestCCPaymentClass(unittest.TestCase):
     print("TestTokenRate:", data)
 
     # create api withdraw order
-    data, is_verify = cp.create_withdraw_order(token_id='8e5741cf-6e51-4892-9d04-3d40e1dd0128',
-                                               address='9486792',
-                                               value='1',
-                                               merchant_order_id=str(int(time.time())))
+    data, is_verify = cp.withdraw(token_id='8e5741cf-6e51-4892-9d04-3d40e1dd0128',
+                                  address='9486792',
+                                  value='1',
+                                  merchant_order_id=str(int(time.time())))
     if is_verify:
         print("TestApiWithdraw: verify success")
     else:
@@ -86,7 +86,7 @@ class TestCCPaymentClass(unittest.TestCase):
     print("TestCheckUser:", data)
 
     # get token assets
-    data, is_verify = cp.get_token_assets(token_id='8e5741cf-6e51-4892-9d04-3d40e1dd0128')
+    data, is_verify = cp.assets(token_id='8e5741cf-6e51-4892-9d04-3d40e1dd0128')
     if is_verify:
         print("TestTokenAsset: verify success")
     else:
@@ -94,7 +94,7 @@ class TestCCPaymentClass(unittest.TestCase):
     print("TestTokenAsset:", data)
 
     # get network fee
-    data, is_verify = cp.get_network_fee(token_id='f137d42c-f3a6-4f23-9402-76f0395d0cfe')
+    data, is_verify = cp.network_fee(token_id='f137d42c-f3a6-4f23-9402-76f0395d0cfe')
     if is_verify:
         print("TestNetworkFee: verify success")
     else:
