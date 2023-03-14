@@ -1,8 +1,8 @@
-package com.Ccpayment.apis;
+package com.CCPayment.apis;
 
 
-import com.Ccpayment.beans.*;
-import com.Ccpayment.constant.Config;
+import com.CCPayment.beans.*;
+import com.CCPayment.constant.Config;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +24,7 @@ import java.security.NoSuchAlgorithmException;
  * Ccpayment apis
  * document: https://doc.ccpayment.com/ccpayment-for-developer/ccpayment-for-developer
  */
-public final class CcpaymentApis {
+public final class CCPaymentApis {
 
     /**
      * common response data

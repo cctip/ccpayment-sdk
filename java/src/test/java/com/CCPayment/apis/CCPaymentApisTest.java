@@ -1,9 +1,9 @@
-package com.Ccpayment.apis;
+package com.CCPayment.apis;
 
-import com.Ccpayment.beans.*;
+import com.CCPayment.beans.*;
 import org.junit.jupiter.api.Test;
 
-class CcpaymentApisTest {
+class CCPaymentApisTest {
 
     @Test
     void createOrder() throws Exception {
@@ -14,13 +14,13 @@ class CcpaymentApisTest {
         param.setRemark("222222");
         param.setMerchantOrderId("thisisoutordern1o");
         param.setFiatCurrency("USD");
-        CreateOrderResponse resp = CcpaymentApis.createOrder(param);
+        CreateOrderResponse resp = CCPaymentApis.createOrder(param);
         System.out.println(resp);
     }
 
     @Test
     void getSupportToken() throws Exception{
-       GetSupportTokenResponse resp = CcpaymentApis.getSupportToken();
+       GetSupportTokenResponse resp = CCPaymentApis.getSupportToken();
        System.out.println(resp);
     }
 
@@ -28,7 +28,7 @@ class CcpaymentApisTest {
     void getTokenChain() throws Exception{
         GetTokenChainParam param = new GetTokenChainParam();
         param.setTokenId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
-        GetTokenChainResponse resp = CcpaymentApis.getTokenChain(param);
+        GetTokenChainResponse resp = CCPaymentApis.getTokenChain(param);
         System.out.println(resp);
     }
 
@@ -40,7 +40,7 @@ class CcpaymentApisTest {
         param.setReturnUrl("https://www.xxxx.com/callback");
         param.setValidTimestamp(3600);
         param.setProductName("this is product name");
-        CheckoutUrlResponse resp = CcpaymentApis.checkoutUrl(param);
+        CheckoutUrlResponse resp = CCPaymentApis.checkoutUrl(param);
         System.out.println(resp);
     }
 
@@ -49,7 +49,7 @@ class CcpaymentApisTest {
         GetTokenRateParam param = new GetTokenRateParam();
         param.setAmount("1000");
         param.setTokenId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
-        GetTokenRateResponse resp = CcpaymentApis.getTokenRate(param);
+        GetTokenRateResponse resp = CCPaymentApis.getTokenRate(param);
         System.out.println(resp);
     }
 
@@ -59,7 +59,7 @@ class CcpaymentApisTest {
         String appId = "202302010636261620672405236006912";
         long timestamp = 1677653408;
         String sign = "c7c6e98b684f079b71d950ce15033b479a140f6f5aa0dece06eb28f45f04c088";
-        CallbackData data = CcpaymentApis.callback(callbackData, appId, timestamp, sign);
+        CallbackData data = CCPaymentApis.callback(callbackData, appId, timestamp, sign);
         System.out.println(data);
     }
 }

@@ -1,4 +1,4 @@
-package com.Ccpayment.constant;
+package com.CCPayment.constant;
 
 // dev http://74ab25e1merchant.cwallet.com/ccpayment/v1
 // produce https://admin.ccpayment.com/ccpayment/v1
