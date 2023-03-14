@@ -150,7 +150,7 @@ type BillInfoResp struct {
 			Chain           string `json:"chain"`
 			Contract        string `json:"contract"`
 			Crypto          string `json:"crypto"`
-			TokenAmount     string `json:"token_amount"`
+			OriginAmount    string `json:"origin_amount"`
 			Status          string `json:"status"`
 			Created         int64  `json:"created"`
 		} `json:"detail"`

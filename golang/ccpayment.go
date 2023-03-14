@@ -200,6 +200,21 @@ func (tr *NetworkFeeReq) NetworkFee(appId, appSecret string) (data *NetworkFeeRe
 	return data, err
 }
 
+func (oi *OrderInfoReq) GetAPIOrderInfo(appId, appSecret string) (data *BillInfoResp, err error) {
+	timeStamp := time.Now().Unix()
+
+	dst, signStr, err := SignStr(*oi, appId, appSecret, timeStamp)
+	if err != nil {
+		return nil, err
+	}
+
+	data = &BillInfoResp{}
+
+	err = sendPost(data, dst, ApiOrderInfoUrl, appId, appSecret, signStr, timeStamp)
+
+	return data, err
+}
+
 func sendPost(data interface{}, dst string, url, appId, appSecret, signStr string, timeStamp int64) (err error) {
 
 	req, err := http.NewRequest(http.MethodPost, url, strings.NewReader(dst))
@@ -332,19 +347,4 @@ func getHeadersAndValidate(resp *http.Response, appId, appSecret string, byt []b
 	}
 
 	return false
-}
-
-func (bt *OrderInfoReq) GetAPIOrderInfo(appId, appSecret string) (data *BillInfoResp, err error) {
-	timeStamp := time.Now().Unix()
-
-	dst, signStr, err := SignStr(*bt, appId, appSecret, timeStamp)
-	if err != nil {
-		return nil, err
-	}
-
-	data = &BillInfoResp{}
-
-	err = sendPost(data, dst, ApiOrderInfoUrl, appId, appSecret, signStr, timeStamp)
-
-	return data, err
 }
