@@ -95,6 +95,61 @@ public final class CCPaymentApis {
     }
 
     /**
+     * Api withdraw
+     *
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    public static WithdrawResponse withdraw(WithdrawParam param) throws Exception {
+        return doSend("/withdraw", param, WithdrawResponse.class);
+    }
+
+    /**
+     * Check user exists or not
+     *
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    public static CheckUserResponse checkUser(CheckUserParam param) throws Exception {
+        return doSend("/check/user", param, CheckUserResponse.class);
+    }
+
+    /**
+     * Get token assets
+     *
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    public static AssetsResponse assets(AssetsParam param) throws Exception {
+        return doSend("/assets", param, AssetsResponse.class);
+    }
+
+    /**
+     * Get network-fee
+     *
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    public static NetworkFeeResponse networkFee(NetworkFeeParam param) throws Exception {
+        return doSend("/network/fee", param, NetworkFeeResponse.class);
+    }
+
+    /**
+     * get api order info
+     *
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    public static OrderInfoResponse orderInfo(OrderInfoParam param) throws Exception {
+        return doSend("/bill/info", param, OrderInfoResponse.class);
+    }
+
+    /**
      * callback when the payment is success
      *
      * @param callbackData response date
