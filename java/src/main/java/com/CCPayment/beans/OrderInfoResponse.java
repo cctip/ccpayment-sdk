@@ -28,6 +28,10 @@ public class OrderInfoResponse {
         @JsonProperty("created")
         private String created;
 
+        public String getCreated() {
+            return created;
+        }
+
         public String getFiatAmount() {
             return fiatAmount;
         }
@@ -99,11 +103,6 @@ public class OrderInfoResponse {
         public void setStatus(String status) {
             this.status = status;
         }
-
-        public Long getCreated() {
-            return created;
-        }
-
         public void setCreated(String created) {
             this.created = created;
         }
@@ -166,14 +165,6 @@ public class OrderInfoResponse {
             this.serviceFee = serviceFee;
         }
 
-        public Long getPayTime() {
-            return payTime;
-        }
-
-        public void setPayTime(String payTime) {
-            this.payTime = payTime;
-        }
-
         public String getTokenRate() {
             return tokenRate;
         }
@@ -202,7 +193,7 @@ public class OrderInfoResponse {
         @JsonProperty("address")
         private String address;
         @JsonProperty("pay_time")
-        private String payTime;
+        private Long payTime;
         @JsonProperty("status")
         private String status;
 
@@ -274,7 +265,7 @@ public class OrderInfoResponse {
             return payTime;
         }
 
-        public void setPayTime(String payTime) {
+        public void setPayTime(Long payTime) {
             this.payTime = payTime;
         }
 
@@ -287,9 +278,6 @@ public class OrderInfoResponse {
         }
     }
 
-
-
-
     @JsonProperty("detail")
     private Detail detail;
     @JsonProperty("received")
@@ -301,7 +289,7 @@ public class OrderInfoResponse {
         return detail;
     }
 
-    public void setDetail(Detail list) {
+    public void setDetail(Detail detail) {
         this.detail = detail;
     }
 
