@@ -62,4 +62,47 @@ class CCPaymentApisTest {
         CallbackData data = CCPaymentApis.callback(callbackData, appId, timestamp, sign);
         System.out.println(data);
     }
+
+    @Test
+    void withdraw() throws Exception{
+        WithdrawParam param = new WithdrawParam();
+        param.setTokenId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
+        param.setAddress("9454818");
+        param.setMerchantOrderId("123asdfq23423");
+        param.setValue("1");
+        WithdrawResponse resp = CCPaymentApis.withdraw(param);
+        System.out.println(resp);
+    }
+
+    @Test
+    void checkUser() throws Exception{
+        CheckUserParam param = new CheckUserParam();
+        param.setCId("9454818");
+        CheckUserResponse resp = CCPaymentApis.checkUser(param);
+        System.out.println(resp);
+    }
+
+    @Test
+    void assets() throws Exception{
+        AssetsParam param = new AssetsParam();
+        param.setTokenId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
+        AssetsResponse resp = CCPaymentApis.assets(param);
+        System.out.println(resp);
+    }
+
+    @Test
+    void networkFee() throws Exception{
+        NetworkFeeParam param = new NetworkFeeParam();
+        param.setTokenId("f137d42c-f3a6-4f23-9402-76f0395d0cfe");
+        NetworkFeeResponse resp = CCPaymentApis.networkFee(param);
+        System.out.println(resp);
+    }
+
+    @Test
+    void orderInfo() throws Exception{
+        OrderInfoParam param = new OrderInfoParam();
+        param.setMerchantOrderId("8914510718145343");
+        OrderInfoResponse resp = CCPaymentApis.orderInfo(param);
+        System.out.println(resp);
+    }
 }

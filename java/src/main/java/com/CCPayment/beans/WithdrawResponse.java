@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class WithdrawResponse {
     @JsonProperty("order_id")
     private String orderId;
-    @JsonProperty("type")
-    private String type;
     @JsonProperty("network_fee")
     private String networkFee;
 
@@ -18,14 +16,6 @@ public class WithdrawResponse {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setValue(String type) {
-        this.type = type;
     }
 
     public String getNetworkFee() {

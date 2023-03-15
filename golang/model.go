@@ -191,7 +191,6 @@ type WithdrawResp struct {
 	Msg  string `json:"msg"`
 	Data struct {
 		OrderId    string `json:"order_id"`
-		Type       string `json:"type"`
 		NetworkFee string `json:"network_fee"`
 	} `json:"data"`
 }

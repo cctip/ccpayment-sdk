@@ -16,6 +16,14 @@ public class WithdrawParam {
     @JsonProperty("merchant_order_id")
     private String merchantOrderId;
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     public String getTokenId() {
         return tokenId;
     }
