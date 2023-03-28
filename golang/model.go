@@ -3,7 +3,7 @@ package golang
 // CreateOrderReq api create order params
 type CreateOrderReq struct {
 	TokenId         string `json:"token_id"`
-	Amount          string `json:"amount"`
+	ProductPrice    string `json:"product_price"`
 	MerchantOrderId string `json:"merchant_order_id"`
 	FiatCurrency    string `json:"fiat_currency"` // USD
 	Remark          string `json:"remark"`
@@ -17,21 +17,21 @@ type CreateOrderResp struct {
 }
 
 type OrderInfo struct {
-	OrderId    string `json:"order_id"`
-	Amount     string `json:"amount"`
-	Logo       string `json:"logo"`
-	Network    string `json:"network"`
-	PayAddress string `json:"pay_address"`
-	Crypto     string `json:"crypto"`
+	OrderId      string `json:"order_id"`
+	ProductPrice string `json:"product_price"`
+	Logo         string `json:"logo"`
+	Network      string `json:"network"`
+	PayAddress   string `json:"pay_address"`
+	Crypto       string `json:"crypto"`
 }
 
 // CheckoutUrlReq checkout url params
 type CheckoutUrlReq struct {
-	ValidTimestamp  int64  `json:"valid_timestamp"` // s
-	Amount          string `json:"amount"`
-	MerchantOrderId string `json:"merchant_order_id"`
-	ProductName     string `json:"product_name"`
-	ReturnUrl       string `json:"return_url"`
+	OrderValidPeriod int64  `json:"order_valid_period"` // s
+	ProductPrice     string `json:"product_price"`
+	MerchantOrderId  string `json:"merchant_order_id"`
+	ProductName      string `json:"product_name"`
+	ReturnUrl        string `json:"return_url"`
 }
 
 // CheckoutUrlResp checkout url response
@@ -56,8 +56,8 @@ type WebhookReq struct {
 	OrderType    string         `json:"order_type"`
 	RecordId     string         `json:"record_id"`
 	OrderID      string         `json:"order_id"`
-	OriginPrice  string         `json:"origin_price"`
-	OriginAmount string         `json:"origin_amount"`
+	ProductPrice string         `json:"product_price"`
+	OrderAmount  string         `json:"order_amount"`
 	FiatRate     string         `json:"fiat_rate"`
 	PaidAmount   string         `json:"paid_amount"`
 	TokenRate    string         `json:"token_rate"`
