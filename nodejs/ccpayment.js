@@ -91,7 +91,7 @@ module.exports = {
    * @param {Object} data
    * @param {String} data.remark
    * @param {String} data.token_id
-   * @param {String} data.amount
+   * @param {String} data.product_price
    * @param {String} data.merchant_order_id
    * @param {String} data.fiat_currency
    * @param {Function} callback 
@@ -108,8 +108,8 @@ module.exports = {
 
   /*
    * @param {Object} data
-   * @param {Number} data.valid_timestamp
-   * @param {String} data.amount
+   * @param {Number} data.order_valid_period
+   * @param {String} data.product_price
    * @param {String} data.product_name
    * @param {String} data.return_url
    * @param {Function} callback 

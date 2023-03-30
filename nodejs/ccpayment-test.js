@@ -10,8 +10,8 @@ const appSecret = 'a58f572564f7fce44acd66024d6da9b4';
 ccpaymentWidgets.init(appId, appSecret)
 // select checkout url
 ccpaymentWidgets.checkoutURL({
-  'valid_timestamp': 823456,
-  'amount': '1',
+  'order_valid_period': 823456,
+  'product_price': '1',
   'merchant_order_id': '012033040550',
   'product_name': 'test',
   'return_url': 'https://app.gitbook.com/xxxxx'
@@ -33,7 +33,7 @@ ccpaymentWidgets.createOrder({
   "remark": "eee",
   "token_id": "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
   "chain": "TRX",
-  "amount": "0.5",
+  "product_price": "0.5",
   "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
   "merchant_order_id": "37350779790509509",
   "fiat_currency": "USD"
