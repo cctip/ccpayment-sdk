@@ -47,6 +47,10 @@ module.exports = {
           'Sign': this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
         }
       })
+      // Note: with nodejs language, the key name in the header you received will be lowercased
+      // result.headers['appid']
+      // result.headers['timestamp']
+      // result.headers['sign']
       const { appid, timestamp, sign } = result.headers;
       const compareSignture = this.sha256(`${appid}${this.appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
       return {
