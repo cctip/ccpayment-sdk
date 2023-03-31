@@ -48,7 +48,7 @@ module.exports = {
         }
       })
       // Note: with nodejs language, the key name in the header you received will be lowercased
-      // Because nodejs follows the rfc2616 specification and is not case-sensitive
+      // Because nodejs follows the rfc2616 specification and isn't case-sensitive
       // Please refer to: https://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html
       // result.headers['appid'] or result.headers.appid
       // result.headers['timestamp'] or result.headers.timestamp
