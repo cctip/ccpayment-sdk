@@ -258,12 +258,12 @@ class CCPay
     {
         if ($originData["order_valid_period"] == 0) {
             if ($originData["valid_timestamp"] != 0) {
-                $originData["order_valid_period"] => $originData["valid_timestamp"]
+                $originData["order_valid_period"] = $originData["valid_timestamp"];
             }
         }
         if ($originData["product_price"] == "") {
             if ($originData["amount"] != "") {
-                $originData["product_price"] => $originData["amount"]
+                $originData["product_price"] = $originData["amount"];
             }
         }
         if ($originData["product_name"] == "" || $originData["product_price"] == "" || $originData["merchant_order_id"] == "") {
