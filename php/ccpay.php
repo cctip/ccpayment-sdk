@@ -256,7 +256,17 @@ class CCPay
      */
     public static function CheckoutUrl(array $originData, string $appId, string $appSecret): array
     {
-        if ($originData["product_name"] == ""  || $originData["amount"] == "" || $originData["merchant_order_id"] == "") {
+        if ($originData["order_valid_period"] == 0) {
+            if ($originData["valid_timestamp"] != 0) {
+                $originData["order_valid_period"] => $originData["valid_timestamp"]
+            }
+        }
+        if ($originData["product_price"] == "") {
+            if ($originData["amount"] != "") {
+                $originData["product_price"] => $originData["amount"]
+            }
+        }
+        if ($originData["product_name"] == "" || $originData["product_price"] == "" || $originData["merchant_order_id"] == "") {
             return ["code"=>10008, "msg"=>"param is err"];
         }
 
@@ -275,10 +285,10 @@ class CCPay
     {
         return [
             "return_url" => $originData["return_url"],
-            "valid_timestamp" => $originData["valid_timestamp"],
-            "amount" => $originData["amount"],
             "merchant_order_id" => $originData["merchant_order_id"],
-            "product_name" => $originData["product_name"]
+            "product_name" => $originData["product_name"],
+            "order_valid_period" => $originData["order_valid_period"],
+            "product_price" => $originData["product_price"]
         ];
     }
 
