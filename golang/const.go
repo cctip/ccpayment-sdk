@@ -2,7 +2,7 @@ package golang
 
 const (
 	Host = "https://admin.ccpayment.com" // produce
-	//Host               = "https://ebc65a6dtestpaymentadmin.cwallet.com" // dev
+	//Host               = "https://ebc65a6dtestpaymentadmin.ccpayment.com" // dev
 	CheckoutUrl        = Host + "/ccpayment/v1/concise/url/get"
 	CreateOrderUrl     = Host + "/ccpayment/v1/bill/create"
 	GetSupportTokenUrl = Host + "/ccpayment/v1/support/token"
@@ -17,4 +17,10 @@ const (
 	AppIdHeaderKey     = "Appid"
 	SignHeaderKey      = "Sign"
 	TimestampHeaderKey = "Timestamp"
+
+	//appId     = "6cfakPeNnTi0YoHLpbqVLqFw2A#R5EGPH3lJfX75H7x#SO#PXU"
+	//appSecret = `5SQOObrXo#t82ZsVYfrI02Dn@5MLVPX1Fr1gcpCVS2Ca8ClbAgi@AMp64j0pWO#4jyC#zdS3kis1UaNFsaqW5DGjtxA4gYk1ZEH68#S1Z1McmUd@ph8Gbhn#`
+
+	appId     = "202301310335101620264398977380352"
+	appSecret = `6408628c5243837cf63a0ccae8369410`
 )

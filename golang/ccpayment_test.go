@@ -6,16 +6,11 @@ import (
 	"time"
 )
 
-var (
-	appId     = "6cfakPeNnTi0YoHLpbqVLqFw2A#R5EGPH3lJfX75H7x#SO#PXU"
-	appSecret = `5SQOObrXo#t82ZsVYfrI02Dn@5MLVPX1Fr1gcpCVS2Ca8ClbAgi@AMp64j0pWO#4jyC#zdS3kis1UaNFsaqW5DGjtxA4gYk1ZEH68#S1Z1McmUd@ph8Gbhn#`
-)
-
 // create order
 func TestCreateOrder(t *testing.T) {
 	order := CreateOrderReq{
 		TokenId:         "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
-		Amount:          "6",
+		ProductPrice:    "6",
 		MerchantOrderId: "1121241232",
 		FiatCurrency:    "USD",
 		Remark:          "",
@@ -31,11 +26,12 @@ func TestCreateOrder(t *testing.T) {
 // get checkout url
 func TestCheckoutUrl(t *testing.T) {
 	curl := CheckoutUrlReq{
-		Amount:          "12",
-		MerchantOrderId: "test_xxxx",
-		ProductName:     "name_1",
-		ReturnUrl:       "",
-		ValidTimestamp:  300, // s
+		ProductPrice:     "12",
+		MerchantOrderId:  time.Now().Format(`20060102150405`),
+		ProductName:      fmt.Sprintf(`product-name-%s`, time.Now().Format(`20060102150405`)),
+		ReturnUrl:        "",
+		OrderValidPeriod: 5 * 24 * 60 * 60, // s
+		ProductDesc:      "this is checkout-url desc",
 	}
 
 	data, err := curl.CheckoutUrl(appId, appSecret)

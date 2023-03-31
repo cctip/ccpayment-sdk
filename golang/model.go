@@ -32,6 +32,7 @@ type CheckoutUrlReq struct {
 	MerchantOrderId  string `json:"merchant_order_id"`
 	ProductName      string `json:"product_name"`
 	ReturnUrl        string `json:"return_url"`
+	ProductDesc      string `json:"product_desc"`
 }
 
 // CheckoutUrlResp checkout url response
