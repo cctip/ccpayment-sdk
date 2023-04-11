@@ -47,6 +47,12 @@ module.exports = {
           'Sign': this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
         }
       })
+      // Note: with nodejs language, the key name in the header you received will be lowercased
+      // Because nodejs follows the rfc2616 specification and isn't case-sensitive
+      // Please refer to: https://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html
+      // result.headers['appid'] or result.headers.appid
+      // result.headers['timestamp'] or result.headers.timestamp
+      // result.headers['sign'] or result.headers.sign
       const { appid, timestamp, sign } = result.headers;
       const compareSignture = this.sha256(`${appid}${this.appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
       return {
