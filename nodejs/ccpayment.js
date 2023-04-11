@@ -93,7 +93,7 @@ module.exports = {
    * @param {String} data.token_id
    * @param {String} data.product_price
    * @param {String} data.merchant_order_id
-   * @param {String} data.fiat_currency
+   * @param {String} data.denominated_currency
    * @param {Function} callback 
    * @return {void}
    */

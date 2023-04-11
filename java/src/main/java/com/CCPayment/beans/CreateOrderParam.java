@@ -29,8 +29,8 @@ public class CreateOrderParam {
     private String amount;
     @JsonProperty("merchant_order_id")
     private String merchantOrderId;
-    @JsonProperty("fiat_currency")
-    private String fiatCurrency;
+    @JsonProperty("denominated_currency")
+    private String denominatedCurrency;
 
 
     public String getNotifyUrl() {
@@ -73,11 +73,11 @@ public class CreateOrderParam {
         this.merchantOrderId = merchantOrderId;
     }
 
-    public String getFiatCurrency() {
-        return fiatCurrency;
+    public String getDenominatedCurrency() {
+        return denominatedCurrency;
     }
 
-    public void setFiatCurrency(String fiatCurrency) {
-        this.fiatCurrency = fiatCurrency;
+    public void setDenominatedCurrency(String denominatedCurrency) {
+        this.denominatedCurrency = denominatedCurrency;
     }
 }

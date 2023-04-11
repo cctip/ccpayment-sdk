@@ -28,12 +28,12 @@ class CCPaymentClass:
     }
     """
     # create api order
-    def create_order(self, token_id, amount, merchant_order_id, fiat_currency, remark=None):
+    def create_order(self, token_id, amount, merchant_order_id, denominated_currency, remark=None):
         data = {
             "amount": amount,
             "merchant_order_id": merchant_order_id,
             "token_id": token_id,
-            "fiat_currency": fiat_currency
+            "denominated_currency": denominated_currency
         }
         if remark:
             data["remark"] = remark
