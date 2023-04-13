@@ -93,6 +93,7 @@ type SupportToken struct {
 	Min     string `json:"min"`
 	Price   string `json:"price"`
 	TokenId string `json:"token_id"`
+	Status  int64  `json:"status"` // 1 normal 2 maintenance 3 To be delisted
 }
 
 // TokenChainReq get token chain
@@ -117,6 +118,7 @@ type TokenChain struct {
 	Chain     string `json:"chain"`
 	Contract  string `json:"contract"`
 	ChainLogo string `json:"chain_logo"`
+	Status    int64  `json:"status"` // 1 normal 2 maintenance 3 To be delisted
 }
 
 // GetTokenRateReq get token rate
