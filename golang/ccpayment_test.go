@@ -9,10 +9,10 @@ import (
 // create order
 func TestCreateOrder(t *testing.T) {
 	order := CreateOrderReq{
-		TokenId:         "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
-		ProductPrice:    "6",
-		MerchantOrderId: "1121241232",
-		FiatCurrency:    "USD",
+		TokenId:         "5c48ec51-c8d0-45cc-ace9-1a3860bd0e25",
+		ProductPrice:    "2.78",
+		MerchantOrderId: time.Now().Format(`20060102150405`),
+		FiatCurrency:    "Token", // Token or other fiat currency name
 		Remark:          "",
 	}
 	data, err := order.CreateOrder(appId, appSecret)
@@ -26,7 +26,7 @@ func TestCreateOrder(t *testing.T) {
 // get checkout url
 func TestCheckoutUrl(t *testing.T) {
 	curl := CheckoutUrlReq{
-		ProductPrice:     "12",
+		ProductPrice:     "15",
 		MerchantOrderId:  time.Now().Format(`20060102150405`),
 		ProductName:      fmt.Sprintf(`product-name-%s`, time.Now().Format(`20060102150405`)),
 		ReturnUrl:        "",
@@ -136,9 +136,9 @@ func TestGetTokenRate(t *testing.T) {
 // create api withdrawal
 func TestWithdraw(t *testing.T) {
 	tc := &WithdrawReq{
-		TokenID:         "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
-		Address:         "9454818",
-		Value:           "12",
+		TokenID:         "f36ad1cf-222a-4933-9ad0-86df8069f916",
+		Address:         "29036926",
+		Value:           "0.00001",
 		MerchantOrderId: fmt.Sprintf("%d", time.Now().UnixMicro()),
 	}
 	data, err := tc.Withdraw(appId, appSecret)
