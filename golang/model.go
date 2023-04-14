@@ -2,11 +2,11 @@ package golang
 
 // CreateOrderReq api create order params
 type CreateOrderReq struct {
-	TokenId         string `json:"token_id"`
-	ProductPrice    string `json:"product_price"`
-	MerchantOrderId string `json:"merchant_order_id"`
-	FiatCurrency    string `json:"fiat_currency"` // USD
-	Remark          string `json:"remark"`
+	TokenId             string `json:"token_id"`
+	ProductPrice        string `json:"product_price"`
+	MerchantOrderId     string `json:"merchant_order_id"`
+	DenominatedCurrency string `json:"denominated_currency"` // USD
+	Remark              string `json:"remark"`
 }
 
 // CreateOrderResp api create order response
@@ -54,19 +54,20 @@ type WebhookValidate struct {
 
 // WebhookReq webhook response
 type WebhookReq struct {
-	PayStatus    string         `json:"pay_status"`
-	OrderType    string         `json:"order_type"`
-	RecordId     string         `json:"record_id"`
-	OrderID      string         `json:"order_id"`
-	ProductPrice string         `json:"product_price"`
-	OrderAmount  string         `json:"order_amount"`
-	FiatRate     string         `json:"fiat_rate"`
-	PaidAmount   string         `json:"paid_amount"`
-	TokenRate    string         `json:"token_rate"`
-	Chain        string         `json:"chain"`
-	Contract     string         `json:"contract"`
-	Crypto       string         `json:"crypto"`
-	Extend       *WebhookExtend `json:"extend"`
+	PayStatus           string         `json:"pay_status"`
+	OrderType           string         `json:"order_type"`
+	RecordId            string         `json:"record_id"`
+	OrderID             string         `json:"order_id"`
+	ProductPrice        string         `json:"product_price"`
+	OrderAmount         string         `json:"order_amount"`
+	FiatRate            string         `json:"fiat_rate"`
+	DenominatedCurrency string         `json:"denominated_currency"`
+	PaidAmount          string         `json:"paid_amount"`
+	TokenRate           string         `json:"token_rate"`
+	Chain               string         `json:"chain"`
+	Contract            string         `json:"contract"`
+	Crypto              string         `json:"crypto"`
+	Extend              *WebhookExtend `json:"extend"`
 }
 
 type WebhookExtend struct {
@@ -94,6 +95,7 @@ type SupportToken struct {
 	Min     string `json:"min"`
 	Price   string `json:"price"`
 	TokenId string `json:"token_id"`
+	Status  int64  `json:"status"` // 1 normal 2 maintenance 3 To be delisted
 }
 
 // TokenChainReq get token chain
@@ -118,6 +120,7 @@ type TokenChain struct {
 	Chain     string `json:"chain"`
 	Contract  string `json:"contract"`
 	ChainLogo string `json:"chain_logo"`
+	Status    int64  `json:"status"` // 1 normal 2 maintenance 3 To be delisted
 }
 
 // GetTokenRateReq get token rate
