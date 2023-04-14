@@ -9,11 +9,11 @@ import (
 // create order
 func TestCreateOrder(t *testing.T) {
 	order := CreateOrderReq{
-		TokenId:         "5c48ec51-c8d0-45cc-ace9-1a3860bd0e25",
-		ProductPrice:    "2.78",
-		MerchantOrderId: time.Now().Format(`20060102150405`),
-		FiatCurrency:    "Token", // Token or other fiat currency name
-		Remark:          "",
+		TokenId:             "5c48ec51-c8d0-45cc-ace9-1a3860bd0e25",
+		ProductPrice:        "2.78",
+		MerchantOrderId:     time.Now().Format(`20060102150405`),
+		DenominatedCurrency: "Token", // Token or other fiat currency name
+		Remark:              "",
 	}
 	data, err := order.CreateOrder(appId, appSecret)
 	if err != nil {
