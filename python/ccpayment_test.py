@@ -2,8 +2,8 @@ import time
 import unittest
 import ccpayment
 
-app_id = "6cfakPeNnTi0YoHLpbqVLqFw2A#R5EGPH3lJfX75H7x#SO#PXU"
-app_secret = "5SQOObrXo#t82ZsVYfrI02Dn@5MLVPX1Fr1gcpCVS2Ca8ClbAgi@AMp64j0pWO#4jyC#zdS3kis1UaNFsaqW5DGjtxA4gYk1ZEH68#S1Z1McmUd@ph8Gbhn#"
+app_id = "202301310325561620262074393440256"
+app_secret = "c4600b8125b7ed23b5b7b8ee4acb42f4"
 
 
 class TestCCPaymentClass(unittest.TestCase):
@@ -11,9 +11,9 @@ class TestCCPaymentClass(unittest.TestCase):
 
     # create api deposit order
     data, is_verify = cp.create_order(token_id='0912e09a-d8e2-41d7-a0bc-a25530892988',
-                                      amount='6',
+                                      product_price='6',
                                       merchant_order_id=str(int(time.time())),
-                                      fiat_currency='USD')
+                                      denominated_currency='USD')
     if is_verify:
         print("TestCreateOrder: verify success")
     else:
@@ -30,9 +30,9 @@ class TestCCPaymentClass(unittest.TestCase):
         print('TestWebhookValidate: verify error')
 
     # get checkout url
-    data, is_verify = cp.checkout_url(amount='12',
+    data, is_verify = cp.checkout_url(product_price='12',
                                       merchant_order_id=str(int(time.time())),
-                                      valid_timestamp=300,
+                                      order_valid_period=300,
                                       product_name='product_name',
                                       return_url='return_url')
     if is_verify:

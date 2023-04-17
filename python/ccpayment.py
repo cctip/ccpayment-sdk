@@ -28,9 +28,9 @@ class CCPaymentClass:
     }
     """
     # create api order
-    def create_order(self, token_id, amount, merchant_order_id, denominated_currency, remark=None):
+    def create_order(self, token_id, product_price, merchant_order_id, denominated_currency, remark=None):
         data = {
-            "amount": amount,
+            "product_price": product_price,
             "merchant_order_id": merchant_order_id,
             "token_id": token_id,
             "denominated_currency": denominated_currency
@@ -50,11 +50,11 @@ class CCPaymentClass:
     }
     """
     # get checkout url
-    def checkout_url(self, amount, merchant_order_id, valid_timestamp, product_name, return_url=None):
+    def checkout_url(self, product_price, merchant_order_id, order_valid_period, product_name, return_url=None):
         data = {
-            "amount": amount,
+            "product_price": product_price,
             "merchant_order_id": merchant_order_id,
-            "valid_timestamp": valid_timestamp,
+            "order_valid_period": order_valid_period,
             "product_name": product_name
         }
         if return_url:
