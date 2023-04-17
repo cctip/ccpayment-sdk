@@ -7,18 +7,18 @@ import (
 )
 
 var (
-	appId     = "6cfakPeNnTi0YoHLpbqVLqFw2A#R5EGPH3lJfX75H7x#SO#PXU"
-	appSecret = `5SQOObrXo#t82ZsVYfrI02Dn@5MLVPX1Fr1gcpCVS2Ca8ClbAgi@AMp64j0pWO#4jyC#zdS3kis1UaNFsaqW5DGjtxA4gYk1ZEH68#S1Z1McmUd@ph8Gbhn#`
+	appId     = "202301310325561620262074393440256"
+	appSecret = `c4600b8125b7ed23b5b7b8ee4acb42f4`
 )
 
 // create order
 func TestCreateOrder(t *testing.T) {
 	order := CreateOrderReq{
-		TokenId:         "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
-		Amount:          "6",
-		MerchantOrderId: "1121241232",
-		FiatCurrency:    "USD",
-		Remark:          "",
+		TokenId:             "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
+		ProductPrice:        "6",
+		MerchantOrderId:     "1121241232",
+		DenominatedCurrency: "USD",
+		Remark:              "",
 	}
 	data, err := order.CreateOrder(appId, appSecret)
 	if err != nil {
@@ -31,11 +31,11 @@ func TestCreateOrder(t *testing.T) {
 // get checkout url
 func TestCheckoutUrl(t *testing.T) {
 	curl := CheckoutUrlReq{
-		Amount:          "12",
-		MerchantOrderId: "test_xxxx",
-		ProductName:     "name_1",
-		ReturnUrl:       "",
-		ValidTimestamp:  300, // s
+		ProductPrice:     "12",
+		MerchantOrderId:  fmt.Sprintf("test_xxxx%d", time.Now().UnixMicro()),
+		ProductName:      "name_1",
+		ReturnUrl:        "",
+		OrderValidPeriod: 300, // s
 	}
 
 	data, err := curl.CheckoutUrl(appId, appSecret)
