@@ -32,11 +32,9 @@ ccpaymentWidgets.getTokenChain({
 ccpaymentWidgets.createOrder({
   "remark": "eee",
   "token_id": "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
-  "chain": "TRX",
   "product_price": "0.5",
-  "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
   "merchant_order_id": "37350779790509509",
-  "fiat_currency": "USD"
+  "denominated_currency": "USD"
 }, (result) => {
   console.log('ddd:', result)
 })
