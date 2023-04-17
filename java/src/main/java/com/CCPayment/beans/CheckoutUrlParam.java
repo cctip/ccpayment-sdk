@@ -45,7 +45,7 @@ public class CheckoutUrlParam {
     }
 
     public void setProductPrice(String productPrice) {
-        this.amount = productPrice;
+        this.productPrice = productPrice;
     }
 
     public String getMerchantOrderId() {
