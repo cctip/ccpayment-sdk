@@ -23,7 +23,7 @@ type OrderInfo struct {
 	Network      string `json:"network"`
 	PayAddress   string `json:"pay_address"`
 	Crypto       string `json:"crypto"`
-	Meme         string `json:"meme"`
+	Memo         string `json:"memo"`
 }
 
 // CheckoutUrlReq checkout url params
