@@ -21,6 +21,12 @@ public class CreateOrderResponse {
     private String payAddress;
     @JsonProperty("crypto")
     private String crypto;
+    @JsonProperty("token_id")
+    private String tokenId;
+    @JsonProperty("memo")
+    private String memo;
+    @JsonProperty("address_valid_period")
+    private Integer addressValidPeriod;
 
     public String getAmount() {
         return amount;
@@ -68,5 +74,28 @@ public class CreateOrderResponse {
 
     public void setCrypto(String crypto) {
         this.crypto = crypto;
+    }
+
+    public String getTokenId() {
+        return tokenId;
+    }
+
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
+    }
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
+    public String getAddressValidPeriod() {
+        return addressValidPeriod;
+    }
+
+    public void setAddressValidPeriod(Integer addressValidPeriod) {
+        this.addressValidPeriod = addressValidPeriod;
     }
 }

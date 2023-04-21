@@ -23,7 +23,10 @@ class CCPaymentClass:
             "logo": "",
             "network": "",
             "pay_address": "",
-            "crypto": ""
+            "crypto": "",
+            "token_id:,
+	        "memo",
+	        "address_valid_period"
         }
     }
     """
