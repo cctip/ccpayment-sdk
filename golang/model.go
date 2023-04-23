@@ -1,5 +1,7 @@
 package golang
 
+import "time"
+
 // CreateOrderReq api create order params
 type CreateOrderReq struct {
 	TokenId             string `json:"token_id"`
@@ -17,13 +19,15 @@ type CreateOrderResp struct {
 }
 
 type OrderInfo struct {
-	OrderId      string `json:"order_id"`
-	ProductPrice string `json:"product_price"`
-	Logo         string `json:"logo"`
-	Network      string `json:"network"`
-	PayAddress   string `json:"pay_address"`
-	Crypto       string `json:"crypto"`
-	Memo         string `json:"memo"`
+	OrderId            string        `json:"order_id"`
+	ProductPrice       string        `json:"product_price"`
+	Logo               string        `json:"logo"`
+	Network            string        `json:"network"`
+	PayAddress         string        `json:"pay_address"`
+	Crypto             string        `json:"crypto"`
+	TokenId            string        `json:"token_id"`
+	Memo               string        `json:"memo"`
+	AddressValidPeriod time.Duration `json:"address_valid_period"`
 }
 
 // CheckoutUrlReq checkout url params
@@ -33,7 +37,6 @@ type CheckoutUrlReq struct {
 	MerchantOrderId  string `json:"merchant_order_id"`
 	ProductName      string `json:"product_name"`
 	ReturnUrl        string `json:"return_url"`
-	ProductDesc      string `json:"product_desc"`
 }
 
 // CheckoutUrlResp checkout url response

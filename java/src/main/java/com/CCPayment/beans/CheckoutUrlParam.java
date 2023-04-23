@@ -5,23 +5,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CheckoutUrlParam {
-    @JsonProperty("valid_timestamp")
-    private Integer validTimestamp;
+    @JsonProperty("order_valid_period")
+    private Integer orderValidPeriod;
     @JsonProperty("product_name")
     private String productName;
     @JsonProperty("return_url")
     private String returnUrl;
-    @JsonProperty("amount")
-    private String amount;
+    @JsonProperty("product_price")
+    private String productPrice;
     @JsonProperty("merchant_order_id")
     private String merchantOrderId;
 
-    public Integer getValidTimestamp() {
-        return validTimestamp;
+    public Integer getOrderValidPeriod() {
+        return orderValidPeriod;
     }
 
-    public void setValidTimestamp(Integer validTimestamp) {
-        this.validTimestamp = validTimestamp;
+    public void setOrderValidPeriod(Integer orderValidPeriod) {
+        this.orderValidPeriod = orderValidPeriod;
     }
 
     public String getProductName() {
@@ -40,12 +40,12 @@ public class CheckoutUrlParam {
         this.returnUrl = returnUrl;
     }
 
-    public String getAmount() {
-        return amount;
+    public String getProductPrice() {
+        return ProductPrice;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
     }
 
     public String getMerchantOrderId() {

@@ -25,8 +25,8 @@ public class CreateOrderParam {
      */
     @JsonProperty("token_id")
     private String tokenId;
-    @JsonProperty("amount")
-    private String amount;
+    @JsonProperty("product_price")
+    private String productPrice;
     @JsonProperty("merchant_order_id")
     private String merchantOrderId;
     @JsonProperty("denominated_currency")
@@ -57,12 +57,12 @@ public class CreateOrderParam {
         this.tokenId = tokenId;
     }
 
-    public String getAmount() {
-        return amount;
+    public String getProductPrice() {
+        return productPrice;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setProductPrice(String productPrice) {
+        this.productPrice = productPrice;
     }
 
     public String getMerchantOrderId() {
