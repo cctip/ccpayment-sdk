@@ -13,6 +13,7 @@ const (
 	AssetsUrl          = Host + "/ccpayment/v1/assets"
 	NetworkFeeUrl      = Host + "/ccpayment/v1/network/fee"
 	ApiOrderInfoUrl    = Host + "/ccpayment/v1/bill/info"
+	GetSupportCoinUrl  = Host + "/ccpayment/v1/coin/all"
 
 	AppIdHeaderKey     = "Appid"
 	SignHeaderKey      = "Sign"

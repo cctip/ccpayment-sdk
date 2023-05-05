@@ -91,6 +91,23 @@ func (result *WebhookReq) webhookSignStr(req *http.Request, appId, appSecret str
 
 // ---------- get support token ----------
 
+func (st *SupportCoinReq) GetSupportCoin(appId, appSecret string) (data *SupportCoinResultData, err error) {
+	timeStamp := time.Now().Unix()
+
+	dst, signStr, err := SignStr(*st, appId, appSecret, timeStamp)
+	if err != nil {
+		return nil, err
+	}
+
+	data = &SupportCoinResultData{}
+
+	err = sendPost(data, dst, GetSupportCoinUrl, appId, appSecret, signStr, timeStamp)
+
+	return data, err
+}
+
+// ---------- get support token ----------
+
 func (st *SupportTokenReq) GetSupportToken(appId, appSecret string) (data *SupportTokenResultData, err error) {
 	timeStamp := time.Now().Unix()
 
@@ -275,6 +292,10 @@ func sendPost(data interface{}, dst string, url, appId, appSecret, signStr strin
 
 		case *SupportTokenResultData:
 			d := data.(*SupportTokenResultData)
+			code = d.Code
+			goto validate
+		case *SupportCoinResultData:
+			d := data.(*SupportCoinResultData)
 			code = d.Code
 			goto validate
 

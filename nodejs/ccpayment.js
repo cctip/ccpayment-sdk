@@ -5,6 +5,7 @@ const HOST = 'https://admin.ccpayment.com'
 
 const requestAPI = {
   checkoutURL: `${HOST}/ccpayment/v1/concise/url/get`,
+  supportCoinURL: `${HOST}/ccpayment/v1/coin/all`,
   supportTokenURL: `${HOST}/ccpayment/v1/support/token`,
   tokenChainURL: `${HOST}/ccpayment/v1/token/chain`,
   createOrderURL: `${HOST}/ccpayment/v1/bill/create`,
@@ -65,6 +66,16 @@ module.exports = {
       throw Error(err)
     }
 
+  },
+  /*
+   * @param {Function} callback
+   * @return {void}
+   */
+  async getSupportCoin(callback) {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.supportCoinURL, null)
+    if (result) {
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
+    }
   },
 
   /*

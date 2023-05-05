@@ -69,6 +69,29 @@ class CCPaymentClass:
             return True
 
         return False
+    """
+     * return success
+     {
+         "code": 10000,
+         "msg": "",
+         "data": {
+             "list": [
+                 {
+                     "crypto": "",
+                     "name": "",
+                     "logo": "",
+                     "min": "",
+                     "price": "",
+                     "coin_id": ""
+                     "tokens": []
+                 }
+             ]
+         }
+     }
+     """
+    def get_support_coin(self):
+        data = {}
+        return self._send_post(const.SUPPORT_COIN_URL, data)
 
     """
     * return success

@@ -92,13 +92,15 @@ type SupportTokenResultData struct {
 }
 
 type SupportToken struct {
-	Crypto  string `json:"crypto"`
-	Name    string `json:"name"`
-	Logo    string `json:"logo"`
-	Min     string `json:"min"`
-	Price   string `json:"price"`
-	TokenId string `json:"token_id"`
-	Status  int64  `json:"status"` // 1 normal 2 maintenance 3 To be delisted
+	Crypto  string        `json:"crypto"`
+	Name    string        `json:"name"`
+	Logo    string        `json:"logo"`
+	Min     string        `json:"min"`
+	Price   string        `json:"price"`
+	TokenId string        `json:"token_id,omitempty"`
+	CoinId  string        `json:"coin_id,omitempty"`
+	Status  int64         `json:"status"` // 1 normal 2 maintenance 3 To be delisted
+	Tokens  []*TokenChain `json:"tokens,omitempty"`
 }
 
 // TokenChainReq get token chain
@@ -251,5 +253,16 @@ type NetworkFeeResp struct {
 		TokenId string `json:"token_id"`
 		Crypto  string `json:"crypto"`
 		Fee     string `json:"fee"`
+	} `json:"data"`
+}
+
+type SupportCoinReq struct {
+}
+
+type SupportCoinResultData struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data struct {
+		List []SupportToken `json:"list"`
 	} `json:"data"`
 }

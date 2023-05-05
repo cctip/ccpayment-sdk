@@ -7,6 +7,10 @@ CREATE_ORDER_URL = HOST + "/ccpayment/v1/bill/create"
 # checkout url
 CHECKOUT_URL = HOST + "/ccpayment/v1/concise/url/get"
 
+# support coin all
+SUPPORT_COIN_URL = HOST + "/ccpayment/v1/coin/all"
+
+
 # support token
 SUPPORT_TOKEN_URL = HOST + "/ccpayment/v1/support/token"
 

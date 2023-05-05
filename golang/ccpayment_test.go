@@ -102,6 +102,15 @@ func TestCheckoutUrl(t *testing.T) {
 //	c.String(200, "success")
 //}
 
+func TestGetSupportCoin(t *testing.T) {
+	st := &SupportCoinReq{}
+	data, err := st.GetSupportCoin(appId, appSecret)
+	if err != nil {
+		fmt.Println(`GetSupportCoin error: `, err)
+	}
+	fmt.Printf(`data: %+v`, data)
+}
+
 // get support tokens
 func TestGetSupportToken(t *testing.T) {
 	st := &SupportTokenReq{}
