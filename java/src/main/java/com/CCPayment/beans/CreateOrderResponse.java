@@ -91,7 +91,7 @@ public class CreateOrderResponse {
     public void setMemo(String memo) {
         this.memo = memo;
     }
-    public String getAddressValidPeriod() {
+    public Integer getAddressValidPeriod() {
         return addressValidPeriod;
     }
 

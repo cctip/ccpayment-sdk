@@ -41,7 +41,7 @@ public class CheckoutUrlParam {
     }
 
     public String getProductPrice() {
-        return ProductPrice;
+        return productPrice;
     }
 
     public void setProductPrice(String productPrice) {

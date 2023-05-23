@@ -9,11 +9,11 @@ class CCPaymentApisTest {
     void createOrder() throws Exception {
         CreateOrderParam param = new CreateOrderParam();
         param.setNotifyUrl("https://www.xxxx.com/callback");
-        param.setAmount("1.34");
+        param.setProductPrice("1.34");
         param.setTokenId("1e614496-f9ce-4ec7-8e68-563733deacbf");
         param.setRemark("222222");
         param.setMerchantOrderId("thisisoutordern1o");
-        param.setFiatCurrency("USD");
+        param.setDenominatedCurrency("USD");
         CreateOrderResponse resp = CCPaymentApis.createOrder(param);
         System.out.println(resp);
     }
@@ -35,10 +35,9 @@ class CCPaymentApisTest {
     @Test
     void checkoutUrl() throws Exception{
         CheckoutUrlParam param = new CheckoutUrlParam();
-        param.setAmount("1000");
+        param.setProductPrice("1000");
         param.setMerchantOrderId("thisisoutorderno");
         param.setReturnUrl("https://www.xxxx.com/callback");
-        param.setValidTimestamp(3600);
         param.setProductName("this is product name");
         CheckoutUrlResponse resp = CCPaymentApis.checkoutUrl(param);
         System.out.println(resp);

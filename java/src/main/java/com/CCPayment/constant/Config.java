@@ -10,7 +10,7 @@ public class Config {
     public static final long expireDuration = 300L;
 
     //modify
-    public static final String AppId = "202302010636261620672405236006912";
+    public static final String AppId = "202301140931041614193371138621440";
     //modify
-    public static final String AppSecrete = "62fbff1f796c42c50bb44d4d3d065390";
+    public static final String AppSecrete = "4a8637e2d1c2783b1727cdcedc757e1d";
 }
