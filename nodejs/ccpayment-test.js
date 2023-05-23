@@ -3,6 +3,8 @@
  * This test code can only be displayed as a call method. 
  * Related Nodejs Web service support can be run to run
 */
+const ccpaymentWidgets = require('./ccpayment.js');
+
 const appId = '202302160812171626132344467566592';
 const appSecret = 'a58f572564f7fce44acd66024d6da9b4';
 
@@ -31,7 +33,7 @@ ccpaymentWidgets.getTokenChain({
 // submit order
 ccpaymentWidgets.createOrder({
   "remark": "eee",
-  "token_id": "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
+  "token_id": "f36ad1cf-222a-4933-9ad0-86df8069f916",
   "product_price": "0.5",
   "merchant_order_id": "37350779790509509",
   "denominated_currency": "USD"
@@ -44,6 +46,10 @@ ccpaymentWidgets.getTokenRate({
   "token_id": "f36ad1cf-222a-4933-9ad0-86df8069f916",
 }, (result) => {
   console.log('eee:', result)
+})
+
+ccpaymentWidgets.getSupportCoin((result) => {
+  console.log('hhh:', result)
 })
 
 
