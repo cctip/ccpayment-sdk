@@ -225,7 +225,7 @@ public final class CCPaymentApis {
         post.addHeader(Config.HeaderAppId, Config.AppId);
         post.addHeader(Config.HeaderTimestamp, timestampStr);
         post.addHeader(Config.HeaderSign, encodedHash);
-        final StringEntity entity = new StringEntity(inputString);
+        final StringEntity entity = new StringEntity(inputString, StandardCharsets.UTF_8);
         post.setEntity(entity);
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         CloseableHttpResponse response = httpClient.execute(post);
