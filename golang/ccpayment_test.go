@@ -14,7 +14,7 @@ var (
 // create order
 func TestCreateOrder(t *testing.T) {
 	order := CreateOrderReq{
-		TokenId:             "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
+		TokenId:             "264f4725-3cfd-4ff6-bc80-ff9d799d5fb2",
 		ProductPrice:        "6",
 		MerchantOrderId:     "1121241232",
 		DenominatedCurrency: "USD",
