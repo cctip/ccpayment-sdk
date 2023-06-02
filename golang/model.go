@@ -173,6 +173,7 @@ type BillInfoEntity struct {
 		Contract   string `json:"contract"`
 		Crypto     string `json:"crypto"`
 		ServiceFee string `json:"service_fee"`
+		NetworkFee string `json:"network_fee"`
 		Txid       string `json:"txid"`
 		PayTime    int64  `json:"pay_time"`
 		TokenRate  string `json:"token_rate"`
