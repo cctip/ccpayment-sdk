@@ -290,9 +290,9 @@ class CCPaymentClass:
         }
     }
     """
-    def get_order_info(self, merchant_order_id):
+    def get_order_info(self, merchant_order_ids):
         data = {
-            "merchant_order_id": merchant_order_id
+            "merchant_order_ids": merchant_order_ids
         }
         return self._send_post(const.API_ORDER_INFO_URL, data)
 

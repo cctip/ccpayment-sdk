@@ -9,7 +9,12 @@ const requestAPI = {
   supportTokenURL: `${HOST}/ccpayment/v1/support/token`,
   tokenChainURL: `${HOST}/ccpayment/v1/token/chain`,
   createOrderURL: `${HOST}/ccpayment/v1/bill/create`,
-  tokenRateURL: `${HOST}/ccpayment/v1/token/rate`
+  tokenRateURL: `${HOST}/ccpayment/v1/token/rate`,
+  withdrawURL: `${HOST}/ccpayment/v1/withdraw`,
+  checkUserURL: `${HOST}/ccpayment/v1/check/user`,
+  assetsURL: `${HOST}/ccpayment/v1/assets`,
+  networkFeeURL: `${HOST}/ccpayment/v1/network/fee`,
+  orderInfoURL: `${HOST}/ccpayment/v1/bill/info`
 }
 
 
@@ -157,6 +162,83 @@ module.exports = {
     }
   },
 
+  /*
+  * @param {Object} data
+  * @param {String} data.c_id
+  * @param {Function} callback
+  * @return {void}
+  */
+  async checkUser(data, callback) {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.checkUserURL, {
+      ...data
+    })
+    if (result) {
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
+    }
+  },
+
+  /*
+* @param {Object} data
+* @param {String} data.token_id
+* @param {Function} callback
+* @return {void}
+*/
+  async assets(data, callback) {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.assetsURL, {
+      ...data
+    })
+    if (result) {
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
+    }
+  },
+  /*
+* @param {Object} data
+* @param {String} data.token_id
+* @param {String} data.address
+* @param {String} data.merchant_order_id
+* @param {String} data.value
+* @param {String} data.memo
+* @param {Function} callback
+* @return {void}
+*/
+  async withdraw(data, callback) {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.withdrawURL, {
+      ...data
+    })
+    if (result) {
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
+    }
+  },
+
+  /*
+* @param {Object} data
+* @param {String} data.token_id
+* @param {String} data.address
+* @param {Function} callback
+* @return {void}
+*/
+  async networkFee(data, callback) {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.networkFeeURL, {
+      ...data
+    })
+    if (result) {
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
+    }
+  },
+  /*
+* @param {Object} data
+* @param {Array} data.merchant_order_ids
+* @param {Function} callback
+* @return {void}
+*/
+  async getOrderInfo(data, callback) {
+    const { compareSignture, sign, result } = await this.sendPost(requestAPI.orderInfoURL, {
+      ...data
+    })
+    if (result) {
+      callback && callback(result.data.code === 10000 ? compareSignture === sign ? result.data : Error('http code error') : result.data)
+    }
+  },
   /*
    * @param {Number} timeStamp
    * @param {String} sign

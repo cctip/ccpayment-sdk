@@ -102,7 +102,7 @@ class TestCCPaymentClass(unittest.TestCase):
     print("TestNetworkFee:", data)
 
     # get api order info
-    data, is_verify = cp.get_order_info(merchant_order_id='4445821684092051')
+    data, is_verify = cp.get_order_info(merchant_order_ids=['4445821684092051'])
     if is_verify:
         print("TestOrderInfo: verify success")
     else:

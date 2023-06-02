@@ -200,7 +200,7 @@ func TestNetworkFee(t *testing.T) {
 // get bill trade
 func TestGetAPIOrderInfo(t *testing.T) {
 	bt := &OrderInfoReq{
-		MerchantOrderId: "4445821684092051", // 2376655808480575  4445821684092051
+		MerchantOrderIds: []string{"2376655808480575", "4445821684092051"}, // 2376655808480575  4445821684092051
 	}
 	data, err := bt.GetAPIOrderInfo(appId, appSecret)
 	if err != nil {

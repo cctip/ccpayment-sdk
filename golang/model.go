@@ -145,47 +145,50 @@ type TokenRateResp struct {
 
 // OrderInfoReq get API trade data
 type OrderInfoReq struct {
-	MerchantOrderId string `json:"merchant_order_id"`
+	MerchantOrderIds []string `json:"merchant_order_ids"`
 }
 
 type BillInfoResp struct {
-	Code int    `json:"code"`
-	Msg  string `json:"msg"`
-	Data struct {
-		Detail struct {
-			FiatAmount      string `json:"fiat_amount"`
-			FiatCurrency    string `json:"fiat_currency"`
-			ProductName     string `json:"product_name"`
-			MerchantOrderId string `json:"merchant_order_id"`
-			Chain           string `json:"chain"`
-			Contract        string `json:"contract"`
-			Crypto          string `json:"crypto"`
-			OriginAmount    string `json:"origin_amount"`
-			Status          string `json:"status"`
-			Created         int64  `json:"created"`
-		} `json:"detail"`
-		Received []struct {
-			Amount     string `json:"amount"`
-			Chain      string `json:"chain"`
-			Contract   string `json:"contract"`
-			Crypto     string `json:"crypto"`
-			ServiceFee string `json:"service_fee"`
-			PayTime    int64  `json:"pay_time"`
-			TokenRate  string `json:"token_rate"`
-		} `json:"received"`
-		Refunds []struct {
-			Amount               string  `json:"amount"`
-			NetworkFee           string  `json:"network_fee"`
-			ActualReceivedAmount string  `json:"actual_received_amount"`
-			Chain                string  `json:"chain"`
-			Contract             string  `json:"contract"`
-			Crypto               string  `json:"crypto"`
-			Txid                 *string `json:"txid"`
-			Address              string  `json:"address"`
-			PayTime              int64   `json:"pay_time"`
-			Status               string  `json:"status"`
-		} `json:"refunds"`
-	} `json:"data"`
+	Code int               `json:"code"`
+	Msg  string            `json:"msg"`
+	Data []*BillInfoEntity `json:"data"`
+}
+type BillInfoEntity struct {
+	Detail struct {
+		ProductPrice        string `json:"product_price"`
+		DenominatedCurrency string `json:"denominated_currency"`
+		ProductName         string `json:"product_name"`
+		MerchantOrderId     string `json:"merchant_order_id"`
+		Chain               string `json:"chain"`
+		Contract            string `json:"contract"`
+		Crypto              string `json:"crypto"`
+		OrderAmount         string `json:"order_amount"`
+		TokenRate           string `json:"token_rate"`
+		Status              string `json:"status"`
+		Created             int64  `json:"created"`
+	} `json:"detail"`
+	Received []struct {
+		PaidAmount string `json:"paid_amount"`
+		Chain      string `json:"chain"`
+		Contract   string `json:"contract"`
+		Crypto     string `json:"crypto"`
+		ServiceFee string `json:"service_fee"`
+		Txid       string `json:"txid"`
+		PayTime    int64  `json:"pay_time"`
+		TokenRate  string `json:"token_rate"`
+	} `json:"received"`
+	Refunds []struct {
+		RefundAmount         string  `json:"refund_amount"`
+		NetworkFee           string  `json:"network_fee"`
+		ActualReceivedAmount string  `json:"actual_received_amount"`
+		Chain                string  `json:"chain"`
+		Contract             string  `json:"contract"`
+		Crypto               string  `json:"crypto"`
+		Txid                 *string `json:"txid"`
+		Address              string  `json:"address"`
+		PayTime              int64   `json:"pay_time"`
+		Status               string  `json:"status"`
+	} `json:"refunds"`
 }
 
 type WithdrawReq struct {
