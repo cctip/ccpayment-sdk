@@ -9,12 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateOrderParam {
-    /**
-     * the server notify callback url
-     * when payment order is success, we'll notify to your server by this url
-     */
-    @JsonProperty("notify_url")
-    private String notifyUrl;
+
     /**
      *
      */
@@ -31,15 +26,6 @@ public class CreateOrderParam {
     private String merchantOrderId;
     @JsonProperty("denominated_currency")
     private String denominatedCurrency;
-
-
-    public String getNotifyUrl() {
-        return notifyUrl;
-    }
-
-    public void setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl;
-    }
 
     public String getRemark() {
         return remark;
