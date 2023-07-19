@@ -25,8 +25,8 @@ public class CreateOrderResponse {
     private String tokenId;
     @JsonProperty("memo")
     private String memo;
-    @JsonProperty("address_valid_period")
-    private Integer addressValidPeriod;
+    @JsonProperty("order_valid_period")
+    private Integer orderValidPeriod;
 
     public String getAmount() {
         return amount;
@@ -91,11 +91,13 @@ public class CreateOrderResponse {
     public void setMemo(String memo) {
         this.memo = memo;
     }
-    public Integer getAddressValidPeriod() {
-        return addressValidPeriod;
+
+    public Integer getOrderValidPeriod() {
+        return orderValidPeriod;
     }
 
-    public void setAddressValidPeriod(Integer addressValidPeriod) {
-        this.addressValidPeriod = addressValidPeriod;
+    public void setOrderValidPeriod(Integer orderValidPeriod) {
+        this.orderValidPeriod = orderValidPeriod;
     }
+
 }

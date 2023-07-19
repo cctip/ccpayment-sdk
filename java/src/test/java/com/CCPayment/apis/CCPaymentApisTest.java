@@ -11,8 +11,11 @@ class CCPaymentApisTest {
         param.setProductPrice("1.34");
         param.setTokenId("1e614496-f9ce-4ec7-8e68-563733deacbf");
         param.setRemark("222222");
-        param.setMerchantOrderId("thisisoutordern1o");
+        param.setMerchantOrderId("thisisoutordern1o4");
         param.setDenominatedCurrency("USD");
+        param.setNotifyUrl("https://xxxxxxxx.com/notify.url");
+        param.setOrderValidPeriod(1800);
+        param.setCustomValue("custom value");
         CreateOrderResponse resp = CCPaymentApis.createOrder(param);
         System.out.println(resp);
     }
@@ -38,6 +41,9 @@ class CCPaymentApisTest {
         param.setMerchantOrderId("thisisoutorderno");
         param.setReturnUrl("https://www.xxxx.com/callback");
         param.setProductName("this is product name");
+        param.setNotifyUrl("https://xxxxxxxx.com/notify.url");
+        param.setOrderValidPeriod(1800);
+        param.setCustomValue("custom value");
         CheckoutUrlResponse resp = CCPaymentApis.checkoutUrl(param);
         System.out.println(resp);
     }
