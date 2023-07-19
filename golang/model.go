@@ -1,6 +1,8 @@
 package golang
 
-import "time"
+import (
+	"time"
+)
 
 // CreateOrderReq api create order params
 type CreateOrderReq struct {
@@ -269,4 +271,19 @@ type SupportCoinResultData struct {
 	Data struct {
 		List []SupportToken `json:"list"`
 	} `json:"data"`
+}
+
+type AddressReq struct {
+	UserId    string `validate:"required" json:"user_id"`
+	Chain     string `validate:"required" json:"chain"`
+	NotifyUrl string `json:"notify_url"`
+}
+
+type AddressResq struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data struct {
+		Address string `json:"address,omitempty"`
+		Memo    string `json:"memo,omitempty"`
+	} `json:"data,omitempty"`
 }
