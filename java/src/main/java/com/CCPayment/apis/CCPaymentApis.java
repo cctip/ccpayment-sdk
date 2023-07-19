@@ -68,7 +68,7 @@ public final class CCPaymentApis {
      * @throws Exception
      */
     public static GetSupportCoinResponse getSupportCoin() throws Exception {
-        return doSend("/support/coin", new Object(), GetSupportCoinResponse.class);
+        return doSend("/coin/all", new Object(), GetSupportCoinResponse.class);
     }
 
     /**

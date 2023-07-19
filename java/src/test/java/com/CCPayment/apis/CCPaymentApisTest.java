@@ -8,7 +8,6 @@ class CCPaymentApisTest {
     @Test
     void createOrder() throws Exception {
         CreateOrderParam param = new CreateOrderParam();
-        param.setNotifyUrl("https://www.xxxx.com/callback");
         param.setProductPrice("1.34");
         param.setTokenId("1e614496-f9ce-4ec7-8e68-563733deacbf");
         param.setRemark("222222");
@@ -102,6 +101,12 @@ class CCPaymentApisTest {
         OrderInfoParam param = new OrderInfoParam();
         param.setMerchantOrderId("8914510718145343");
         OrderInfoResponse resp = CCPaymentApis.orderInfo(param);
+        System.out.println(resp);
+    }
+
+    @Test
+    void  getSupportCoin() throws Exception {
+        GetSupportCoinResponse resp = CCPaymentApis.getSupportCoin();
         System.out.println(resp);
     }
 }
