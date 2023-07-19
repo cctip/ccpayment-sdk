@@ -2,8 +2,8 @@ import time
 import unittest
 import ccpayment
 
-app_id = "202301310325561620262074393440256"
-app_secret = "c4600b8125b7ed23b5b7b8ee4acb42f4"
+app_id = "20230516163642101055099358453783"
+app_secret = "9ae5247d0f8dca9f3300e328d0ad9a964"
 
 
 class TestCCPaymentClass(unittest.TestCase):
@@ -108,6 +108,14 @@ class TestCCPaymentClass(unittest.TestCase):
     else:
         print("TestOrderInfo: verify error")
     print("TestOrderInfo:", data)
+
+    # get direct address
+    data, is_verify = cp.get_payment_address("123", "TRX", "")
+    if is_verify:
+        print("TestGetDirectPaymentAddress: verify success")
+    else:
+        print("TestGetDirectPaymentAddress: verify error")
+    print("TestGetDirectPaymentAddress:", data)
 
 
 if __name__ == '__main__':
