@@ -62,6 +62,16 @@ public final class CCPaymentApis {
     }
 
     /**
+     * Get tokens ccpayment support list
+     *
+     * @return token list
+     * @throws Exception
+     */
+    public static GetSupportCoinResponse getSupportCoin() throws Exception {
+        return doSend("/support/coin", new Object(), GetSupportCoinResponse.class);
+    }
+
+    /**
      * Get a payment link
      *
      * @param param
