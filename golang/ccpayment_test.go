@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	appId     = "202301310325561620262074393440256"
-	appSecret = `c4600b8125b7ed23b5b7b8ee4acb42f4`
+	appId     = "202303280851291640637724793610240"
+	appSecret = `f711234db8684654ab4d7dc99f4a4ff3`
 )
 
 // create order
@@ -205,6 +205,19 @@ func TestGetAPIOrderInfo(t *testing.T) {
 	data, err := bt.GetAPIOrderInfo(appId, appSecret)
 	if err != nil {
 		fmt.Println(`GetAPIOrderInfo error: `, err)
+	}
+	fmt.Printf(`data: %+v`, data)
+}
+
+func TestGetOtherPaymentAddress(t *testing.T) {
+	ar := &AddressReq{
+		UserId:    "123456789",
+		Chain:     "BSC",
+		NotifyUrl: "",
+	}
+	data, err := ar.GetOtherPaymentAddress(appId, appSecret)
+	if err != nil {
+		fmt.Println(`GetOtherPaymentAddress error: `, err)
 	}
 	fmt.Printf(`data: %+v`, data)
 }
