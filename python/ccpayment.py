@@ -24,9 +24,9 @@ class CCPaymentClass:
             "network": "",
             "pay_address": "",
             "crypto": "",
-            "token_id:,
-	        "memo",
-	        "address_valid_period"
+            "token_id: "",
+	        "memo": "",
+	        "address_valid_period": ""
         }
     }
     """
@@ -295,6 +295,23 @@ class CCPaymentClass:
             "merchant_order_ids": merchant_order_ids
         }
         return self._send_post(const.API_ORDER_INFO_URL, data)
+
+    """
+    {
+        "code":10000,
+        "msg":"success",
+        "data":{
+            "address":"TWM7um8aucgBbeVnQTNkpccxd9D657Vx9H"
+        }
+    }
+    """
+    def get_payment_address(self, user_id, chain, notify_url):
+        data = {
+            "user_id": user_id,
+            "chain": chain,
+            "notify_url": notify_url
+        }
+        return self._send_post(const.PAYMENT_ADDRESS_RUL, data)
 
     def _hash256(self, txt, timestamp):
         txt = self.app_id + self.app_secret + str(timestamp) + txt

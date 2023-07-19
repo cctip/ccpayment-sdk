@@ -1,5 +1,5 @@
-# HOST = "https://ebc65a6dtestpaymentadmin.cwallet.com"  # dev
-HOST = "https://admin.ccpayment.com"  # produce
+HOST = "https://ebc65a6dtestpaymentadmin.ccpayment.com"  # dev
+# HOST = "https://admin.ccpayment.com"  # produce
 
 # create order
 CREATE_ORDER_URL = HOST + "/ccpayment/v1/bill/create"
@@ -34,6 +34,9 @@ NETWORK_FEE_URL = HOST + "/ccpayment/v1/network/fee"
 
 # get order info
 API_ORDER_INFO_URL = HOST + "/ccpayment/v1/bill/info"
+
+# get payment address
+PAYMENT_ADDRESS_RUL = HOST + "/ccpayment/v1/payment/address/get"
 
 # header key
 # app id
