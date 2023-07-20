@@ -1,16 +1,15 @@
 package golang
 
-import (
-	"time"
-)
-
 // CreateOrderReq api create order params
 type CreateOrderReq struct {
-	TokenId             string `json:"token_id"`
-	ProductPrice        string `json:"product_price"`
-	MerchantOrderId     string `json:"merchant_order_id"`
-	DenominatedCurrency string `json:"denominated_currency"` // USD
 	Remark              string `json:"remark"`
+	TokenId             string `validate:"required" json:"token_id"`
+	ProductPrice        string `validate:"required" json:"product_price"`
+	MerchantOrderId     string `validate:"required" json:"merchant_order_id"`
+	DenominatedCurrency string `validate:"required" json:"denominated_currency"`
+	OrderValidPeriod    int    `json:"order_valid_period"`
+	NotifyUrl           string `json:"notify_url"`
+	CustomValue         string `json:"custom_value"`
 }
 
 // CreateOrderResp api create order response
@@ -21,15 +20,14 @@ type CreateOrderResp struct {
 }
 
 type OrderInfo struct {
-	OrderId            string        `json:"order_id"`
-	ProductPrice       string        `json:"product_price"`
-	Logo               string        `json:"logo"`
-	Network            string        `json:"network"`
-	PayAddress         string        `json:"pay_address"`
-	Crypto             string        `json:"crypto"`
-	TokenId            string        `json:"token_id"`
-	Memo               string        `json:"memo"`
-	AddressValidPeriod time.Duration `json:"address_valid_period"`
+	Remark              string `json:"remark"`
+	TokenId             string `validate:"required" json:"token_id"`
+	ProductPrice        string `validate:"required" json:"product_price"`
+	MerchantOrderId     string `validate:"required" json:"merchant_order_id"`
+	DenominatedCurrency string `validate:"required" json:"denominated_currency"`
+	OrderValidPeriod    int    `json:"order_valid_period"`
+	NotifyUrl           string `json:"notify_url"`
+	CustomValue         string `json:"custom_value"`
 }
 
 // CheckoutUrlReq checkout url params
@@ -94,15 +92,15 @@ type SupportTokenResultData struct {
 }
 
 type SupportToken struct {
-	Crypto  string        `json:"crypto"`
-	Name    string        `json:"name"`
-	Logo    string        `json:"logo"`
-	Min     string        `json:"min"`
-	Price   string        `json:"price"`
-	TokenId string        `json:"token_id,omitempty"`
-	CoinId  string        `json:"coin_id,omitempty"`
-	Status  int64         `json:"status"` // 1 normal 2 maintenance 3 To be delisted
-	Tokens  []*TokenChain `json:"tokens,omitempty"`
+	Symbol string        `json:"symbol"`
+	Crypto string        `json:"crypto"`
+	Name   string        `json:"name"`
+	Logo   string        `json:"logo"`
+	Min    string        `json:"min"`
+	Price  string        `json:"price"`
+	CoinId string        `json:"coin_id,omitempty"`
+	Status int64         `json:"status"` // 1 normal 2 maintenance 3 To be delisted
+	Tokens []*TokenChain `json:"tokens,omitempty"`
 }
 
 // TokenChainReq get token chain
@@ -119,15 +117,16 @@ type TokenChainResultData struct {
 }
 
 type TokenChain struct {
-	TokenId   string `json:"token_id"`
-	Crypto    string `json:"crypto"`
-	Logo      string `json:"logo"`
-	Name      string `json:"name"`
-	Network   string `json:"network"`
-	Chain     string `json:"chain"`
-	Contract  string `json:"contract"`
-	ChainLogo string `json:"chain_logo"`
-	Status    int64  `json:"status"` // 1 normal 2 maintenance 3 To be delisted
+	TokenId       string `json:"token_id"`
+	Crypto        string `json:"crypto"`
+	Logo          string `json:"logo"`
+	Name          string `json:"name"`
+	IsSupportMemo bool   `json:"is_support_memo"`
+	Network       string `json:"network"`
+	Chain         string `json:"chain"`
+	Contract      string `json:"contract"`
+	ChainLogo     string `json:"chain_logo"`
+	Status        int64  `json:"status"` // 1 normal 2 maintenance 3 To be delisted
 }
 
 // GetTokenRateReq get token rate
@@ -156,7 +155,7 @@ type BillInfoResp struct {
 	Data []*BillInfoEntity `json:"data"`
 }
 type BillInfoEntity struct {
-	Detail struct {
+	OrderDetail struct {
 		ProductPrice        string `json:"product_price"`
 		DenominatedCurrency string `json:"denominated_currency"`
 		ProductName         string `json:"product_name"`
@@ -165,12 +164,12 @@ type BillInfoEntity struct {
 		Contract            string `json:"contract"`
 		Crypto              string `json:"crypto"`
 		OrderAmount         string `json:"order_amount"`
-		TokenRate           string `json:"token_rate"`
 		Status              string `json:"status"`
+		TokenRate           string `json:"token_rate"`
 		Created             int64  `json:"created"`
-	} `json:"detail"`
-	Received []struct {
-		PaidAmount string `json:"paid_amount"`
+	} `json:"order_detail"`
+	TradeList []struct {
+		Amout      string `json:"amout"`
 		Chain      string `json:"chain"`
 		Contract   string `json:"contract"`
 		Crypto     string `json:"crypto"`
@@ -179,19 +178,19 @@ type BillInfoEntity struct {
 		Txid       string `json:"txid"`
 		PayTime    int64  `json:"pay_time"`
 		TokenRate  string `json:"token_rate"`
-	} `json:"received"`
-	Refunds []struct {
-		RefundAmount         string  `json:"refund_amount"`
-		NetworkFee           string  `json:"network_fee"`
-		ActualReceivedAmount string  `json:"actual_received_amount"`
-		Chain                string  `json:"chain"`
-		Contract             string  `json:"contract"`
-		Crypto               string  `json:"crypto"`
-		Txid                 *string `json:"txid"`
-		Address              string  `json:"address"`
-		PayTime              int64   `json:"pay_time"`
-		Status               string  `json:"status"`
-	} `json:"refunds"`
+	} `json:"trade_list"`
+	RefundList []struct {
+		RefundAmount         string `json:"refund_amount"`
+		NetworkFee           string `json:"network_fee"`
+		ActualReceivedAmount string `json:"actual_received_amount"`
+		Chain                string `json:"chain"`
+		Contract             string `json:"contract"`
+		Crypto               string `json:"crypto"`
+		Txid                 string `json:"txid"`
+		Address              string `json:"address"`
+		PayTime              int64  `json:"pay_time"`
+		Status               string `json:"status"`
+	} `json:"refund_list"`
 }
 
 type WithdrawReq struct {
