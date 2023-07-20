@@ -25,18 +25,20 @@ class CCPaymentClass:
             "pay_address": "",
             "crypto": "",
             "token_id: "",
-	        "memo": "",
-	        "address_valid_period": ""
+            "memo": "",
+            "order_valid_period: 0
         }
     }
     """
     # create api order
-    def create_order(self, token_id, product_price, merchant_order_id, denominated_currency, remark=None):
+    def create_order(self, token_id, product_price, merchant_order_id, denominated_currency, period=None, remark=None):
         data = {
             "product_price": product_price,
             "merchant_order_id": merchant_order_id,
             "token_id": token_id,
-            "denominated_currency": denominated_currency
+            "denominated_currency": denominated_currency,
+            "order_valid_period": period,  # s
+            "remark": remark
         }
         if remark:
             data["remark"] = remark
