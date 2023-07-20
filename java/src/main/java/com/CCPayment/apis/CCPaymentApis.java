@@ -42,7 +42,7 @@ public final class CCPaymentApis {
 
     /**
      * Create pay order
-     *
+     * document: https://doc.ccpayment.com/ccpayment-for-developer/payment-api/native-checkout-integration
      * @param param params
      * @return pay order info
      * @throws Exception
@@ -52,6 +52,7 @@ public final class CCPaymentApis {
     }
 
     /**
+     * @deprecated
      * Get tokens ccpayment support list
      *
      * @return token list
@@ -62,8 +63,18 @@ public final class CCPaymentApis {
     }
 
     /**
+     * Get tokens ccpayment support list
+     * document: https://doc.ccpayment.com/ccpayment-for-developer/payment-api/token-id-interface
+     * @return token list
+     * @throws Exception
+     */
+    public static GetSupportCoinResponse getSupportCoin() throws Exception {
+        return doSend("/coin/all", new Object(), GetSupportCoinResponse.class);
+    }
+
+    /**
      * Get a payment link
-     *
+     * document: https://doc.ccpayment.com/ccpayment-for-developer/payment-api/hosted-checkout-page-integration
      * @param param
      * @return pay url
      * @throws Exception
@@ -73,8 +84,8 @@ public final class CCPaymentApis {
     }
 
     /**
+     * @deprecated
      * Get chains of token
-     *
      * @param param
      * @return
      * @throws Exception
@@ -85,7 +96,7 @@ public final class CCPaymentApis {
 
     /**
      * Amount equivalent to usd
-     *
+     * document: https://doc.ccpayment.com/ccpayment-for-developer/resources-document/current-token-rate-interface
      * @param param
      * @return
      * @throws Exception
@@ -96,7 +107,7 @@ public final class CCPaymentApis {
 
     /**
      * Api withdraw
-     *
+     * document: https://doc.ccpayment.com/ccpayment-for-developer/withdrawal-api-integration
      * @param param
      * @return
      * @throws Exception
@@ -107,7 +118,7 @@ public final class CCPaymentApis {
 
     /**
      * Check user exists or not
-     *
+     * document: https://doc.ccpayment.com/ccpayment-for-developer/resources-document/check-the-validity-of-cwallet-id
      * @param param
      * @return
      * @throws Exception
@@ -118,7 +129,7 @@ public final class CCPaymentApis {
 
     /**
      * Get token assets
-     *
+     * document: https://doc.ccpayment.com/ccpayment-for-developer/resources-document/asset-balance-interface
      * @param param
      * @return
      * @throws Exception
@@ -129,7 +140,7 @@ public final class CCPaymentApis {
 
     /**
      * Get network-fee
-     *
+     * document: https://doc.ccpayment.com/ccpayment-for-developer/resources-document/network-fee-interface
      * @param param
      * @return
      * @throws Exception
@@ -140,18 +151,32 @@ public final class CCPaymentApis {
 
     /**
      * get api order info
-     *
+     * document: https://doc.ccpayment.com/ccpayment-for-developer/payment-api/order-information-interface
      * @param param
      * @return
      * @throws Exception
      */
-    public static OrderInfoResponse orderInfo(OrderInfoParam param) throws Exception {
-        return doSend("/bill/info", param, OrderInfoResponse.class);
+    public static OrderInfoResponse[] orderInfo(OrderInfoParam param) throws Exception {
+        return doSend("/bill/info", param, OrderInfoResponse[].class);
     }
+
+
+
+    /**
+     * get payment address
+     * document: https://doc.ccpayment.com/ccpayment-for-developer/get-permanent-deposit-address
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    public static PaymentAddressResponse paymentAddressGet(PaymentAddressParam param) throws Exception {
+        return doSend("/payment/address/get", param, PaymentAddressResponse.class);
+    }
+
 
     /**
      * callback when the payment is success
-     *
+     * document: https://doc.ccpayment.com/ccpayment-for-developer/resources-document/webhook-notification
      * @param callbackData response date
      * @param appId        get from response header Appid
      * @param timestamp    get from response header Timestamp

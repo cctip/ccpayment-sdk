@@ -24,19 +24,21 @@ class CCPaymentClass:
             "network": "",
             "pay_address": "",
             "crypto": "",
-            "token_id:,
-	        "memo",
-	        "address_valid_period"
+            "token_id: "",
+            "memo": "",
+            "order_valid_period: 0
         }
     }
     """
     # create api order
-    def create_order(self, token_id, product_price, merchant_order_id, denominated_currency, remark=None):
+    def create_order(self, token_id, product_price, merchant_order_id, denominated_currency, period=None, remark=None):
         data = {
             "product_price": product_price,
             "merchant_order_id": merchant_order_id,
             "token_id": token_id,
-            "denominated_currency": denominated_currency
+            "denominated_currency": denominated_currency,
+            "order_valid_period": period,  # s
+            "remark": remark
         }
         if remark:
             data["remark"] = remark
@@ -295,6 +297,23 @@ class CCPaymentClass:
             "merchant_order_ids": merchant_order_ids
         }
         return self._send_post(const.API_ORDER_INFO_URL, data)
+
+    """
+    {
+        "code":10000,
+        "msg":"success",
+        "data":{
+            "address":"TWM7um8aucgBbeVnQTNkpccxd9D657Vx9H"
+        }
+    }
+    """
+    def payment_address(self, user_id, chain, notify_url):
+        data = {
+            "user_id": user_id,
+            "chain": chain,
+            "notify_url": notify_url
+        }
+        return self._send_post(const.PAYMENT_ADDRESS_RUL, data)
 
     def _hash256(self, txt, timestamp):
         txt = self.app_id + self.app_secret + str(timestamp) + txt
