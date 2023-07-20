@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	appId     = "202303280851291640637724793610240"
-	appSecret = `f711234db8684654ab4d7dc99f4a4ff3`
+	appId     = "202307200931401681960050962821120"
+	appSecret = `3c9c804fb62e39efe6e5b999a7d91e06`
 )
 
 // create order
@@ -211,7 +211,7 @@ func TestGetAPIOrderInfo(t *testing.T) {
 
 func TestGetOtherPaymentAddress(t *testing.T) {
 	ar := &AddressReq{
-		UserId:    "123456789",
+		UserId:    "gmm123456789",
 		Chain:     "BSC",
 		NotifyUrl: "",
 	}
