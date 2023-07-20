@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderInfoResponse {
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Detail {
-        @JsonProperty("fiat_amount")
-        private String fiatAmount;
-        @JsonProperty("fiat_currency")
-        private String fiatCurrency;
+    public static class OrderDetail {
+        @JsonProperty("product_price")
+        private String productPrice;
+        @JsonProperty("denominated_currency")
+        private String denominatedCurrency;
         @JsonProperty("product_name")
         private String productName;
         @JsonProperty("merchant_order_id")
@@ -21,31 +21,29 @@ public class OrderInfoResponse {
         private String contract;
         @JsonProperty("crypto")
         private String crypto;
-        @JsonProperty("origin_amount")
-        private String originAmount;
+        @JsonProperty("order_amount")
+        private String orderAmount;
         @JsonProperty("status")
         private String status;
         @JsonProperty("created")
-        private String created;
+        private Long created;
+        @JsonProperty("order_id")
+        private String orderId;
 
-        public String getCreated() {
-            return created;
+        public String getProductPrice() {
+            return productPrice;
         }
 
-        public String getFiatAmount() {
-            return fiatAmount;
+        public void setProductPrice(String productPrice) {
+            this.productPrice = productPrice;
         }
 
-        public void setFiatAmount(String fiatAmount) {
-            this.fiatAmount = fiatAmount;
+        public String getDenominatedCurrency() {
+            return denominatedCurrency;
         }
 
-        public String getFiatCurrency() {
-            return fiatCurrency;
-        }
-
-        public void setFiatCurrency(String fiatCurrency) {
-            this.fiatCurrency = fiatCurrency;
+        public void setDenominatedCurrency(String denominatedCurrency) {
+            this.denominatedCurrency = denominatedCurrency;
         }
 
         public String getProductName() {
@@ -88,12 +86,12 @@ public class OrderInfoResponse {
             this.crypto = crypto;
         }
 
-        public String getOriginAmount() {
-            return originAmount;
+        public String getOrderAmount() {
+            return orderAmount;
         }
 
-        public void setOriginAmount(String originAmount) {
-            this.originAmount = originAmount;
+        public void setOrderAmount(String orderAmount) {
+            this.orderAmount = orderAmount;
         }
 
         public String getStatus() {
@@ -103,13 +101,26 @@ public class OrderInfoResponse {
         public void setStatus(String status) {
             this.status = status;
         }
-        public void setCreated(String created) {
+
+        public Long getCreated() {
+            return created;
+        }
+
+        public void setCreated(Long created) {
             this.created = created;
+        }
+
+        public String getOrderId() {
+            return orderId;
+        }
+
+        public void setOrderId(String orderId) {
+            this.orderId = orderId;
         }
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Received {
+    public static class TradeListItem {
         @JsonProperty("amount")
         private String amount;
         @JsonProperty("chain")
@@ -120,10 +131,16 @@ public class OrderInfoResponse {
         private String crypto;
         @JsonProperty("service_fee")
         private String serviceFee;
+        @JsonProperty("txid")
+        private String txId;
+        @JsonProperty("network_fee")
+        private String networkFee;
         @JsonProperty("pay_time")
-        private String payTime;
+        private Long payTime;
         @JsonProperty("token_rate")
         private String tokenRate;
+        @JsonProperty("status")
+        private String status;
 
         public String getAmount() {
             return amount;
@@ -165,6 +182,30 @@ public class OrderInfoResponse {
             this.serviceFee = serviceFee;
         }
 
+        public String getTxId() {
+            return txId;
+        }
+
+        public void setTxId(String txId) {
+            this.txId = txId;
+        }
+
+        public String getNetworkFee() {
+            return networkFee;
+        }
+
+        public void setNetworkFee(String networkFee) {
+            this.networkFee = networkFee;
+        }
+
+        public Long getPayTime() {
+            return payTime;
+        }
+
+        public void setPayTime(Long payTime) {
+            this.payTime = payTime;
+        }
+
         public String getTokenRate() {
             return tokenRate;
         }
@@ -172,12 +213,20 @@ public class OrderInfoResponse {
         public void setTokenRate(String tokenRate) {
             this.tokenRate = tokenRate;
         }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Refunds {
-        @JsonProperty("amount")
-        private String amount;
+    public static class RefundListItem {
+        @JsonProperty("refund_amount")
+        private String refundAmount;
         @JsonProperty("network_fee")
         private String networkFee;
         @JsonProperty("actual_received_amount")
@@ -197,12 +246,12 @@ public class OrderInfoResponse {
         @JsonProperty("status")
         private String status;
 
-        public String getAmount() {
-            return amount;
+        public String getRefundAmount() {
+            return refundAmount;
         }
 
-        public void setAmount(String amount) {
-            this.amount = amount;
+        public void setRefundAmount(String refundAmount) {
+            this.refundAmount = refundAmount;
         }
 
         public String getNetworkFee() {
@@ -278,34 +327,34 @@ public class OrderInfoResponse {
         }
     }
 
-    @JsonProperty("detail")
-    private Detail detail;
-    @JsonProperty("received")
-    private Received[] received;
-    @JsonProperty("refunds")
-    private Refunds[] refunds;
+    @JsonProperty("order_detail")
+    private OrderDetail orderDetail;
+    @JsonProperty("trade_list")
+    private TradeListItem[] tradeList;
+    @JsonProperty("refund_list")
+    private RefundListItem[] refundList;
 
-    public Detail getDetail() {
-        return detail;
+    public OrderDetail getOrderDetail() {
+        return orderDetail;
     }
 
-    public void setDetail(Detail detail) {
-        this.detail = detail;
+    public void setOrderDetail(OrderDetail orderDetail) {
+        this.orderDetail = orderDetail;
     }
 
-    public Received[] getReceived() {
-        return received;
+    public TradeListItem[] getTradeList() {
+        return tradeList;
     }
 
-    public void setReceived(Received[] received) {
-        this.received = received;
+    public void setTradeList(TradeListItem[] tradeList) {
+        this.tradeList = tradeList;
     }
 
-    public Refunds[] getRefunds() {
-        return refunds;
+    public RefundListItem[] getRefundList() {
+        return refundList;
     }
 
-    public void setRefunds(Refunds[] refunds) {
-        this.refunds = refunds;
+    public void setRefundList(RefundListItem[] refundList) {
+        this.refundList = refundList;
     }
 }

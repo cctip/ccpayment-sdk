@@ -155,9 +155,23 @@ public final class CCPaymentApis {
      * @return
      * @throws Exception
      */
-    public static OrderInfoResponse orderInfo(OrderInfoParam param) throws Exception {
-        return doSend("/bill/info", param, OrderInfoResponse.class);
+    public static OrderInfoResponse[] orderInfo(OrderInfoParam param) throws Exception {
+        return doSend("/bill/info", param, OrderInfoResponse[].class);
     }
+
+
+
+    /**
+     * get payment address
+     *
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    public static PaymentAddressGetResponse paymentAddressGet(PaymentAddressGetParam param) throws Exception {
+        return doSend("/payment/address/get", param, PaymentAddressGetResponse.class);
+    }
+
 
     /**
      * callback when the payment is success

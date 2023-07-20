@@ -3,16 +3,18 @@ package com.CCPayment.apis;
 import com.CCPayment.beans.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 class CCPaymentApisTest {
 
     @Test
     void createOrder() throws Exception {
         CreateOrderParam param = new CreateOrderParam();
-        param.setProductPrice("1.34");
-        param.setTokenId("1e614496-f9ce-4ec7-8e68-563733deacbf");
+        param.setProductPrice("0.07");
+        param.setTokenId("2e6cfa7d-f658-455d-89cd-31ebbcfdfa2c");
         param.setRemark("222222");
-        param.setMerchantOrderId("thisisoutordern1o4");
-        param.setDenominatedCurrency("USD");
+        param.setMerchantOrderId("thisisoutorderno1100");
+        param.setDenominatedCurrency("TOKEN");
         param.setNotifyUrl("https://xxxxxxxx.com/notify.url");
         param.setOrderValidPeriod(1800);
         param.setCustomValue("custom value");
@@ -29,7 +31,7 @@ class CCPaymentApisTest {
     @Test
     void getTokenChain() throws Exception{
         GetTokenChainParam param = new GetTokenChainParam();
-        param.setTokenId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
+        param.setTokenId("217d4c3b-4f84-4416-bf1a-a1d15d7d2f50");
         GetTokenChainResponse resp = CCPaymentApis.getTokenChain(param);
         System.out.println(resp);
     }
@@ -70,10 +72,10 @@ class CCPaymentApisTest {
     @Test
     void withdraw() throws Exception{
         WithdrawParam param = new WithdrawParam();
-        param.setTokenId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
-        param.setAddress("9454818");
-        param.setMerchantOrderId("123asdfq23423");
-        param.setValue("1");
+        param.setTokenId("2e6cfa7d-f658-455d-89cd-31ebbcfdfa2c");
+        param.setAddress("TJXTfwqepEZwTbXgZQoDLgqHt5bfQUN1HX");
+        param.setMerchantOrderId("withdraw0001");
+        param.setValue("8");
         WithdrawResponse resp = CCPaymentApis.withdraw(param);
         System.out.println(resp);
     }
@@ -105,14 +107,24 @@ class CCPaymentApisTest {
     @Test
     void orderInfo() throws Exception{
         OrderInfoParam param = new OrderInfoParam();
-        param.setMerchantOrderId("8914510718145343");
-        OrderInfoResponse resp = CCPaymentApis.orderInfo(param);
-        System.out.println(resp);
+        param.setMerchantOrderIds(new String[]{"thisisoutorderno1100"});
+        OrderInfoResponse[] resp = CCPaymentApis.orderInfo(param);
+        System.out.println(Arrays.toString(resp));
     }
 
     @Test
     void  getSupportCoin() throws Exception {
         GetSupportCoinResponse resp = CCPaymentApis.getSupportCoin();
+        System.out.println(resp);
+    }
+
+    @Test
+    void paymentAddressGet() throws Exception {
+        PaymentAddressGetParam param = new PaymentAddressGetParam();
+        param.setChain("ETH");
+        param.setUserId("59586869696");
+        param.setNotifyUrl("https://xxxxxxx.com/notify.html");
+        PaymentAddressGetResponse resp = CCPaymentApis.paymentAddressGet(param);
         System.out.println(resp);
     }
 }
