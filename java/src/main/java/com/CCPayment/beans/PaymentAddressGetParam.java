@@ -5,10 +5,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentAddressGetParam {
+    /**
+     * User ID, unique identification
+     */
     @JsonProperty("user_id")
     private String UserId;
+
+    /**
+     * Blockchain network, unique identification
+     */
     @JsonProperty("chain")
     private String chain;
+
+    /**
+     * The URL address will be notified via a POST request when the order status changes.
+     * Ensure the URL is accessible to receive notifications from the payment platform.
+     */
     @JsonProperty("notify_url")
     private String notifyUrl;
 

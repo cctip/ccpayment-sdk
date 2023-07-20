@@ -5,8 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentAddressGetResponse {
+    /**
+     * The corresponds to the chain address of the network
+     */
     @JsonProperty("address")
     private String address;
+
+    /**
+     * Tag data of Memo coins, used to label and identify user addresses
+     */
     @JsonProperty("memo")
     private String memo;
 
