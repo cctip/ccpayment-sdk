@@ -120,10 +120,10 @@ class TestCCPaymentClass(unittest.TestCase):
     # get payment address
     data, is_verify = cp.payment_address("123", "TRX", "")
     if is_verify:
-        print("TestGetDirectPaymentAddress: verify success")
+        print("PaymentAddress: verify success")
     else:
-        print("TestGetDirectPaymentAddress: verify error")
-    print("TestGetDirectPaymentAddress:", data)
+        print("PaymentAddress: verify error")
+    print("PaymentAddress:", data)
 
 
 if __name__ == '__main__':
