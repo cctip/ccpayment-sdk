@@ -329,7 +329,10 @@ func sendPost(data interface{}, dst string, url, appId, appSecret, signStr strin
 			d := data.(*AssetsResp)
 			code = d.Code
 			goto validate
-
+		case *AddressResq:
+			d := data.(*AddressResq)
+			code = d.Code
+			goto validate
 		default:
 			return fmt.Errorf(`ambiguous receive type`)
 		}
@@ -368,4 +371,19 @@ func getHeadersAndValidate(resp *http.Response, appId, appSecret string, byt []b
 	}
 
 	return false
+}
+
+func (ar *AddressReq) GetOtherPaymentAddress(appId, appSecret string) (data *AddressResq, err error) {
+	timeStamp := time.Now().Unix()
+
+	dst, signStr, err := SignStr(*ar, appId, appSecret, timeStamp)
+	if err != nil {
+		return nil, err
+	}
+
+	data = &AddressResq{}
+
+	err = sendPost(data, dst, GetOtherPaymentAddress, appId, appSecret, signStr, timeStamp)
+
+	return data, err
 }
