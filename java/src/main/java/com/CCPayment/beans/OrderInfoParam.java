@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderInfoParam {
-    @JsonProperty("merchant_order_id")
-    private String merchantOrderId;
+    @JsonProperty("merchant_order_ids")
+    private String[] merchantOrderIds;
 
-    public String getMerchantOrderId() {
-        return merchantOrderId;
+    public String[] getMerchantOrderIds() {
+        return merchantOrderIds;
     }
 
-    public void setMerchantOrderId(String merchantOrderId) {
-        this.merchantOrderId = merchantOrderId;
+    public void setMerchantOrderIds(String[] merchantOrderIds) {
+        this.merchantOrderIds = merchantOrderIds;
     }
 }
