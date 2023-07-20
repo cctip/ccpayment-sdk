@@ -29,6 +29,14 @@ class TestCCPaymentClass(unittest.TestCase):
     else:
         print('TestWebhookValidate: verify error')
 
+    # get all coins
+    data, is_verify = cp.get_support_coin()
+    if is_verify:
+        print("GetSupportCoin: verify success")
+    else:
+        print("GetSupportCoin :verify error")
+    print("GetSupportCoin:", data)
+
     # get checkout url
     data, is_verify = cp.checkout_url(product_price='12',
                                       merchant_order_id=str(int(time.time())),
