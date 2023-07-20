@@ -2,8 +2,8 @@ import time
 import unittest
 import ccpayment
 
-app_id = "202301310325561620262074393440256"
-app_secret = "c4600b8125b7ed23b5b7b8ee4acb42f4"
+app_id = "20230516163642101055099358453783"
+app_secret = "9ae5247d0f8dca9f3300e328d0ad9a964"
 
 
 class TestCCPaymentClass(unittest.TestCase):
@@ -28,6 +28,14 @@ class TestCCPaymentClass(unittest.TestCase):
         print('TestWebhookValidate: verify success')
     else:
         print('TestWebhookValidate: verify error')
+
+    # get all coins
+    data, is_verify = cp.get_support_coin()
+    if is_verify:
+        print("GetSupportCoin: verify success")
+    else:
+        print("GetSupportCoin :verify error")
+    print("GetSupportCoin:", data)
 
     # get checkout url
     data, is_verify = cp.checkout_url(product_price='12',
@@ -108,6 +116,14 @@ class TestCCPaymentClass(unittest.TestCase):
     else:
         print("TestOrderInfo: verify error")
     print("TestOrderInfo:", data)
+
+    # get payment address
+    data, is_verify = cp.payment_address("123", "TRX", "")
+    if is_verify:
+        print("PaymentAddress: verify success")
+    else:
+        print("PaymentAddress: verify error")
+    print("PaymentAddress:", data)
 
 
 if __name__ == '__main__':
