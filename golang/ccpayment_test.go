@@ -14,11 +14,12 @@ var (
 // create order
 func TestCreateOrder(t *testing.T) {
 	order := CreateOrderReq{
-		TokenId:             "264f4725-3cfd-4ff6-bc80-ff9d799d5fb2",
-		ProductPrice:        "6",
-		MerchantOrderId:     "1121241232",
-		DenominatedCurrency: "USD",
 		Remark:              "",
+		TokenId:             "0912e09a-d8e2-41d7-a0bc-a25530892988",
+		ProductPrice:        "0.5",
+		MerchantOrderId:     "3735077979050379",
+		DenominatedCurrency: "USD",
+		OrderValidPeriod:    823456,
 	}
 	data, err := order.CreateOrder(appId, appSecret)
 	if err != nil {
