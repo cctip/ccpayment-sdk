@@ -118,7 +118,7 @@ class TestCCPaymentClass(unittest.TestCase):
     print("TestOrderInfo:", data)
 
     # get payment address
-    data, is_verify = cp.get_payment_address("123", "TRX", "")
+    data, is_verify = cp.payment_address("123", "TRX", "")
     if is_verify:
         print("TestGetDirectPaymentAddress: verify success")
     else:

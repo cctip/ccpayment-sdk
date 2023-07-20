@@ -307,7 +307,7 @@ class CCPaymentClass:
         }
     }
     """
-    def get_payment_address(self, user_id, chain, notify_url):
+    def payment_address(self, user_id, chain, notify_url):
         data = {
             "user_id": user_id,
             "chain": chain,
