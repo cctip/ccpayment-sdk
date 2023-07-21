@@ -169,7 +169,7 @@ public final class CCPaymentApis {
      * @return
      * @throws Exception
      */
-    public static PaymentAddressResponse paymentAddressGet(PaymentAddressParam param) throws Exception {
+    public static PaymentAddressResponse paymentAddress(PaymentAddressParam param) throws Exception {
         return doSend("/payment/address/get", param, PaymentAddressResponse.class);
     }
 
