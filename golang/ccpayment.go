@@ -1,10 +1,10 @@
 package golang
 
 import (
-	"ccpayment-sdk/golang/sign"
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"github.com/cctip/ccpayment-sdk/golang/sign"
 	"io/ioutil"
 	"net/http"
 	"reflect"
