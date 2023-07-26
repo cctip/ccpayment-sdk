@@ -8,7 +8,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GetChainHeightInfoResponse {
 
-    @JsonProperty("symbol")
+    @JsonProperty("chain")
     private String chain;
     @JsonProperty("current_chain_height")
     private Long currentChainHeight;
