@@ -127,4 +127,10 @@ class CCPaymentApisTest {
         PaymentAddressResponse resp = CCPaymentApis.paymentAddressGet(param);
         System.out.println(resp);
     }
+
+    @Test
+    void GetChainHeightInfo() throws Exception {
+        GetChainHeightInfoResponse[] resp = CCPaymentApis.getChainHeightInfo();
+        System.out.println(Arrays.toString(resp));
+    }
 }
