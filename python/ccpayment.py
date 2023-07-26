@@ -324,7 +324,11 @@ class CCPaymentClass:
         }
         if notify_url:
             data["notify_url"] = notify_url
-        return self._send_post(const.PAYMENT_ADDRESS_RUL, data)
+        return self._send_post(const.PAYMENT_ADDRESS_URL, data)
+
+    def get_chain_height_info(self):
+        data = {}
+        return self._send_post(const.CHAIN_HEIGHT_INFO_URL, data)
 
     def _hash256(self, txt, timestamp):
         txt = self.app_id + self.app_secret + str(timestamp) + txt
