@@ -275,7 +275,7 @@ type NetworkChainHeightInfoResp struct {
 		Chain              string  `json:"chain"`
 		CurrentChainHeight int64   `json:"current_chain_height"`
 		TxConfirmBlockNum  int64   `json:"tx_confirm_block_num"`
-		BlockRate          float64 `json:"block_rate,omitempty"`
+		BlockRate          float64 `json:"block_rate"`
 	} `json:"data"`
 }
 
