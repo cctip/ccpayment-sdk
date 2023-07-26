@@ -326,6 +326,20 @@ class CCPaymentClass:
             data["notify_url"] = notify_url
         return self._send_post(const.PAYMENT_ADDRESS_URL, data)
 
+    """
+    {
+        "code":10000,
+        "msg":"success",
+        "data":[
+            {
+                "chain":"BCH",
+                "current_chain_height":803434,
+                "tx_confirm_block_num":2,
+                "block_rate":0.0
+            }
+        ]
+    }
+    """
     def get_chain_height_info(self):
         data = {}
         return self._send_post(const.CHAIN_HEIGHT_INFO_URL, data)
