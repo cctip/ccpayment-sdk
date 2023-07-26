@@ -173,6 +173,15 @@ public final class CCPaymentApis {
         return doSend("/payment/address/get", param, PaymentAddressResponse.class);
     }
 
+    /**
+     * get chain height info
+     * @return
+     * @throws Exception
+     */
+    public static GetChainHeightInfoResponse[] getChainHeightInfo() throws Exception {
+        return doSend("/get/network/height/info", new Object(), GetChainHeightInfoResponse[].class);
+    }
+
 
     /**
      * callback when the payment is success
