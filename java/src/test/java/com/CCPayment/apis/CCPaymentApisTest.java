@@ -119,12 +119,12 @@ class CCPaymentApisTest {
     }
 
     @Test
-    void paymentAddressGet() throws Exception {
+    void paymentAddress() throws Exception {
         PaymentAddressParam param = new PaymentAddressParam();
         param.setChain("TRX");
         param.setUserId("59586869696");
         param.setNotifyUrl("https://xxxxxxx.com/notify.html");
-        PaymentAddressResponse resp = CCPaymentApis.paymentAddressGet(param);
+        PaymentAddressResponse resp = CCPaymentApis.paymentAddress(param);
         System.out.println(resp);
     }
 
