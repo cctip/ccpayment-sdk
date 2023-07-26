@@ -251,6 +251,7 @@ type NetworkFeeReq struct {
 	Address string `json:"address"`
 	Memo    string `json:"memo"`
 }
+
 type NetworkFeeResp struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
@@ -258,6 +259,20 @@ type NetworkFeeResp struct {
 		TokenId string `json:"token_id"`
 		Crypto  string `json:"crypto"`
 		Fee     string `json:"fee"`
+	} `json:"data"`
+}
+
+type NetworkChainHeightInfoReq struct {
+}
+
+type NetworkChainHeightInfoResp struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data []struct {
+		Chain              string  `json:"chain"`
+		CurrentChainHeight int64   `json:"currentChainHeight"`
+		TxConfirmBlockNum  int64   `json:"txConfirmBlockNum"`
+		BlockRate          float64 `json:"blockRate,omitempty"`
 	} `json:"data"`
 }
 

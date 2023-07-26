@@ -1,6 +1,7 @@
 package golang
 
 import (
+	"encoding/json"
 	"fmt"
 	"testing"
 	"time"
@@ -9,6 +10,8 @@ import (
 var (
 	appId     = "202307200931401681960050962821120"
 	appSecret = `3c9c804fb62e39efe6e5b999a7d91e06`
+	//appId     = "2023051616364210105509935845378"
+	//appSecret = `9ae5247d0f8dca9f3300e328d0ad9a96`
 )
 
 // create order
@@ -197,6 +200,19 @@ func TestNetworkFee(t *testing.T) {
 	}
 	fmt.Printf(`data: %+v`, data)
 }
+
+func TestGetChainHeightInfo(t *testing.T) {
+	tc := &NetworkChainHeightInfoReq{}
+	data, err := tc.GetChainHeightInfo(appId, appSecret)
+	if err != nil {
+		fmt.Println(`GetTokenRate error: `, err)
+	}
+	
+	dataJson, _ := json.Marshal(data)
+	fmt.Printf(`data: %s`, dataJson)
+}
+
+// get bill trade
 
 // get bill trade
 func TestGetAPIOrderInfo(t *testing.T) {
