@@ -281,6 +281,7 @@ module.exports = {
    * @param {String} data.token_id
    * @param {String} data.address
    * @param {String} data.merchant_order_id
+   * @param {Boolean} data.merchant_pays_fee
    * @param {String} data.value
    * @param {String} data.memo
    * @param {Function} callback
