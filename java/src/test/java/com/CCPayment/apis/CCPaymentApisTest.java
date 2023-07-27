@@ -74,8 +74,9 @@ class CCPaymentApisTest {
         WithdrawParam param = new WithdrawParam();
         param.setTokenId("2e6cfa7d-f658-455d-89cd-31ebbcfdfa2c");
         param.setAddress("TJXTfwqepEZwTbXgZQoDLgqHt5bfQUN1HX");
-        param.setMerchantOrderId("withdraw0001");
-        param.setValue("8");
+        param.setMerchantOrderId("withdraw0002");
+        param.setMerchantPaysFee(false);
+        param.setValue("2");
         WithdrawResponse resp = CCPaymentApis.withdraw(param);
         System.out.println(resp);
     }
