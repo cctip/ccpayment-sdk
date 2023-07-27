@@ -199,14 +199,17 @@ type WithdrawReq struct {
 	Memo            string `json:"memo,omitempty"`
 	Value           string `json:"value,omitempty" binding:"required"`
 	MerchantOrderId string `json:"merchant_order_id"  binding:"required"`
+	MerchantPaysFee bool   `json:"merchant_pays_fee"`
 }
 
 type WithdrawResp struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data struct {
-		OrderId    string `json:"order_id"`
-		NetworkFee string `json:"network_fee"`
+		OrderId       string `json:"order_id"`
+		NetworkFee    string `json:"network_fee"`
+		RecordId      string `json:"record_id"`
+		NetReceivable string `json:"net_receivable"`
 	} `json:"data"`
 }
 

@@ -157,6 +157,7 @@ func TestWithdraw(t *testing.T) {
 		Address:         "9454818",
 		Value:           "12",
 		MerchantOrderId: fmt.Sprintf("%d", time.Now().UnixMicro()),
+		MerchantPaysFee: false,
 	}
 	data, err := tc.Withdraw(appId, appSecret)
 	if err != nil {
