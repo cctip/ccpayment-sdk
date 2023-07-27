@@ -168,6 +168,7 @@ class CCPaymentClass:
         return self._send_post(const.TOKEN_RATE_URL, data)
 
     """
+    params merchant_pays_fee bool
     * return success
     {
         "code": 10000,
@@ -175,11 +176,13 @@ class CCPaymentClass:
         "data": {
             "bill_id": "",
             "type": "",
-            "network_fee": ""
+            "network_fee": "",
+            "record_id": "",
+            "net_receivable": "" 
         }
     }
     """
-    def withdraw(self, token_id, address, value, merchant_order_id, memo=None):
+    def withdraw(self, token_id, address, value, merchant_order_id, memo=None, merchant_pays_fee=None):
         data = {
             "token_id": token_id,
             "address": address,
@@ -188,6 +191,8 @@ class CCPaymentClass:
         }
         if memo:
             data["memo"] = memo
+        if merchant_pays_fee:
+            data["merchant_pays_fee"] = merchant_pays_fee
         return self._send_post(const.WITHDRAW_API_URL, data)
 
     """
