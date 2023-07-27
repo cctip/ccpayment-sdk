@@ -175,6 +175,7 @@ public final class CCPaymentApis {
 
     /**
      * get chain height info
+     * document: https://doc.ccpayment.com/ccpayment-for-developer/resources-document/block-height-information-retrieval-api
      * @return
      * @throws Exception
      */
