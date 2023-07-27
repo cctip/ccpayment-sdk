@@ -125,6 +125,14 @@ class TestCCPaymentClass(unittest.TestCase):
         print("PaymentAddress: verify error")
     print("PaymentAddress:", data)
 
+    # get chain height info
+    data, is_verify = cp.get_chain_height_info()
+    if is_verify:
+        print("GetChainHeightInfo: verify success")
+    else:
+        print("GetChainHeightInfo: verify error")
+    print("GetChainHeightInfo:", data)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,10 +1,10 @@
 package golang
 
 import (
-	"ccpayment-sdk/golang/sign"
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"github.com/cctip/ccpayment-sdk/golang/sign"
 	"io/ioutil"
 	"net/http"
 	"reflect"
@@ -217,6 +217,21 @@ func (tr *NetworkFeeReq) NetworkFee(appId, appSecret string) (data *NetworkFeeRe
 	return data, err
 }
 
+func (tr *NetworkChainHeightInfoReq) GetChainHeightInfo(appId, appSecret string) (data *NetworkChainHeightInfoResp, err error) {
+	timeStamp := time.Now().Unix()
+
+	dst, signStr, err := SignStr(*tr, appId, appSecret, timeStamp)
+	if err != nil {
+		return nil, err
+	}
+
+	data = &NetworkChainHeightInfoResp{}
+
+	err = sendPost(data, dst, NetworkChainHeightInfoUrl, appId, appSecret, signStr, timeStamp)
+
+	return data, err
+}
+
 func (oi *OrderInfoReq) GetAPIOrderInfo(appId, appSecret string) (data *BillInfoResp, err error) {
 	timeStamp := time.Now().Unix()
 
@@ -232,9 +247,9 @@ func (oi *OrderInfoReq) GetAPIOrderInfo(appId, appSecret string) (data *BillInfo
 	return data, err
 }
 
-func sendPost(data interface{}, dst string, url, appId, appSecret, signStr string, timeStamp int64) (err error) {
+func sendPost(data interface{}, dst string, uri, appId, appSecret, signStr string, timeStamp int64) (err error) {
 
-	req, err := http.NewRequest(http.MethodPost, url, strings.NewReader(dst))
+	req, err := http.NewRequest(http.MethodPost, uri, strings.NewReader(dst))
 	if err != nil {
 		return err
 	}
@@ -248,7 +263,7 @@ func sendPost(data interface{}, dst string, url, appId, appSecret, signStr strin
 		Timeout: 30 * time.Second,
 	}
 
-	if strings.Contains(strings.ToLower(url), `https://`) {
+	if strings.Contains(strings.ToLower(uri), `https://`) {
 		client.Transport = &http.Transport{
 			TLSClientConfig: &tls.Config{
 				InsecureSkipVerify: true,

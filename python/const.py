@@ -36,7 +36,10 @@ NETWORK_FEE_URL = HOST + "/ccpayment/v1/network/fee"
 API_ORDER_INFO_URL = HOST + "/ccpayment/v1/bill/info"
 
 # get payment address
-PAYMENT_ADDRESS_RUL = HOST + "/ccpayment/v1/payment/address/get"
+PAYMENT_ADDRESS_URL = HOST + "/ccpayment/v1/payment/address/get"
+
+# get chain height info
+CHAIN_HEIGHT_INFO_URL = HOST + "/ccpayment/v1/get/network/height/info"
 
 # header key
 # app id

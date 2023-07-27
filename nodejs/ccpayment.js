@@ -16,6 +16,7 @@ const requestAPI = {
   networkFeeURL: `${HOST}/ccpayment/v1/network/fee`,
   orderInfoURL: `${HOST}/ccpayment/v1/bill/info`,
   paymentAddressURL: `${HOST}/ccpayment/v1/payment/address/get`,
+  getNetworkHeightInfoURL: `${HOST}/ccpayment/v1/get/network/height/info`,
 };
 
 module.exports = {
@@ -383,6 +384,27 @@ module.exports = {
       {
         ...data,
       }
+    );
+    if (result) {
+      callback &&
+        callback(
+          result.data.code === 10000
+            ? compareSignture === sign
+              ? result.data
+              : Error("http code error")
+            : result.data
+        );
+    }
+  },
+
+  /*
+   * @param {Function} callback
+   * @return {void}
+   */
+  async getNetworkHeightInfo(callback) {
+    const { compareSignture, sign, result } = await this.sendPost(
+      requestAPI.getNetworkHeightInfoURL,
+      null
     );
     if (result) {
       callback &&
