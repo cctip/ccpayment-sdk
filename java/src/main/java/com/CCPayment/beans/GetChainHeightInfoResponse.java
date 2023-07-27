@@ -8,12 +8,24 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GetChainHeightInfoResponse {
 
+    /**
+     * The network's unique identification on the blockchain
+     */
     @JsonProperty("chain")
     private String chain;
+    /**
+     * Current block height of the network
+     */
     @JsonProperty("current_chain_height")
     private Long currentChainHeight;
+    /**
+     * The number of block confirmations required for the trasnaction on the blockchain
+     */
     @JsonProperty("tx_confirm_block_num")
     private Long txConfirmBlockNum;
+    /**
+     * The time gap of every blocks, in seconds
+     */
     @JsonProperty("block_rate")
     private Double blockRate;
 
