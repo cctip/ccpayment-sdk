@@ -207,7 +207,7 @@ func TestGetChainHeightInfo(t *testing.T) {
 	if err != nil {
 		fmt.Println(`GetTokenRate error: `, err)
 	}
-	
+
 	dataJson, _ := json.Marshal(data)
 	fmt.Printf(`data: %s`, dataJson)
 }
