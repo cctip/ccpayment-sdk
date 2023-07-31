@@ -292,72 +292,84 @@ func sendPost(data interface{}, dst string, uri, appId, appSecret, signStr strin
 			return err
 		}
 
-		var code int
+		/*var code int
 
-		switch data.(type) {
-		case *CreateOrderResp:
-			d := data.(*CreateOrderResp)
-			code = d.Code
-			goto validate
+			switch data.(type) {
+			case *CreateOrderResp:
+				d := data.(*CreateOrderResp)
+				code = d.Code
+				goto validate
 
-		case *CheckoutUrlResp:
-			d := data.(*CheckoutUrlResp)
-			code = d.Code
-			goto validate
+			case *CheckoutUrlResp:
+				d := data.(*CheckoutUrlResp)
+				code = d.Code
+				goto validate
 
-		case *SupportTokenResultData:
-			d := data.(*SupportTokenResultData)
-			code = d.Code
-			goto validate
-		case *SupportCoinResultData:
-			d := data.(*SupportCoinResultData)
-			code = d.Code
-			goto validate
+			case *SupportTokenResultData:
+				d := data.(*SupportTokenResultData)
+				code = d.Code
+				goto validate
+			case *SupportCoinResultData:
+				d := data.(*SupportCoinResultData)
+				code = d.Code
+				goto validate
 
-		case *TokenChainResultData:
-			d := data.(*TokenChainResultData)
-			code = d.Code
-			goto validate
+			case *TokenChainResultData:
+				d := data.(*TokenChainResultData)
+				code = d.Code
+				goto validate
 
-		case *TokenRateResp:
-			d := data.(*TokenRateResp)
-			code = d.Code
-			goto validate
+			case *TokenRateResp:
+				d := data.(*TokenRateResp)
+				code = d.Code
+				goto validate
 
-		case *BillInfoResp:
-			d := data.(*BillInfoResp)
-			code = d.Code
-			goto validate
-		case *WithdrawResp:
-			d := data.(*WithdrawResp)
-			code = d.Code
-			goto validate
-		case *CheckUserResp:
-			d := data.(*CheckUserResp)
-			code = d.Code
-			goto validate
-		case *NetworkFeeResp:
-			d := data.(*NetworkFeeResp)
-			code = d.Code
-			goto validate
-		case *AssetsResp:
-			d := data.(*AssetsResp)
-			code = d.Code
-			goto validate
-		case *AddressResq:
-			d := data.(*AddressResq)
-			code = d.Code
-			goto validate
-		default:
+			case *BillInfoResp:
+				d := data.(*BillInfoResp)
+				code = d.Code
+				goto validate
+			case *WithdrawResp:
+				d := data.(*WithdrawResp)
+				code = d.Code
+				goto validate
+			case *CheckUserResp:
+				d := data.(*CheckUserResp)
+				code = d.Code
+				goto validate
+			case *NetworkFeeResp:
+				d := data.(*NetworkFeeResp)
+				code = d.Code
+				goto validate
+			case *AssetsResp:
+				d := data.(*AssetsResp)
+				code = d.Code
+				goto validate
+			case *AddressResq:
+				d := data.(*AddressResq)
+				code = d.Code
+				goto validate
+			default:
+				return fmt.Errorf(`ambiguous receive type`)
+			}
+
+		validate:
+			if code == 10000 {
+				if !getHeadersAndValidate(resp, appId, appSecret, byt) {
+					return SignVerifyErr
+				}
+			}*/
+
+		value := reflect.ValueOf(data).Elem().FieldByName("Code")
+		if !value.CanInt() {
 			return fmt.Errorf(`ambiguous receive type`)
 		}
 
-	validate:
-		if code == 10000 {
+		if value.Int() == 10000 {
 			if !getHeadersAndValidate(resp, appId, appSecret, byt) {
 				return SignVerifyErr
 			}
 		}
+
 		return nil
 	}
 

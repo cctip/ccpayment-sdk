@@ -20,14 +20,15 @@ type CreateOrderResp struct {
 }
 
 type OrderInfo struct {
-	Remark              string `json:"remark"`
-	TokenId             string `validate:"required" json:"token_id"`
-	ProductPrice        string `validate:"required" json:"product_price"`
-	MerchantOrderId     string `validate:"required" json:"merchant_order_id"`
-	DenominatedCurrency string `validate:"required" json:"denominated_currency"`
-	OrderValidPeriod    int    `json:"order_valid_period"`
-	NotifyUrl           string `json:"notify_url"`
-	CustomValue         string `json:"custom_value"`
+	Amount           string `json:"amount"`
+	OrderId          string `json:"order_id"`
+	Logo             string `json:"logo"`
+	Network          string `json:"network"`
+	PayAddress       string `json:"pay_address"`
+	Memo             string `json:"memo"`
+	TokenId          string `json:"token_id"`
+	Crypto           string `json:"crypto"`
+	OrderValidPeriod int64  `json:"order_valid_period"`
 }
 
 // CheckoutUrlReq checkout url params
