@@ -116,5 +116,5 @@ ccpaymentWidgets.paymentAddress(
 );
 
 ccpaymentWidgets.getNetworkHeightInfo((result) => {
-  console.log("getNetworkHeightInfo:", result);
+  console.log("getNetworkHeightInfo:", result, 1);
 });
