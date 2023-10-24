@@ -170,7 +170,7 @@ type BillInfoEntity struct {
 		Created             int64  `json:"created"`
 	} `json:"order_detail"`
 	TradeList []struct {
-		Amout      string `json:"amout"`
+		Amount     string `json:"amount"`
 		Chain      string `json:"chain"`
 		Contract   string `json:"contract"`
 		Crypto     string `json:"crypto"`
