@@ -56,8 +56,9 @@ type WebhookValidate struct {
 	Signature string `json:"signature"`
 }
 
-// WebhookReq webhook response
-// This structure is for informational purposes only and should not be used for formal development.
+// Note: The webhook notification struct in this file is for REFERENCE ONLY.
+// The actual notification content varies for different transaction types.
+// Please refer to https://doc.ccpayment.com/ccpayment-for-developer/webhook-notification for the accurate data schema.
 type WebhookReq struct {
 	PayStatus           string         `json:"pay_status"`
 	OrderType           string         `json:"order_type"`
