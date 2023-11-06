@@ -57,6 +57,7 @@ type WebhookValidate struct {
 }
 
 // WebhookReq webhook response
+// This structure is for informational purposes only and should not be used for formal development.
 type WebhookReq struct {
 	PayStatus           string         `json:"pay_status"`
 	OrderType           string         `json:"order_type"`
