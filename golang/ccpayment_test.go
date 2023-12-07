@@ -8,10 +8,12 @@ import (
 )
 
 var (
-	appId     = "202307200931401681960050962821120"
-	appSecret = `3c9c804fb62e39efe6e5b999a7d91e06`
-	//appId     = "2023051616364210105509935845378"
-	//appSecret = `9ae5247d0f8dca9f3300e328d0ad9a96`
+	//appId     = "202307200931401681960050962821120"
+	//appSecret = `3c9c804fb62e39efe6e5b999a7d91e06`
+	//appId     = "7InxiSp9wgcGpDuu"
+	//appSecret = `9b3aa9a2c6e963e82a5c44bb5b8f6531`
+	appId     = "202310110900281712030393400819712"
+	appSecret = `b22d896fceceb3878a768fa972aa89d8`
 )
 
 // create order
@@ -181,7 +183,7 @@ func TestCheckUser(t *testing.T) {
 // get token assets
 func TestAssets(t *testing.T) {
 	tc := &AssetsReq{
-		TokenId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
+		//TokenId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
 	}
 	data, err := tc.Assets(appId, appSecret)
 	if err != nil {
@@ -192,14 +194,19 @@ func TestAssets(t *testing.T) {
 
 // get network fee
 func TestNetworkFee(t *testing.T) {
-	tc := &NetworkFeeReq{
-		TokenId: "f137d42c-f3a6-4f23-9402-76f0395d0cfe",
+	for i := 0; i < 200; i++ {
+		tc := &NetworkFeeReq{
+			TokenId: "f137d42c-f3a6-4f23-9402-76f0395d0cfe",
+		}
+		data, err := tc.NetworkFee(appId, appSecret)
+		//if err != nil {
+		//	fmt.Println(`GetTokenRate error: `, err)
+		//}
+		fmt.Println(`data`, data, err)
+		time.Sleep(time.Second * 1)
 	}
-	data, err := tc.NetworkFee(appId, appSecret)
-	if err != nil {
-		fmt.Println(`GetTokenRate error: `, err)
-	}
-	fmt.Printf(`data: %+v`, data)
+
+	//time.Sleep(1200 * time.Second)
 }
 
 func TestGetChainHeightInfo(t *testing.T) {

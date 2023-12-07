@@ -1,14 +1,16 @@
 package golang
 
 import (
+	"context"
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"github.com/cctip/ccpayment-sdk/golang/sign"
+	"github.com/go-resty/resty/v2"
 	"io/ioutil"
 	"net/http"
 	"reflect"
-	"strings"
+	"sync"
 	"time"
 )
 
@@ -249,38 +251,25 @@ func (oi *OrderInfoReq) GetAPIOrderInfo(appId, appSecret string) (data *BillInfo
 
 func sendPost(data interface{}, dst string, uri, appId, appSecret, signStr string, timeStamp int64) (err error) {
 
-	req, err := http.NewRequest(http.MethodPost, uri, strings.NewReader(dst))
+	r := NewClient().R().SetContext(context.Background())
+
+	// headers
+	r.SetHeaders(map[string]string{
+		"Content-Type":     "application/json",
+		AppIdHeaderKey:     appId,
+		TimestampHeaderKey: fmt.Sprintf(`%d`, timeStamp),
+		SignHeaderKey:      signStr,
+	})
+	r.SetBody(dst)
+
+	resp, err := r.Post(uri)
 	if err != nil {
 		return err
 	}
+	// defer res
 
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add(AppIdHeaderKey, appId)
-	req.Header.Add(SignHeaderKey, signStr)
-	req.Header.Add(TimestampHeaderKey, fmt.Sprintf(`%d`, timeStamp))
-
-	client := &http.Client{
-		Timeout: 30 * time.Second,
-	}
-
-	if strings.Contains(strings.ToLower(uri), `https://`) {
-		client.Transport = &http.Transport{
-			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true,
-			},
-		}
-	}
-
-	resp, err := client.Do(req)
-	if err != nil {
-		return err
-	}
-
-	if resp.StatusCode == http.StatusOK {
-		byt, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			return err
-		}
+	if resp.StatusCode() == http.StatusOK {
+		byt := resp.Body()
 
 		dt := reflect.TypeOf(data)
 		if dt.Kind() != reflect.Ptr {
@@ -365,7 +354,7 @@ func sendPost(data interface{}, dst string, uri, appId, appSecret, signStr strin
 		}
 
 		if value.Int() == 10000 {
-			if !getHeadersAndValidate(resp, appId, appSecret, byt) {
+			if !getHeadersAndValidate(resp.RawResponse, appId, appSecret, byt) {
 				return SignVerifyErr
 			}
 		}
@@ -373,9 +362,26 @@ func sendPost(data interface{}, dst string, uri, appId, appSecret, signStr strin
 		return nil
 	}
 
-	return fmt.Errorf(`page not found; status_code: %v`, resp.StatusCode)
+	return fmt.Errorf(`page not found; status_code: %v`, resp.StatusCode())
 }
 
+var (
+	clientOnce sync.Once
+	client     *resty.Client
+)
+
+func NewClient() *resty.Client {
+	clientOnce.Do(func() {
+		client = resty.New()
+		client.SetTransport(&http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
+			},
+		})
+	})
+
+	return client
+}
 func SignStr(src interface{}, appId, appSecret string, timestamp int64) (dst, signStr string, err error) {
 	byt, err := json.Marshal(src)
 	if err != nil {
