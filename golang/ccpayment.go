@@ -333,8 +333,8 @@ func sendPost(data interface{}, dst string, uri, appId, appSecret, signStr strin
 				d := data.(*AssetsResp)
 				code = d.Code
 				goto validate
-			case *AddressResq:
-				d := data.(*AddressResq)
+			case *AddressReq:
+				d := data.(*AddressReq)
 				code = d.Code
 				goto validate
 			default:
@@ -406,7 +406,7 @@ func getHeadersAndValidate(resp *http.Response, appId, appSecret string, byt []b
 	return false
 }
 
-func (ar *AddressReq) GetOtherPaymentAddress(appId, appSecret string) (data *AddressResq, err error) {
+func (ar *AddressReq) GetOtherPaymentAddress(appId, appSecret string) (data *AddressResp, err error) {
 	timeStamp := time.Now().Unix()
 
 	dst, signStr, err := SignStr(*ar, appId, appSecret, timeStamp)
@@ -414,7 +414,7 @@ func (ar *AddressReq) GetOtherPaymentAddress(appId, appSecret string) (data *Add
 		return nil, err
 	}
 
-	data = &AddressResq{}
+	data = &AddressResp{}
 
 	err = sendPost(data, dst, GetOtherPaymentAddress, appId, appSecret, signStr, timeStamp)
 

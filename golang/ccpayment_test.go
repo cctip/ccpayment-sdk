@@ -183,7 +183,7 @@ func TestCheckUser(t *testing.T) {
 // get token assets
 func TestAssets(t *testing.T) {
 	tc := &AssetsReq{
-		//TokenId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
+		CoinId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
 	}
 	data, err := tc.Assets(appId, appSecret)
 	if err != nil {

@@ -219,7 +219,7 @@ class CCPaymentClass:
         "msg": "",
         "data": [
             {
-                "token_id": "",
+                "coin_id": "",
                 "crypto": "",
                 "name": "",
                 "value": "",
@@ -229,9 +229,9 @@ class CCPaymentClass:
         ]
     }
     """
-    def assets(self, token_id):
+    def assets(self, coin_id):
         data = {
-            "token_id": token_id
+            "coin_id": coin_id
         }
         return self._send_post(const.ASSETS_URL, data)
 

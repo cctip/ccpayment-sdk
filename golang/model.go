@@ -232,16 +232,16 @@ type CheckUserResp struct {
 
 // ccpay
 type AssetsReq struct {
-	TokenId string `json:"token_id"` // 某个币的tokenID
+	CoinId string `json:"coin_id"` //
 }
 
 type AssetEntity struct {
-	TokenId string `json:"token_id"`
-	Crypto  string `json:"crypto"`
-	Name    string `json:"name"`
-	Value   string `json:"value"`
-	Price   string `json:"price"`
-	Logo    string `json:"logo"`
+	CoinId string `json:"coin_id"`
+	Crypto string `json:"crypto"`
+	Name   string `json:"name"`
+	Value  string `json:"value"`
+	Price  string `json:"price"`
+	Logo   string `json:"logo"`
 }
 type AssetsResp struct {
 	Code int    `json:"code"`
@@ -299,7 +299,7 @@ type AddressReq struct {
 	NotifyUrl string `json:"notify_url"`
 }
 
-type AddressResq struct {
+type AddressResp struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data struct {
