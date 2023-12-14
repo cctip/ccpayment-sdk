@@ -7,14 +7,22 @@ const ccpaymentWidgets = require("./ccpayment.js");
 const appId = "202306261609051673241961567358991";
 const appSecret = "5af84fd1f5cb2d9ac5e564defb31e7bf";
 
+// test v1
+// const appId = "202306211038181671467574090055680";
+// const appSecret = "fe6025228c9f0fe0fd64af23cda04401";
+
+//test v2
+// const appId = "p148eZ3AUC8cUAsX";
+// const appSecret = "0df15891758781efbeedd0f207ee5110";
+
 // init get appid and appsecret
 ccpaymentWidgets.init(appId, appSecret);
 // select checkout url
 ccpaymentWidgets.checkoutURL(
   {
     order_valid_period: 823456,
-    product_price: "1",
-    merchant_order_id: "012033040550",
+    product_price: "0.01",
+    merchant_order_id: `${new Date().getTime()}`,
     product_name: "test",
     return_url: "https://app.gitbook.com/xxxxx",
   },
@@ -23,63 +31,59 @@ ccpaymentWidgets.checkoutURL(
   }
 );
 // select token
-ccpaymentWidgets.getSupportToken((result) => {
-  // console.log("bbb:", JSON.stringify(result, null, 2));
-  console.log("bbb:", result);
-});
+// ccpaymentWidgets.getSupportToken((result) => {
+//   // console.log("bbb:", JSON.stringify(result, null, 2));
+//   console.log("bbb:", result);
+// });
 
 // select chain
-ccpaymentWidgets.getTokenChain(
-  {
-    token_id: "8addd19b-37df-4faf-bd74-e61e214b008a",
-  },
-  (result) => {
-    console.log("ccc:", result);
-  }
-);
+// ccpaymentWidgets.getTokenChain(
+//   {
+//     token_id: "8addd19b-37df-4faf-bd74-e61e214b008a",
+//   },
+//   (result) => {
+//     console.log("ccc:", result);
+//   }
+// );
 // submit order
-ccpaymentWidgets.createOrder(
-  {
-    remark: "eee",
-    token_id: "f36ad1cf-222a-4933-9ad0-86df8069f916",
-    product_price: "0.5",
-    merchant_order_id: "37350779790509509",
-    denominated_currency: "USD",
-  },
-  (result) => {
-    console.log("ddd:", result);
-  }
-);
+// ccpaymentWidgets.createOrder(
+//   {
+//     remark: "eee",
+//     token_id: "f36ad1cf-222a-4933-9ad0-86df8069f916",
+//     product_price: "0.5",
+//     merchant_order_id: "37350779790509509",
+//     denominated_currency: "USD",
+//   },
+//   (result) => {
+//     console.log("ddd:", result);
+//   }
+// );
 // token rate
-ccpaymentWidgets.getTokenRate(
-  {
-    amount: "1000",
-    token_id: "f36ad1cf-222a-4933-9ad0-86df8069f916",
-  },
-  (result) => {
-    console.log("eee:", result);
-  }
-);
+// ccpaymentWidgets.getTokenRate(
+//   {
+//     amount: "1000",
+//     token_id: "f36ad1cf-222a-4933-9ad0-86df8069f916",
+//   },
+//   (result) => {
+//     console.log("eee:", result);
+//   }
+// );
 
 // getSupportCoin
-ccpaymentWidgets.getSupportCoin((result) => {
-  // console.log(
-  //   "hhh:",
-  //   result.list.find((item) => item.crypto === "USDT")
-  // );
-  console.log(
-    "hhh:",
-    result.data.list.find((item) => item.crypto === "USDT")
-  );
-});
+// ccpaymentWidgets.getSupportCoin((result) => {
+//   console.log(
+//     "hhh:",
+//     result.data.list.find((item) => item.crypto === "USDT")
+//   );
+// });
 
 // getOrderInfo
-ccpaymentWidgets.getOrderInfo(
-  { merchant_order_ids: ["12345678765456720230720"] },
-  (result) => {
-    console.log("getOrderInfo:", result);
-  }
-);
+// ccpaymentWidgets.getOrderInfo(
+//   { merchant_order_ids: ["12345678765456720230720"] },
+//   (result) => {
+//     console.log("getOrderInfo:", result);
+//   }
+// );
 
 /*
  * @param {Object} data
@@ -104,17 +108,19 @@ ccpaymentWidgets.getOrderInfo(
 //   }
 // );
 
-ccpaymentWidgets.paymentAddress(
-  {
-    user_id: "cc-123",
-    chain: "ETH",
-    notify_url: "",
-  },
-  (result) => {
-    console.log("paymentAddress:", result);
-  }
-);
+// ccpaymentWidgets.paymentAddress(
+//   {
+//     user_id: "cc-123",
+//     chain: "ETH",
+//     notify_url: "",
+//   },
+//   (result) => {
+//     console.log("paymentAddress:", result);
+//   }
+// );
+
 
 ccpaymentWidgets.getNetworkHeightInfo((result) => {
   console.log("getNetworkHeightInfo:", result, 1);
 });
+
