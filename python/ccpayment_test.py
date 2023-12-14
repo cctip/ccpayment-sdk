@@ -94,7 +94,7 @@ class TestCCPaymentClass(unittest.TestCase):
     print("TestCheckUser:", data)
 
     # get token assets
-    data, is_verify = cp.assets(token_id='8e5741cf-6e51-4892-9d04-3d40e1dd0128')
+    data, is_verify = cp.assets(coin_id='8e5741cf-6e51-4892-9d04-3d40e1dd0128')
     if is_verify:
         print("TestTokenAsset: verify success")
     else:

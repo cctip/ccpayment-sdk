@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AssetsResponse {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class AssetEntity {
-        @JsonProperty("token_id")
-        private String tokenId;
+        @JsonProperty("coin_id")
+        private String coinId;
         @JsonProperty("crypto")
         private String crypto;
         @JsonProperty("name")
@@ -20,12 +20,12 @@ public class AssetsResponse {
         @JsonProperty("logo")
         private String logo;
 
-        public String getTokenId() {
-            return tokenId;
+        public String getCoinId() {
+            return coinId;
         }
 
-        public void setTokenId(String tokenId) {
-            this.tokenId = tokenId;
+        public void setCoinId(String coinId) {
+            this.coinId = coinId;
         }
 
         public String getCrypto() {

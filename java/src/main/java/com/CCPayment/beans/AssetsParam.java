@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AssetsParam {
-    @JsonProperty("token_id")
-    private String tokenId;
+    @JsonProperty("coin_id")
+    private String coinId;
 
-    public String getTokenId() {
-        return tokenId;
+    public String getCoinId() {
+        return coinId;
     }
 
-    public void setTokenId(String tokenId) {
-        this.tokenId = tokenId;
+    public void setCoinId(String coinId) {
+        this.coinId = coinId;
     }
 }

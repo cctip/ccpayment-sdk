@@ -92,7 +92,7 @@ class CCPaymentApisTest {
     @Test
     void assets() throws Exception{
         AssetsParam param = new AssetsParam();
-        param.setTokenId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
+        param.setCoinId("e8f64d3d-df5b-411d-897f-c6d8d30206b7");
         AssetsResponse resp = CCPaymentApis.assets(param);
         System.out.println(resp);
     }
