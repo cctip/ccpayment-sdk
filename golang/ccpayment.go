@@ -1,14 +1,16 @@
 package golang
 
 import (
-	"ccpayment-sdk/golang/sign"
+	"context"
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+	"github.com/cctip/ccpayment-sdk/golang/sign"
+	"github.com/go-resty/resty/v2"
 	"io/ioutil"
 	"net/http"
 	"reflect"
-	"strings"
+	"sync"
 	"time"
 )
 
@@ -217,6 +219,21 @@ func (tr *NetworkFeeReq) NetworkFee(appId, appSecret string) (data *NetworkFeeRe
 	return data, err
 }
 
+func (tr *NetworkChainHeightInfoReq) GetChainHeightInfo(appId, appSecret string) (data *NetworkChainHeightInfoResp, err error) {
+	timeStamp := time.Now().Unix()
+
+	dst, signStr, err := SignStr(*tr, appId, appSecret, timeStamp)
+	if err != nil {
+		return nil, err
+	}
+
+	data = &NetworkChainHeightInfoResp{}
+
+	err = sendPost(data, dst, NetworkChainHeightInfoUrl, appId, appSecret, signStr, timeStamp)
+
+	return data, err
+}
+
 func (oi *OrderInfoReq) GetAPIOrderInfo(appId, appSecret string) (data *BillInfoResp, err error) {
 	timeStamp := time.Now().Unix()
 
@@ -232,40 +249,27 @@ func (oi *OrderInfoReq) GetAPIOrderInfo(appId, appSecret string) (data *BillInfo
 	return data, err
 }
 
-func sendPost(data interface{}, dst string, url, appId, appSecret, signStr string, timeStamp int64) (err error) {
+func sendPost(data interface{}, dst string, uri, appId, appSecret, signStr string, timeStamp int64) (err error) {
 
-	req, err := http.NewRequest(http.MethodPost, url, strings.NewReader(dst))
+	r := NewClient().R().SetContext(context.Background())
+
+	// headers
+	r.SetHeaders(map[string]string{
+		"Content-Type":     "application/json",
+		AppIdHeaderKey:     appId,
+		TimestampHeaderKey: fmt.Sprintf(`%d`, timeStamp),
+		SignHeaderKey:      signStr,
+	})
+	r.SetBody(dst)
+
+	resp, err := r.Post(uri)
 	if err != nil {
 		return err
 	}
+	// defer res
 
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add(AppIdHeaderKey, appId)
-	req.Header.Add(SignHeaderKey, signStr)
-	req.Header.Add(TimestampHeaderKey, fmt.Sprintf(`%d`, timeStamp))
-
-	client := &http.Client{
-		Timeout: 30 * time.Second,
-	}
-
-	if strings.Contains(strings.ToLower(url), `https://`) {
-		client.Transport = &http.Transport{
-			TLSClientConfig: &tls.Config{
-				InsecureSkipVerify: true,
-			},
-		}
-	}
-
-	resp, err := client.Do(req)
-	if err != nil {
-		return err
-	}
-
-	if resp.StatusCode == http.StatusOK {
-		byt, err := ioutil.ReadAll(resp.Body)
-		if err != nil {
-			return err
-		}
+	if resp.StatusCode() == http.StatusOK {
+		byt := resp.Body()
 
 		dt := reflect.TypeOf(data)
 		if dt.Kind() != reflect.Ptr {
@@ -277,75 +281,107 @@ func sendPost(data interface{}, dst string, url, appId, appSecret, signStr strin
 			return err
 		}
 
-		var code int
+		/*var code int
 
-		switch data.(type) {
-		case *CreateOrderResp:
-			d := data.(*CreateOrderResp)
-			code = d.Code
-			goto validate
+			switch data.(type) {
+			case *CreateOrderResp:
+				d := data.(*CreateOrderResp)
+				code = d.Code
+				goto validate
 
-		case *CheckoutUrlResp:
-			d := data.(*CheckoutUrlResp)
-			code = d.Code
-			goto validate
+			case *CheckoutUrlResp:
+				d := data.(*CheckoutUrlResp)
+				code = d.Code
+				goto validate
 
-		case *SupportTokenResultData:
-			d := data.(*SupportTokenResultData)
-			code = d.Code
-			goto validate
-		case *SupportCoinResultData:
-			d := data.(*SupportCoinResultData)
-			code = d.Code
-			goto validate
+			case *SupportTokenResultData:
+				d := data.(*SupportTokenResultData)
+				code = d.Code
+				goto validate
+			case *SupportCoinResultData:
+				d := data.(*SupportCoinResultData)
+				code = d.Code
+				goto validate
 
-		case *TokenChainResultData:
-			d := data.(*TokenChainResultData)
-			code = d.Code
-			goto validate
+			case *TokenChainResultData:
+				d := data.(*TokenChainResultData)
+				code = d.Code
+				goto validate
 
-		case *TokenRateResp:
-			d := data.(*TokenRateResp)
-			code = d.Code
-			goto validate
+			case *TokenRateResp:
+				d := data.(*TokenRateResp)
+				code = d.Code
+				goto validate
 
-		case *BillInfoResp:
-			d := data.(*BillInfoResp)
-			code = d.Code
-			goto validate
-		case *WithdrawResp:
-			d := data.(*WithdrawResp)
-			code = d.Code
-			goto validate
-		case *CheckUserResp:
-			d := data.(*CheckUserResp)
-			code = d.Code
-			goto validate
-		case *NetworkFeeResp:
-			d := data.(*NetworkFeeResp)
-			code = d.Code
-			goto validate
-		case *AssetsResp:
-			d := data.(*AssetsResp)
-			code = d.Code
-			goto validate
+			case *BillInfoResp:
+				d := data.(*BillInfoResp)
+				code = d.Code
+				goto validate
+			case *WithdrawResp:
+				d := data.(*WithdrawResp)
+				code = d.Code
+				goto validate
+			case *CheckUserResp:
+				d := data.(*CheckUserResp)
+				code = d.Code
+				goto validate
+			case *NetworkFeeResp:
+				d := data.(*NetworkFeeResp)
+				code = d.Code
+				goto validate
+			case *AssetsResp:
+				d := data.(*AssetsResp)
+				code = d.Code
+				goto validate
+			case *AddressResq:
+				d := data.(*AddressResq)
+				code = d.Code
+				goto validate
+			default:
+				return fmt.Errorf(`ambiguous receive type`)
+			}
 
-		default:
+		validate:
+			if code == 10000 {
+				if !getHeadersAndValidate(resp, appId, appSecret, byt) {
+					return SignVerifyErr
+				}
+			}*/
+
+		value := reflect.ValueOf(data).Elem().FieldByName("Code")
+		if !value.CanInt() {
 			return fmt.Errorf(`ambiguous receive type`)
 		}
 
-	validate:
-		if code == 10000 {
-			if !getHeadersAndValidate(resp, appId, appSecret, byt) {
+		if value.Int() == 10000 {
+			if !getHeadersAndValidate(resp.RawResponse, appId, appSecret, byt) {
 				return SignVerifyErr
 			}
 		}
+
 		return nil
 	}
 
-	return fmt.Errorf(`page not found; status_code: %v`, resp.StatusCode)
+	return fmt.Errorf(`page not found; status_code: %v`, resp.StatusCode())
 }
 
+var (
+	clientOnce sync.Once
+	client     *resty.Client
+)
+
+func NewClient() *resty.Client {
+	clientOnce.Do(func() {
+		client = resty.New()
+		client.SetTransport(&http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
+			},
+		})
+	})
+
+	return client
+}
 func SignStr(src interface{}, appId, appSecret string, timestamp int64) (dst, signStr string, err error) {
 	byt, err := json.Marshal(src)
 	if err != nil {
@@ -368,4 +404,19 @@ func getHeadersAndValidate(resp *http.Response, appId, appSecret string, byt []b
 	}
 
 	return false
+}
+
+func (ar *AddressReq) GetOtherPaymentAddress(appId, appSecret string) (data *AddressResq, err error) {
+	timeStamp := time.Now().Unix()
+
+	dst, signStr, err := SignStr(*ar, appId, appSecret, timeStamp)
+	if err != nil {
+		return nil, err
+	}
+
+	data = &AddressResq{}
+
+	err = sendPost(data, dst, GetOtherPaymentAddress, appId, appSecret, signStr, timeStamp)
+
+	return data, err
 }

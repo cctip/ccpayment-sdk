@@ -1,24 +1,30 @@
 package golang
 
 import (
+	"encoding/json"
 	"fmt"
 	"testing"
 	"time"
 )
 
 var (
-	appId     = "202301310325561620262074393440256"
-	appSecret = `c4600b8125b7ed23b5b7b8ee4acb42f4`
+	//appId     = "202307200931401681960050962821120"
+	//appSecret = `3c9c804fb62e39efe6e5b999a7d91e06`
+	//appId     = "7InxiSp9wgcGpDuu"
+	//appSecret = `9b3aa9a2c6e963e82a5c44bb5b8f6531`
+	appId     = "202310110900281712030393400819712"
+	appSecret = `b22d896fceceb3878a768fa972aa89d8`
 )
 
 // create order
 func TestCreateOrder(t *testing.T) {
 	order := CreateOrderReq{
-		TokenId:             "264f4725-3cfd-4ff6-bc80-ff9d799d5fb2",
-		ProductPrice:        "6",
-		MerchantOrderId:     "1121241232",
-		DenominatedCurrency: "USD",
 		Remark:              "",
+		TokenId:             "0912e09a-d8e2-41d7-a0bc-a25530892988",
+		ProductPrice:        "0.5",
+		MerchantOrderId:     "3735077979050379",
+		DenominatedCurrency: "USD",
+		OrderValidPeriod:    823456,
 	}
 	data, err := order.CreateOrder(appId, appSecret)
 	if err != nil {
@@ -153,6 +159,7 @@ func TestWithdraw(t *testing.T) {
 		Address:         "9454818",
 		Value:           "12",
 		MerchantOrderId: fmt.Sprintf("%d", time.Now().UnixMicro()),
+		MerchantPaysFee: false,
 	}
 	data, err := tc.Withdraw(appId, appSecret)
 	if err != nil {
@@ -176,7 +183,7 @@ func TestCheckUser(t *testing.T) {
 // get token assets
 func TestAssets(t *testing.T) {
 	tc := &AssetsReq{
-		TokenId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
+		//TokenId: "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
 	}
 	data, err := tc.Assets(appId, appSecret)
 	if err != nil {
@@ -187,15 +194,33 @@ func TestAssets(t *testing.T) {
 
 // get network fee
 func TestNetworkFee(t *testing.T) {
-	tc := &NetworkFeeReq{
-		TokenId: "f137d42c-f3a6-4f23-9402-76f0395d0cfe",
+	for i := 0; i < 200; i++ {
+		tc := &NetworkFeeReq{
+			TokenId: "f137d42c-f3a6-4f23-9402-76f0395d0cfe",
+		}
+		data, err := tc.NetworkFee(appId, appSecret)
+		//if err != nil {
+		//	fmt.Println(`GetTokenRate error: `, err)
+		//}
+		fmt.Println(`data`, data, err)
+		time.Sleep(time.Second * 1)
 	}
-	data, err := tc.NetworkFee(appId, appSecret)
+
+	//time.Sleep(1200 * time.Second)
+}
+
+func TestGetChainHeightInfo(t *testing.T) {
+	tc := &NetworkChainHeightInfoReq{}
+	data, err := tc.GetChainHeightInfo(appId, appSecret)
 	if err != nil {
 		fmt.Println(`GetTokenRate error: `, err)
 	}
-	fmt.Printf(`data: %+v`, data)
+
+	dataJson, _ := json.Marshal(data)
+	fmt.Printf(`data: %s`, dataJson)
 }
+
+// get bill trade
 
 // get bill trade
 func TestGetAPIOrderInfo(t *testing.T) {
@@ -205,6 +230,19 @@ func TestGetAPIOrderInfo(t *testing.T) {
 	data, err := bt.GetAPIOrderInfo(appId, appSecret)
 	if err != nil {
 		fmt.Println(`GetAPIOrderInfo error: `, err)
+	}
+	fmt.Printf(`data: %+v`, data)
+}
+
+func TestGetOtherPaymentAddress(t *testing.T) {
+	ar := &AddressReq{
+		UserId:    "gmm123456789",
+		Chain:     "BSC",
+		NotifyUrl: "",
+	}
+	data, err := ar.GetOtherPaymentAddress(appId, appSecret)
+	if err != nil {
+		fmt.Println(`GetOtherPaymentAddress error: `, err)
 	}
 	fmt.Printf(`data: %+v`, data)
 }

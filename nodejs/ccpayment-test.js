@@ -119,6 +119,8 @@ ccpaymentWidgets.checkoutURL(
 //   }
 // );
 
-// ccpaymentWidgets.getNetworkHeightInfo((result) => {
-//   console.log("getNetworkHeightInfo:", result);
-// });
+
+ccpaymentWidgets.getNetworkHeightInfo((result) => {
+  console.log("getNetworkHeightInfo:", result, 1);
+});
+

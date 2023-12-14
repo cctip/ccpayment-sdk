@@ -24,14 +24,14 @@ class CCPaymentClass:
             "network": "",
             "pay_address": "",
             "crypto": "",
-            "token_id:,
-	        "memo",
-	        "address_valid_period"
+            "token_id: "",
+            "memo": "",
+            "order_valid_period: 0
         }
     }
     """
     # create api order
-    def create_order(self, token_id, product_price, merchant_order_id, denominated_currency, remark=None):
+    def create_order(self, token_id, product_price, merchant_order_id, denominated_currency, period=None, remark=None):
         data = {
             "product_price": product_price,
             "merchant_order_id": merchant_order_id,
@@ -40,6 +40,8 @@ class CCPaymentClass:
         }
         if remark:
             data["remark"] = remark
+        if period:
+            data["order_valid_period"] = period
         return self._send_post(const.CREATE_ORDER_URL, data)
 
     """
@@ -53,7 +55,7 @@ class CCPaymentClass:
     }
     """
     # get checkout url
-    def checkout_url(self, product_price, merchant_order_id, order_valid_period, product_name, return_url=None):
+    def checkout_url(self, product_price, merchant_order_id, order_valid_period, product_name, return_url=None, notify_url=None, custom_value=None):
         data = {
             "product_price": product_price,
             "merchant_order_id": merchant_order_id,
@@ -62,6 +64,10 @@ class CCPaymentClass:
         }
         if return_url:
             data["return_url"] = return_url
+        if notify_url:
+            data["notify_url"] = notify_url
+        if custom_value:
+            data["custom_value"] = custom_value
         return self._send_post(const.CHECKOUT_URL, data)
 
     def webhook(self, data_str, timestamp, signature):
@@ -162,6 +168,7 @@ class CCPaymentClass:
         return self._send_post(const.TOKEN_RATE_URL, data)
 
     """
+    params merchant_pays_fee bool
     * return success
     {
         "code": 10000,
@@ -169,11 +176,13 @@ class CCPaymentClass:
         "data": {
             "bill_id": "",
             "type": "",
-            "network_fee": ""
+            "network_fee": "",
+            "record_id": "",
+            "net_receivable": "" 
         }
     }
     """
-    def withdraw(self, token_id, address, value, merchant_order_id, memo=None):
+    def withdraw(self, token_id, address, value, merchant_order_id, memo=None, merchant_pays_fee=None):
         data = {
             "token_id": token_id,
             "address": address,
@@ -182,6 +191,8 @@ class CCPaymentClass:
         }
         if memo:
             data["memo"] = memo
+        if merchant_pays_fee:
+            data["merchant_pays_fee"] = merchant_pays_fee
         return self._send_post(const.WITHDRAW_API_URL, data)
 
     """
@@ -250,44 +261,50 @@ class CCPaymentClass:
     {
         "code":10000,
         "msg":"success",
-        "data":{
-            "detail":{
-                "fiat_amount":"10",
-                "fiat_currency":"USD",
-                "merchant_order_id":"2376655808480575",
-                "chain":"ETH",
-                "contract":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
-                "crypto":"USDT",
-                "token_amount":"10",
-                "status":"Overpaid",
-                "created":1675022332000
+        "data":[
+        {
+            "order_detail":{
+                "product_price":"0.1",
+                "denominated_currency":"USD",
+                "product_name":"gmail-deposit",
+                "merchant_order_id":"1684723374629",
+                "chain":"FTM",
+                "contract":"250",
+                "crypto":"FTM",
+                "order_amount":"0.279173646007816863",
+                "status":"Successful",
+                "token_rate":"0.3582"
+                "created":1684723398
             },
-            "received":[
+            "trade_list":[
                 {
-                    "amount":"12",
-                    "chain":"ETH",
-                    "contract":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
-                    "crypto":"USDT",
-                    "service_fee":"0.006",
-                    "pay_time":1675022464000,
-                    "token_rate":"1"
+                    "amount":"0.279173646007816863",
+                    "chain":"FTM",
+                    "contract":"250",
+                    "crypto":"FTM",
+                    "service_fee":"0.000083752093802346",
+                    "network_fee":"0.0000",
+                    "txid":"0x5caafde27a8040547a169168c55f35806eb0ca68344b2d53894097b0e9d5fa89",
+                    "pay_time":1684727677,
+                    "token_rate":"0.3582"
                 }
             ],
-            "refunds":[
+            "refund_list":[
                 {
-                    "amount":"1",
-                    "network_fee":"0",
-                    "actual_received_amount":"1",
-                    "chain":"ETH",
-                    "contract":"0xdAC17F958D2ee523a2206206994597C13D831ec7",
-                    "crypto":"USDT",
-                    "txid":"",
-                    "address":"0xA9F422BFBeB46f1FbcBBaf947E15b84D8Fbba80C",
-                    "pay_time":1675272545000,
+                    "refund_amount":"0.1",
+                    "network_fee":"0.05412",
+                    "actual_received_amount":"0.04588",
+                    "chain":"FTM",
+                    "contract":"250",
+                    "crypto":"FTM",
+                    "txid":"0xd37611ed48253d30b6aefe0adf7e053b07def7557d6211a73f121a57b342dd56",
+                    "address":"0x3b55Ec4D9d15528B78958Fd3EeEAe87a893EDffF",
+                    "pay_time":1684737832,
                     "status":"Successful"
                 }
             ]
         }
+      ]
     }
     """
     def get_order_info(self, merchant_order_ids):
@@ -295,6 +312,42 @@ class CCPaymentClass:
             "merchant_order_ids": merchant_order_ids
         }
         return self._send_post(const.API_ORDER_INFO_URL, data)
+
+    """
+    {
+        "code":10000,
+        "msg":"success",
+        "data":{
+            "address":"TWM7um8aucgBbeVnQTNkpccxd9D657Vx9H"
+        }
+    }
+    """
+    def payment_address(self, user_id, chain, notify_url=None):
+        data = {
+            "user_id": user_id,
+            "chain": chain
+        }
+        if notify_url:
+            data["notify_url"] = notify_url
+        return self._send_post(const.PAYMENT_ADDRESS_URL, data)
+
+    """
+    {
+        "code":10000,
+        "msg":"success",
+        "data":[
+            {
+                "chain":"BCH",
+                "current_chain_height":803434,
+                "tx_confirm_block_num":2,
+                "block_rate":0.0
+            }
+        ]
+    }
+    """
+    def get_chain_height_info(self):
+        data = {}
+        return self._send_post(const.CHAIN_HEIGHT_INFO_URL, data)
 
     def _hash256(self, txt, timestamp):
         txt = self.app_id + self.app_secret + str(timestamp) + txt
