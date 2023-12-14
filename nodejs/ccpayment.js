@@ -254,7 +254,7 @@ module.exports = {
 
   /*
    * @param {Object} data
-   * @param {String} data.token_id
+   * @param {String} data.coin_id
    * @param {Function} callback
    * @return {void}
    */
