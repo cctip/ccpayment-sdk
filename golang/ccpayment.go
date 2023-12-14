@@ -333,8 +333,8 @@ func sendPost(data interface{}, dst string, uri, appId, appSecret, signStr strin
 				d := data.(*AssetsResp)
 				code = d.Code
 				goto validate
-			case *AddressReq:
-				d := data.(*AddressReq)
+			case *AddressResp:
+				d := data.(*AddressResp)
 				code = d.Code
 				goto validate
 			default:
