@@ -130,6 +130,8 @@ type TokenChain struct {
 	Contract      string `json:"contract"`
 	ChainLogo     string `json:"chain_logo"`
 	Status        int64  `json:"status"` // 1 normal 2 maintenance 3 To be delisted
+	NetworkCrypto string `json:"network_crypto,omitempty"`
+	NetworkCoinId string `json:"network_coin_id,omitempty"`
 }
 
 // GetTokenRateReq get token rate
@@ -172,15 +174,18 @@ type BillInfoEntity struct {
 		Created             int64  `json:"created"`
 	} `json:"order_detail"`
 	TradeList []struct {
-		Amount     string `json:"amount"`
-		Chain      string `json:"chain"`
-		Contract   string `json:"contract"`
-		Crypto     string `json:"crypto"`
-		ServiceFee string `json:"service_fee"`
-		NetworkFee string `json:"network_fee"`
-		Txid       string `json:"txid"`
-		PayTime    int64  `json:"pay_time"`
-		TokenRate  string `json:"token_rate"`
+		Amount          string `json:"amount"`
+		Chain           string `json:"chain"`
+		Contract        string `json:"contract"`
+		Crypto          string `json:"crypto"`
+		ServiceFee      string `json:"service_fee"`
+		NetworkFee      string `json:"network_fee"`
+		Txid            string `json:"txid"`
+		PayTime         int64  `json:"pay_time"`
+		TokenRate       string `json:"token_rate"`
+		NetworkCrypto   string `json:"network_crypto,omitempty"`
+		NetworkCoinId   string `json:"network_coin_id,omitempty"`
+		NetworkFeeValue string `json:"network_fee_value,omitempty"`
 	} `json:"trade_list"`
 	RefundList []struct {
 		RefundAmount         string `json:"refund_amount"`
@@ -209,10 +214,13 @@ type WithdrawResp struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data struct {
-		OrderId       string `json:"order_id"`
-		NetworkFee    string `json:"network_fee"`
-		RecordId      string `json:"record_id"`
-		NetReceivable string `json:"net_receivable"`
+		OrderId         string `json:"order_id"`
+		NetworkFee      string `json:"network_fee"`
+		RecordId        string `json:"record_id"`
+		NetReceivable   string `json:"net_receivable"`
+		NetworkCrypto   string `json:"network_crypto,omitempty"`
+		NetworkCoinId   string `json:"network_coin_id,omitempty"`
+		NetworkFeeValue string `json:"network_fee_value,omitempty"`
 	} `json:"data"`
 }
 
