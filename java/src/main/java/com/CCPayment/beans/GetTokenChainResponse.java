@@ -25,6 +25,10 @@ public class GetTokenChainResponse {
         private String chainLogo;
         @JsonProperty("token_id")
         private String tokenId;
+        @JsonProperty("network_coin_id")
+        private String networkCoinId;
+        @JsonProperty("network_fee_crypto")
+        private String networkFeeCrypto;
 
         public String getLogo() {
             return logo;
@@ -96,6 +100,21 @@ public class GetTokenChainResponse {
 
         public void setCrypto(String crypto) {
             this.crypto = crypto;
+        }
+
+        public String getNetworkCoinId() {
+            return networkCoinId;
+        }
+
+        public void setNetworkCoinId(String networkCoinId) {
+            this.networkCoinId = networkCoinId;
+        }
+        public String getNetworkFeeCrypto() {
+            return networkFeeCrypto;
+        }
+
+        public void setNetworkFeeCrypto(String networkFeeCrypto) {
+            this.networkFeeCrypto = networkFeeCrypto;
         }
     }
 

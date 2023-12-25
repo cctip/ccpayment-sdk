@@ -138,6 +138,8 @@ class CCPaymentClass:
                     "name": "",
                     "network": "",
                     "chain_logo": ""
+                    "network_coin_id": ""
+                    "network_fee_crypto": ""
                 }
             ]
         }
@@ -175,10 +177,12 @@ class CCPaymentClass:
         "msg": "",
         "data": {
             "bill_id": "",
-            "type": "",
             "network_fee": "",
             "record_id": "",
             "net_receivable": "" 
+            "network_coin_id": ""
+            "network_fee_crypto": ""
+            "network_fee_value": ""
         }
     }
     """
@@ -287,6 +291,9 @@ class CCPaymentClass:
                     "txid":"0x5caafde27a8040547a169168c55f35806eb0ca68344b2d53894097b0e9d5fa89",
                     "pay_time":1684727677,
                     "token_rate":"0.3582"
+                    "network_fee_crypto":"ETH"
+                    "network_coin_id":"0.3582"
+                    "network_fee_value":"0.3582"
                 }
             ],
             "refund_list":[
