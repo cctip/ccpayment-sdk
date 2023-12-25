@@ -8,12 +8,8 @@ import (
 )
 
 var (
-	// appId     = "202307200931401681960050962821120"
-	// appSecret = `3c9c804fb62e39efe6e5b999a7d91e06`
-	// appId     = "7InxiSp9wgcGpDuu"
-	// appSecret = `9b3aa9a2c6e963e82a5c44bb5b8f6531`
-	appId     = "202308080629551688799681213833216"
-	appSecret = "3b5c6a816023ac7fc740c94eb074d38c"
+	appId     = "xxxx"
+	appSecret = "xxx"
 )
 
 // create order
