@@ -6,10 +6,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/cctip/ccpayment-sdk/golang/sign"
-	"github.com/go-resty/resty/v2"
 	"io/ioutil"
 	"net/http"
 	"reflect"
+	"resty.dev/v3"
 	"sync"
 	"time"
 )
@@ -269,14 +269,14 @@ func sendPost(data interface{}, dst string, uri, appId, appSecret, signStr strin
 	// defer res
 
 	if resp.StatusCode() == http.StatusOK {
-		byt := resp.Body()
+		byt := resp.String()
 
 		dt := reflect.TypeOf(data)
 		if dt.Kind() != reflect.Ptr {
 			return fmt.Errorf(`params: data must be ptr`)
 		}
 
-		err = json.Unmarshal(byt, data)
+		err = json.Unmarshal([]byte(byt), data)
 		if err != nil {
 			return err
 		}
@@ -354,7 +354,7 @@ func sendPost(data interface{}, dst string, uri, appId, appSecret, signStr strin
 		}
 
 		if value.Int() == 10000 {
-			if !getHeadersAndValidate(resp.RawResponse, appId, appSecret, byt) {
+			if !getHeadersAndValidate(resp.RawResponse, appId, appSecret, []byte(byt)) {
 				return SignVerifyErr
 			}
 		}
