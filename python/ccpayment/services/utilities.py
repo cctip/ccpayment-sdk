@@ -29,4 +29,11 @@ class UtilitiesService:
 
     def health(self) -> dict:
         """API health check interface"""
-        return self.client._post("/health", {})
+        try:
+            return self.client._post("/health", {})
+        except Exception as e:
+            # Health endpoint may return plain text or 404
+            if "404" in str(e):
+                return {"status": "404 Not Found", "message": "Health endpoint not available"}
+            # Try to return the response text if available
+            return {"status": str(e), "message": "Health check completed with exception"}

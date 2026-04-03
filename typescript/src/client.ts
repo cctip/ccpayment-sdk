@@ -33,8 +33,20 @@ export class Client {
     this.baseUrl = baseUrl;
   }
 
-  public setProxy(proxy: AxiosProxyConfig): void {
-    this.axiosInstance.defaults.proxy = proxy;
+  public setProxy(proxyUrl: string): void {
+    // Parse proxy URL like "http://127.0.0.1:10808" or "127.0.0.1:10808"
+    const cleanUrl = proxyUrl.replace(/^http:\/\//, '');
+    const parts = cleanUrl.split(':');
+    const host = parts[0];
+    const port = parts[1] ? parseInt(parts[1]) : 80;
+    
+    this.axiosInstance = axios.create({
+      proxy: {
+        host: host,
+        port: port,
+        protocol: 'http'
+      }
+    });
   }
 
   private generateSign(body: string): { sign: string; timestamp: string } {
@@ -72,56 +84,56 @@ export class Client {
     return result.data;
   }
 
-  // Service accessors
-  public basicInfo(): BasicInfoService {
+  // Service accessors - using getters for property-like access
+  get basicInfo(): BasicInfoService {
     return new BasicInfoService(this);
   }
 
-  public merchantAssets(): MerchantAssetsService {
+  get merchantAssets(): MerchantAssetsService {
     return new MerchantAssetsService(this);
   }
 
-  public merchantDeposit(): MerchantDepositService {
+  get merchantDeposit(): MerchantDepositService {
     return new MerchantDepositService(this);
   }
 
-  public merchantWithdraw(): MerchantWithdrawService {
+  get merchantWithdraw(): MerchantWithdrawService {
     return new MerchantWithdrawService(this);
   }
 
-  public merchantBatchWithdraw(): MerchantBatchWithdrawService {
+  get merchantBatchWithdraw(): MerchantBatchWithdrawService {
     return new MerchantBatchWithdrawService(this);
   }
 
-  public userAssets(): UserAssetsService {
+  get userAssets(): UserAssetsService {
     return new UserAssetsService(this);
   }
 
-  public userDeposit(): UserDepositService {
+  get userDeposit(): UserDepositService {
     return new UserDepositService(this);
   }
 
-  public userWithdraw(): UserWithdrawService {
+  get userWithdraw(): UserWithdrawService {
     return new UserWithdrawService(this);
   }
 
-  public userTransfer(): UserTransferService {
+  get userTransfer(): UserTransferService {
     return new UserTransferService(this);
   }
 
-  public orders(): OrdersService {
+  get orders(): OrdersService {
     return new OrdersService(this);
   }
 
-  public checkout(): CheckoutService {
+  get checkout(): CheckoutService {
     return new CheckoutService(this);
   }
 
-  public swap(): SwapService {
+  get swap(): SwapService {
     return new SwapService(this);
   }
 
-  public utilities(): UtilitiesService {
+  get utilities(): UtilitiesService {
     return new UtilitiesService(this);
   }
 }

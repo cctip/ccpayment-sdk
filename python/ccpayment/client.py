@@ -65,55 +65,93 @@ class Client:
 
         return result.get("data", {})
 
-    # Service accessors
+    @property
     def basic_info(self):
         from .services.basic_info import BasicInfoService
-        return BasicInfoService(self)
+        if not hasattr(self, '_basic_info'):
+            self._basic_info = BasicInfoService(self)
+        return self._basic_info
 
+    @property
     def merchant_assets(self):
         from .services.merchant_assets import MerchantAssetsService
-        return MerchantAssetsService(self)
+        if not hasattr(self, '_merchant_assets'):
+            self._merchant_assets = MerchantAssetsService(self)
+        return self._merchant_assets
 
+    @property
     def merchant_deposit(self):
         from .services.merchant_deposit import MerchantDepositService
-        return MerchantDepositService(self)
+        if not hasattr(self, '_merchant_deposit'):
+            self._merchant_deposit = MerchantDepositService(self)
+        return self._merchant_deposit
 
+    @property
     def merchant_withdraw(self):
         from .services.merchant_withdraw import MerchantWithdrawService
-        return MerchantWithdrawService(self)
+        if not hasattr(self, '_merchant_withdraw'):
+            self._merchant_withdraw = MerchantWithdrawService(self)
+        return self._merchant_withdraw
 
+    @property
     def merchant_batch_withdraw(self):
         from .services.merchant_batch_withdraw import MerchantBatchWithdrawService
-        return MerchantBatchWithdrawService(self)
+        if not hasattr(self, '_merchant_batch_withdraw'):
+            self._merchant_batch_withdraw = MerchantBatchWithdrawService(self)
+        return self._merchant_batch_withdraw
 
+    @property
     def user_assets(self):
         from .services.user_assets import UserAssetsService
-        return UserAssetsService(self)
+        if not hasattr(self, '_user_assets'):
+            self._user_assets = UserAssetsService(self)
+        return self._user_assets
 
+    @property
     def user_deposit(self):
         from .services.user_deposit import UserDepositService
-        return UserDepositService(self)
+        if not hasattr(self, '_user_deposit'):
+            self._user_deposit = UserDepositService(self)
+        return self._user_deposit
 
+    @property
     def user_withdraw(self):
         from .services.user_withdraw import UserWithdrawService
-        return UserWithdrawService(self)
+        if not hasattr(self, '_user_withdraw'):
+            self._user_withdraw = UserWithdrawService(self)
+        return self._user_withdraw
 
+    @property
     def user_transfer(self):
         from .services.user_transfer import UserTransferService
-        return UserTransferService(self)
+        if not hasattr(self, '_user_transfer'):
+            self._user_transfer = UserTransferService(self)
+        return self._user_transfer
 
+    @property
     def orders(self):
         from .services.orders import OrdersService
-        return OrdersService(self)
+        if not hasattr(self, '_orders'):
+            self._orders = OrdersService(self)
+        return self._orders
 
+    @property
     def checkout(self):
         from .services.checkout import CheckoutService
-        return CheckoutService(self)
+        if not hasattr(self, '_checkout'):
+            self._checkout = CheckoutService(self)
+        return self._checkout
 
+    @property
     def swap(self):
         from .services.swap import SwapService
-        return SwapService(self)
+        if not hasattr(self, '_swap'):
+            self._swap = SwapService(self)
+        return self._swap
 
+    @property
     def utilities(self):
         from .services.utilities import UtilitiesService
-        return UtilitiesService(self)
+        if not hasattr(self, '_utilities'):
+            self._utilities = UtilitiesService(self)
+        return self._utilities

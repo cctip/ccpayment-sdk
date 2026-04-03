@@ -177,6 +177,41 @@ export interface SwapRecord {
   createdAt: number;
 }
 
+export interface AutoWithdrawRecord {
+  recordId: string;
+  orderId: string;
+  coinId: number;
+  coinSymbol: string;
+  amount: string;
+  toAddress: string;
+  chain: string;
+  status: string;
+  createdAt: number;
+  txHash?: string;
+}
+
+export interface RiskyRefundRecord {
+  recordId: string;
+  originalRecordId: string;
+  coinId: number;
+  coinSymbol: string;
+  amount: string;
+  fromAddress: string;
+  toAddress: string;
+  chain: string;
+  status: string;
+  createdAt: number;
+  reason: string;
+}
+
+export interface WithdrawFee {
+  coinId: number;
+  coinSymbol: string;
+  chain: string;
+  fee: string;
+  feeCoin: string;
+}
+
 // API Response types
 export interface APIResponse<T> {
   code: number;
