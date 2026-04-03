@@ -1,99 +1,99 @@
 # CCPayment SDK Code Generator
 
-AI驱动的多语言SDK代码生成器，从API文档自动生成强类型的SDK代码。
+AI-powered multi-language SDK code generator that automatically generates strongly-typed SDK code from API documentation.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Languages](https://img.shields.io/badge/languages-7-blue.svg)](#支持的语言)
+[![Languages](https://img.shields.io/badge/languages-7-blue.svg)](#supported-languages)
 
-## 特性
+## Features
 
-✨ **AI驱动代码生成** - 使用AI Agent自动从API文档生成SDK代码  
-🔒 **强类型支持** - 为所有语言生成强类型定义和验证  
-🎯 **模块化设计** - 支持生成完整SDK或单个模块  
-🌍 **多语言支持** - 支持7种主流编程语言  
-🚀 **开箱即用** - 生成的代码包含测试程序和完整文档  
-🔧 **灵活配置** - 支持自定义输出路径和代理配置
+✨ **AI-Powered Code Generation** - Uses AI Agent to automatically generate SDK code from API documentation  
+🔒 **Strong Type Support** - Generates strong type definitions and validation for all languages  
+🎯 **Modular Design** - Supports generating complete SDKs or individual modules  
+🌍 **Multi-Language Support** - Supports 7 mainstream programming languages  
+🚀 **Ready to Use** - Generated code includes test programs and complete documentation  
+🔧 **Flexible Configuration** - Supports custom output paths and proxy configuration
 
-## 快速开始
+## Quick Start
 
-### 导入到AI Agent
+### Import to AI Agent
 
-本项目使用 **Skills 机制**，需要先将 `.skills/SKILL.md` 文件导入到您的 AI Agent 中：
+This project uses the **Skills mechanism**, requiring you to first import the `.skills/SKILL.md` file into your AI Agent:
 
-**步骤1: 导入技能文件**
+**Step 1: Import Skill File**
 
-在 AI Agent 中使用以下方式导入：
+Import using the following method in your AI Agent:
 
 ```
 @(ccpayment-sdk/.skills/SKILL.md)
 ```
 
-**步骤2: 让AI Agent学习**
+**Step 2: Let AI Agent Learn**
 
-导入后，AI Agent会自动读取并学习 `SKILL.md` 中的代码生成规则。
+After import, the AI Agent will automatically read and learn the code generation rules in `SKILL.md`.
 
-### 使用方法
+### Usage
 
-学习完成后，在AI Agent中输入以下命令即可生成SDK代码：
+After learning is complete, enter the following commands in your AI Agent to generate SDK code:
 
 ```bash
-# 生成完整的Golang SDK
+# Generate complete Golang SDK
 ccpayment.sdk.codegen golang
 
-# 只生成商家资产模块
+# Only generate merchant assets module
 ccpayment.sdk.codegen golang merchant-assets
 
-# 生成到指定路径
+# Generate to specified path
 ccpayment.sdk.codegen python merchant-assets ./sdk/python
 ```
 
-### Shell 脚本示例
+### Shell Script Example
 
 ```bash
-# 生成商家资产模块的 Shell 脚本
+# Generate Shell script for merchant assets module
 ccpayment.sdk.codegen shell merchant-assets
 
-# 生成后使用
+# Use after generation
 source generated/shell/env.sh && ./generated/shell/merchant_assets.sh
 ```
 
-## 支持的语言
+## Supported Languages
 
-| 语言 | 状态 | 默认输出路径 |
+| Language | Status | Default Output Path |
 |------|------|-------------|
-| Golang | ✅ 已支持 | `generated/golang/` |
-| Python | ✅ 已支持 | `generated/python/` |
-| TypeScript | ✅ 已支持 | `generated/typescript/` |
-| JavaScript | ✅  已支持 | `generated/javascript/` |
-| Java | ✅ 已支持 | `generated/java/` |
-| PHP | ✅  已支持 | `generated/php/` |
-| Ruby | ✅ 已支持 | `generated/ruby/` |
-| Shell | ✅ 已支持 | `generated/shell/` |
+| Golang | ✅ Supported | `generated/golang/` |
+| Python | ✅ Supported | `generated/python/` |
+| TypeScript | ✅ Supported | `generated/typescript/` |
+| JavaScript | ✅ Supported | `generated/javascript/` |
+| Java | ✅ Supported | `generated/java/` |
+| PHP | ✅ Supported | `generated/php/` |
+| Ruby | ✅ Supported | `generated/ruby/` |
+| Shell | ✅ Supported | `generated/shell/` |
 
-## 支持的模块
+## Supported Modules
 
-SDK按功能模块组织，共13个模块：
+The SDK is organized by functional modules, totaling 13 modules:
 
-### 商家端模块
-- `basic-info` - 基础信息（代币、法币、链信息）
-- `merchant-assets` - 商家资产查询
-- `merchant-deposit` - 商家充值管理
-- `merchant-withdraw` - 商家提现管理
-- `merchant-batch-withdraw` - 批量提现管理
+### Merchant Modules
+- `basic-info` - Basic information (tokens, fiat currencies, chain information)
+- `merchant-assets` - Merchant asset queries
+- `merchant-deposit` - Merchant deposit management
+- `merchant-withdraw` - Merchant withdrawal management
+- `merchant-batch-withdraw` - Batch withdrawal management
 
-### 用户端模块
-- `user-assets` - 用户资产查询
-- `user-deposit` - 用户充值管理
-- `user-withdraw` - 用户提现管理
-- `user-transfer` - 用户转账管理
+### User Modules
+- `user-assets` - User asset queries
+- `user-deposit` - User deposit management
+- `user-withdraw` - User withdrawal management
+- `user-transfer` - User transfer management
 
-### 其他模块
-- `orders` - 订单管理
-- `checkout` - 收银台管理
-- `swap` - 换币功能
-- `utilities` - 工具接口
+### Other Modules
+- `orders` - Order management
+- `checkout` - Checkout management
+- `swap` - Swap functionality
+- `utilities` - Utility interfaces
 
-## 使用示例
+## Usage Examples
 
 ### Golang SDK
 
@@ -106,16 +106,16 @@ import (
 )
 
 func main() {
-    // 创建客户端
+    // Create client
     client := NewClient("your_app_id", "your_app_secret")
     
-    // 获取全部资产
+    // Get all assets
     resp, err := client.MerchantAssets().GetAppCoinAssetList(context.Background())
     if err != nil {
         log.Fatal(err)
     }
     
-    // 打印资产
+    // Print assets
     for _, asset := range resp.Assets {
         log.Printf("%s: %s", asset.CoinSymbol, asset.Available)
     }
@@ -127,26 +127,26 @@ func main() {
 ```python
 from client import Client
 
-# 创建客户端
+# Create client
 client = Client("your_app_id", "your_app_secret")
 
-# 获取全部资产
+# Get all assets
 response = client.merchant_assets().get_app_coin_asset_list()
 
-# 打印资产
+# Print assets
 for asset in response.assets:
     print(f"{asset.coin_symbol}: {asset.available}")
 ```
 
-### Shell 示例
+### Shell Example
 
 ```bash
-# 设置环境变量
+# Set environment variables
 export BASE_URL="https://ccpayment.com/ccpayment/v2"
 export APP_ID="your_app_id"
 export APP_SECRET="your_app_secret"
 
-# 生成签名并调用 API
+# Generate signature and call API
 generate_sign() {
     local body="$1"
     local timestamp=$(date +%s)
@@ -154,7 +154,7 @@ generate_sign() {
     echo -n "$sign_text" | openssl dgst -sha256 -hmac "$APP_SECRET" | sed 's/^.* //'
 }
 
-# 获取全部资产
+# Get all assets
 curl -X POST "${BASE_URL}/getAppCoinAssetList" \
   -H "Content-Type: application/json" \
   -H "Appid: ${APP_ID}" \
@@ -163,34 +163,34 @@ curl -X POST "${BASE_URL}/getAppCoinAssetList" \
   -d '{}'
 ```
 
-## 生成的代码结构
+## Generated Code Structure
 
-每个SDK都包含以下组件：
+Each SDK contains the following components:
 
 ```
 generated/<language>/
-├── client.*           # 核心客户端
-├── signature.*        # HMAC-SHA256签名生成
-├── models.*           # 强类型数据模型
-├── errors.*           # 错误处理
-├── <module>.*         # 各个模块的服务类
-├── test_main.*        # 测试程序
-└── README.md          # 使用文档
+├── client.*           # Core client
+├── signature.*        # HMAC-SHA256 signature generation
+├── models.*           # Strong type data models
+├── errors.*           # Error handling
+├── <module>.*         # Service classes for each module
+├── test_main.*        # Test programs
+└── README.md          # Usage documentation
 ```
 
-## 配置说明
+## Configuration
 
-### API认证
+### API Authentication
 
-所有API请求需要以下认证信息：
+All API requests require the following authentication information:
 
-1. 登录 [CCPayment开发者控制台](https://console.ccpayment.com)
-2. 获取 `App ID` 和 `App Secret`
-3. 配置IP白名单（必须）
+1. Log in to [CCPayment Developer Console](https://console.ccpayment.com)
+2. Obtain `App ID` and `App Secret`
+3. Configure IP whitelist (required)
 
-### HTTP代理
+### HTTP Proxy
 
-生成的SDK支持HTTP代理配置：
+Generated SDKs support HTTP proxy configuration:
 
 **Golang:**
 ```go
@@ -206,9 +206,9 @@ client.SetHTTPClient(httpClient)
 source generated/shell/env.sh && ./generated/shell/merchant_assets.sh
 ```
 
-## 测试
+## Testing
 
-生成的SDK包含完整的测试程序：
+Generated SDKs include complete test programs:
 
 ```bash
 # Golang
@@ -223,86 +223,86 @@ python3 test_main.py
 source generated/shell/env.sh && ./generated/shell/merchant_assets.sh
 ```
 
-## 文档
+## Documentation
 
-- 📖 [API文档](.rules/api/README.md) - 完整的API接口文档
-- 🛠️ [代码生成器说明](.skills/SKILL.md) - 代码生成器的详细说明
-- 🌐 [官方文档](https://doc.ccpayment.com) - CCPayment官方文档
+- 📖 [API Documentation](.rules/api/README.md) - Complete API interface documentation
+- 🛠️ [Code Generator Instructions](.skills/SKILL.md) - Detailed instructions for the code generator
+- 🌐 [Official Documentation](https://doc.ccpayment.com) - CCPayment official documentation
 
-## 常见问题
+## FAQ
 
-### 1. 如何使用代码生成器？
+### 1. How to use the code generator?
 
-**步骤1: 导入技能文件**
+**Step 1: Import Skill File**
 
-将 `.skills/SKILL.md` 文件复制到您使用的 AI Agent 的 skills 目录中：
+Copy the `.skills/SKILL.md` file to your AI Agent's skills directory:
 
 - Windows: `%USERPROFILE%\.{agent}\skills\ccpayment.sdk.codegen.md`
 - macOS/Linux: `~/.{agent}/skills/ccpayment.sdk.codegen.md`
 
-支持的 AI Agent: Windsurf, Cursor, Cline, Continue.dev, Aider, Gemini, Codex, DeepSeek
+Supported AI Agents: Windsurf, Cursor, Cline, Continue.dev, Aider, Gemini, Codex, DeepSeek
 
-**步骤2: 让AI Agent学习**
+**Step 2: Let AI Agent Learn**
 
-导入后，AI Agent会自动读取并学习 `SKILL.md` 中的代码生成规则。
+After import, the AI Agent will automatically read and learn the code generation rules in `SKILL.md`.
 
-**步骤3: 使用命令生成代码**
+**Step 3: Use Commands to Generate Code**
 
-学习完成后，在AI Agent中输入：
+After learning is complete, enter in your AI Agent:
 ```bash
 ccpayment.sdk.codegen golang merchant-assets
 ```
 
-### 2. 生成的代码可以直接使用吗？
+### 2. Can the generated code be used directly?
 
-是的！生成的代码包含完整的实现、测试程序和文档，可以直接运行。只需配置API凭证即可。
+Yes! The generated code includes complete implementation, test programs, and documentation, and can be run directly. Just configure the API credentials.
 
-### 3. 如何配置IP白名单？
+### 3. How to configure the IP whitelist?
 
-登录 [开发者控制台](https://console.ccpayment.com/developer/config)，在"IP白名单"设置中添加您的公网IP地址。
+Log in to the [Developer Console](https://console.ccpayment.com/developer/config) and add your public IP address in the "IP Whitelist" settings.
 
-### 4. 支持哪些AI Agent？
+### 4. Which AI Agents are supported?
 
-目前支持以下AI Agent：
-- **Windsurf** - Codeium的AI编程助手
-- **Cursor** - AI代码编辑器
-- **Cline** - VS Code的Claude扩展
-- **Continue.dev** - 开源AI编程助手
-- **Aider** - 命令行AI编程工具
-- **Gemini** - Google的AI代码助手
+Currently supported AI Agents:
+- **Windsurf** - Codeium's AI programming assistant
+- **Cursor** - AI code editor
+- **Cline** - VS Code's Claude extension
+- **Continue.dev** - Open source AI programming assistant
+- **Aider** - Command-line AI programming tool
+- **Gemini** - Google's AI code assistant
 - **Codex** - GitHub Copilot/OpenAI Codex
-- **DeepSeek** - DeepSeek Coder AI助手
+- **DeepSeek** - DeepSeek Coder AI assistant
 
-### 5. 可以自定义输出路径吗？
+### 5. Can the output path be customized?
 
-可以！使用命令时添加路径参数：
+Yes! Add the path parameter when using the command:
 ```bash
 ccpayment.sdk.codegen golang merchant-assets ./custom/path
 
-# 或生成 Shell 脚本到指定路径
+# Or generate Shell scripts to specified path
 ccpayment.sdk.codegen shell merchant-assets ./shell-examples
 ```
 
-## 贡献
+## Contributing
 
-欢迎贡献代码！请遵循以下步骤：
+Contributions are welcome! Please follow these steps:
 
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 开启 Pull Request
+1. Fork this repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 许可证
+## License
 
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
-## 相关链接
+## Related Links
 
-- 🌐 [CCPayment官网](https://ccpayment.com)
-- 📚 [API文档](https://doc.ccpayment.com)
-- 💻 [开发者控制台](https://console.ccpayment.com)
-- 🐛 [问题反馈](https://github.com/yourusername/ccpayment-sdk/issues)
+- 🌐 [CCPayment Official Website](https://ccpayment.com)
+- 📚 [API Documentation](https://doc.ccpayment.com)
+- 💻 [Developer Console](https://console.ccpayment.com)
+- 🐛 [Issue Feedback](https://github.com/yourusername/ccpayment-sdk/issues)
 
 ---
 
