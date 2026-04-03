@@ -1,178 +1,178 @@
-# 商家提现模块
+# Merchant Withdrawal Module
 
-## 4.1 提现到网络地址
+## 4.1 Withdraw to Network Address
 
-**接口:** `POST /applyAppWithdrawToNetwork`
+**Interface:** `POST /applyAppWithdrawToNetwork`
 
-**描述:** 申请提现到区块链网络地址。
+**Description:** Apply for withdrawal to a blockchain network address.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度3-64 |
-| coinId | uint64 | 是 | 代币ID | ≥1 |
-| chain | string | 是 | 链名称 | 长度≥1 |
-| address | string | 是 | 提现地址 | 长度≥1 |
-| memo | string | 否 | 备注 | - |
-| amount | string | 是 | 提现金额 | 长度≥1 |
-| merchantPayNetworkFee | bool | 否 | 商家是否支付网络费 | - |
-| networkFeeInquiryID | string | 否 | 网络费查询ID | - |
-| notifyUrl | string | 否 | 通知URL | 最大150字符，URI格式 |
+| orderId | string | Yes | Order ID | Length 3-64 |
+| coinId | uint64 | Yes | Token ID | ≥1 |
+| chain | string | Yes | Chain name | Length ≥1 |
+| address | string | Yes | Withdrawal address | Length ≥1 |
+| memo | string | No | Memo | - |
+| amount | string | Yes | Withdrawal amount | Length ≥1 |
+| merchantPayNetworkFee | bool | No | Whether merchant pays network fee | - |
+| networkFeeInquiryID | string | No | Network fee inquiry ID | - |
+| notifyUrl | string | No | Notification URL | Max 150 characters, URI format |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| recordId | string | 提现记录ID |
+| recordId | string | Withdrawal record ID |
 
-## 4.2 提现到CCWallet
+## 4.2 Withdraw to CCWallet
 
-**接口:** `POST /applyAppWithdrawToCwallet`
+**Interface:** `POST /applyAppWithdrawToCwallet`
 
-**描述:** 申请提现到CCWallet账户。
+**Description:** Apply for withdrawal to a CCWallet account.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度3-64 |
-| coinId | uint64 | 是 | 代币ID | ≥1 |
-| cwalletUser | string | 是 | CCWallet用户（邮箱/ID） | 长度≥1 |
-| amount | string | 是 | 提现金额 | 长度≥1 |
+| orderId | string | Yes | Order ID | Length 3-64 |
+| coinId | uint64 | Yes | Token ID | ≥1 |
+| cwalletUser | string | Yes | CCWallet user (email/ID) | Length ≥1 |
+| amount | string | Yes | Withdrawal amount | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| recordId | string | 提现记录ID |
+| recordId | string | Withdrawal record ID |
 
-## 4.3 查询提现记录
+## 4.3 Query Withdrawal Record
 
-**接口:** `POST /getAppWithdrawRecord`
+**Interface:** `POST /getAppWithdrawRecord`
 
-**描述:** 查询单条提现记录详情。
+**Description:** Query details of a single withdrawal record.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 |------|------|------|------|
-| orderId | string | 否 | 订单ID |
-| recordId | string | 否 | 记录ID |
+| orderId | string | No | Order ID |
+| recordId | string | No | Record ID |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| record | Object | 提现记录 |
-| record.recordId | string | 记录ID |
-| record.withdrawType | string | 提现类型 |
-| record.appId | string | 应用ID |
-| record.coinId | uint64 | 代币ID |
-| record.coinSymbol | string | 代币符号 |
-| record.chain | string | 链名称 |
-| record.fromAddress | string | 来源地址 |
-| record.toAddress | string | 目标地址 |
-| record.cwalletUser | string | CCWallet用户 |
-| record.orderId | string | 订单ID |
-| record.txId | string | 交易哈希（可选） |
-| record.toMemo | string | 备注（可选） |
-| record.status | string | 状态 |
-| record.amount | string | 金额 |
-| record.fee | Object | 手续费信息 |
-| record.fee.coinId | uint64 | 代币ID |
-| record.fee.coinSymbol | string | 代币符号 |
-| record.fee.amount | string | 手续费金额 |
-| record.reason | string | 原因（可选） |
-| record.coinUSDPrice | string | 代币USD价格 |
+| record | Object | Withdrawal record |
+| record.recordId | string | Record ID |
+| record.withdrawType | string | Withdrawal type |
+| record.appId | string | Application ID |
+| record.coinId | uint64 | Token ID |
+| record.coinSymbol | string | Token symbol |
+| record.chain | string | Chain name |
+| record.fromAddress | string | Source address |
+| record.toAddress | string | Target address |
+| record.cwalletUser | string | CCWallet user |
+| record.orderId | string | Order ID |
+| record.txId | string | Transaction hash (optional) |
+| record.toMemo | string | Memo (optional) |
+| record.status | string | Status |
+| record.amount | string | Amount |
+| record.fee | Object | Fee information |
+| record.fee.coinId | uint64 | Token ID |
+| record.fee.coinSymbol | string | Token symbol |
+| record.fee.amount | string | Fee amount |
+| record.reason | string | Reason (optional) |
+| record.coinUSDPrice | string | Token USD price |
 
-## 4.4 查询提现记录列表
+## 4.4 Query Withdrawal Record List
 
-**接口:** `POST /getAppWithdrawRecordList`
+**Interface:** `POST /getAppWithdrawRecordList`
 
-**描述:** 查询提现记录列表。
+**Description:** Query withdrawal record list.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 |------|------|------|------|
-| chain | string | 否 | 链名称 |
-| coinId | uint64 | 否 | 代币ID |
-| orderIds | Array<string> | 否 | 订单ID列表 |
-| startAt | int64 | 否 | 开始时间（默认90天） |
-| endAt | int64 | 否 | 结束时间 |
-| toAddress | string | 否 | 目标地址 |
-| nextId | string | 否 | 下一页ID |
+| chain | string | No | Chain name |
+| coinId | uint64 | No | Token ID |
+| orderIds | Array<string> | No | Order ID list |
+| startAt | int64 | No | Start time (default 90 days) |
+| endAt | int64 | No | End time |
+| toAddress | string | No | Target address |
+| nextId | string | No | Next page ID |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| records | Array | 提现记录列表（结构同getAppWithdrawRecord） |
-| nextId | string | 下一页ID（可选） |
+| records | Array | Withdrawal record list (same structure as getAppWithdrawRecord) |
+| nextId | string | Next page ID (optional) |
 
-## 4.5 查询自动提现记录列表
+## 4.5 Query Auto Withdrawal Record List
 
-**接口:** `POST /getAutoWithdrawRecordList`
+**Interface:** `POST /getAutoWithdrawRecordList`
 
-**描述:** 查询自动提现记录列表。
+**Description:** Query automatic withdrawal record list.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 |------|------|------|------|
-| chain | string | 否 | 链名称 |
-| coinId | uint64 | 否 | 代币ID |
-| recordIds | Array<string> | 否 | 记录ID列表 |
-| startAt | int64 | 否 | 开始时间（默认90天） |
-| endAt | int64 | 否 | 结束时间 |
-| toAddress | string | 否 | 目标地址 |
-| nextId | string | 否 | 下一页ID |
+| chain | string | No | Chain name |
+| coinId | uint64 | No | Token ID |
+| recordIds | Array<string> | No | Record ID list |
+| startAt | int64 | No | Start time (default 90 days) |
+| endAt | int64 | No | End time |
+| toAddress | string | No | Target address |
+| nextId | string | No | Next page ID |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| records | Array | 自动提现记录列表 |
-| records[].recordId | string | 记录ID |
-| records[].coinId | uint64 | 代币ID |
-| records[].coinSymbol | string | 代币符号 |
-| records[].chain | string | 链名称 |
-| records[].orderId | string | 订单ID |
-| records[].toAddress | string | 目标地址 |
-| records[].toMemo | string | 备注（可选） |
-| records[].amount | string | 金额 |
-| records[].txId | string | 交易哈希（可选） |
-| records[].status | string | 状态 |
-| records[].fee | Object | 手续费信息 |
-| records[].serviceFee | string | 服务费 |
-| records[].createdAt | int64 | 创建时间 |
-| nextId | string | 下一页ID（可选） |
+| records | Array | Automatic withdrawal record list |
+| records[].recordId | string | Record ID |
+| records[].coinId | uint64 | Token ID |
+| records[].coinSymbol | string | Token symbol |
+| records[].chain | string | Chain name |
+| records[].orderId | string | Order ID |
+| records[].toAddress | string | Target address |
+| records[].toMemo | string | Memo (optional) |
+| records[].amount | string | Amount |
+| records[].txId | string | Transaction hash (optional) |
+| records[].status | string | Status |
+| records[].fee | Object | Fee information |
+| records[].serviceFee | string | Service fee |
+| records[].createdAt | int64 | Creation time |
+| nextId | string | Next page ID (optional) |
 
-## 4.6 查询风险退款记录列表
+## 4.6 Query Risky Refund Record List
 
-**接口:** `POST /getRiskyRefundRecordList`
+**Interface:** `POST /getRiskyRefundRecordList`
 
-**描述:** 查询风险退款记录列表。
+**Description:** Query risky refund record list.
 
-**请求参数:** 同getAutoWithdrawRecordList
+**Request Parameters:** Same as getAutoWithdrawRecordList
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| records | Array | 风险退款记录列表 |
-| records[].recordId | string | 记录ID |
-| records[].coinId | uint64 | 代币ID |
-| records[].coinSymbol | string | 代币符号 |
-| records[].chain | string | 链名称 |
-| records[].orderId | string | 订单ID |
-| records[].toAddress | string | 目标地址 |
-| records[].toMemo | string | 备注（可选） |
-| records[].amount | string | 金额 |
-| records[].txId | string | 交易哈希（可选） |
-| records[].status | string | 状态 |
-| records[].fee | Object | 手续费信息 |
-| records[].createdAt | int64 | 创建时间 |
-| records[].fromDeposit | Array | 来源充值记录 |
-| nextId | string | 下一页ID（可选） |
+| records | Array | Risky refund record list |
+| records[].recordId | string | Record ID |
+| records[].coinId | uint64 | Token ID |
+| records[].coinSymbol | string | Token symbol |
+| records[].chain | string | Chain name |
+| records[].orderId | string | Order ID |
+| records[].toAddress | string | Target address |
+| records[].toMemo | string | Memo (optional) |
+| records[].amount | string | Amount |
+| records[].txId | string | Transaction hash (optional) |
+| records[].status | string | Status |
+| records[].fee | Object | Fee information |
+| records[].createdAt | int64 | Creation time |
+| records[].fromDeposit | Array | Source deposit records |
+| nextId | string | Next page ID (optional) |

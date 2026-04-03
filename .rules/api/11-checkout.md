@@ -1,175 +1,175 @@
-# 收银台模块
+# Checkout Module
 
-## 11.1 创建Checkout URL
+## 11.1 Create Checkout URL
 
-**接口:** `POST /createCheckoutUrl`
+**Interface:** `POST /createCheckoutUrl`
 
-**描述:** 创建Hosted Checkout支付URL。
+**Description:** Create a Hosted Checkout payment URL.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度3-64 |
-| product | string | 是 | 产品描述 | 长度≥1 |
-| priceFiatId | uint64 | 否 | 法币ID | - |
-| priceCoinId | uint64 | 否 | 代币ID | - |
-| price | string | 是 | 价格 | 长度≥1 |
-| buyerEmail | string | 否 | 买家邮箱 | 邮箱格式 |
-| returnUrl | string | 否 | 返回URL | 最大150字符，URI格式 |
-| expiredAt | int64 | 否 | 过期时间戳 | ≥1 |
-| closeUrl | string | 否 | 关闭URL | 最大150字符，URI格式 |
-| notifyUrl | string | 否 | 通知URL | 最大150字符，URI格式 |
+| orderId | string | Yes | Order ID | Length 3-64 |
+| product | string | Yes | Product description | Length ≥1 |
+| priceFiatId | uint64 | No | Fiat currency ID | - |
+| priceCoinId | uint64 | No | Token ID | - |
+| price | string | Yes | Price | Length ≥1 |
+| buyerEmail | string | No | Buyer email | Email format |
+| returnUrl | string | No | Return URL | Max 150 characters, URI format |
+| expiredAt | int64 | No | Expiration timestamp | ≥1 |
+| closeUrl | string | No | Close URL | Max 150 characters, URI format |
+| notifyUrl | string | No | Notification URL | Max 150 characters, URI format |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| checkoutUrl | string | Checkout支付URL |
+| checkoutUrl | string | Checkout payment URL |
 
-## 11.2 获取Hosted订单信息
+## 11.2 Get Hosted Order Info
 
-**接口:** `POST /hostedOrderInfo`
+**Interface:** `POST /hostedOrderInfo`
 
-**描述:** 获取Hosted订单详情。
+**Description:** Get Hosted order details.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度≥1 |
+| orderId | string | Yes | Order ID | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| orderId | string | 订单ID |
-| product | string | 产品描述 |
-| price | string | 价格 |
-| priceCoinId | uint64 | 代币ID |
-| priceFiatId | uint64 | 法币ID |
-| priceSymbol | string | 价格符号 |
+| orderId | string | Order ID |
+| product | string | Product description |
+| price | string | Price |
+| priceCoinId | uint64 | Token ID |
+| priceFiatId | uint64 | Fiat currency ID |
+| priceSymbol | string | Price symbol |
 | checkoutUrl | string | Checkout URL |
-| buyerEmail | string | 买家邮箱 |
-| expiredAt | int64 | 过期时间 |
-| step | string | 当前步骤 |
-| selectedCoinId | uint64 | 选择的代币ID |
-| selectedChain | string | 选择的链 |
-| toAddress | string | 到账地址 |
-| toMemo | string | 备注 |
-| amountToPay | string | 应付金额 |
-| rate | string | 汇率 |
-| totalPaidValue | string | 已支付总价值 |
-| paidList | Array | 已支付列表 |
-| refundList | Array | 退款列表 |
+| buyerEmail | string | Buyer email |
+| expiredAt | int64 | Expiration time |
+| step | string | Current step |
+| selectedCoinId | uint64 | Selected token ID |
+| selectedChain | string | Selected chain |
+| toAddress | string | Receiving address |
+| toMemo | string | Memo |
+| amountToPay | string | Amount to pay |
+| rate | string | Exchange rate |
+| totalPaidValue | string | Total paid value |
+| paidList | Array | Paid list |
+| refundList | Array | Refund list |
 
-## 11.3 获取Hosted订单首次信息
+## 11.3 Get Hosted Order First Info
 
-**接口:** `POST /hostedOrderInfoFirst`
+**Interface:** `POST /hostedOrderInfoFirst`
 
-**描述:** 获取Hosted订单的首次访问信息（用于前端展示）。
+**Description:** Get the first visit information of a Hosted order (for frontend display).
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度≥1 |
+| orderId | string | Yes | Order ID | Length ≥1 |
 
-**响应数据:** 同hostedOrderInfo，但包含更多前端展示所需的配置信息
+**Response Data:** Same as hostedOrderInfo, but includes more configuration information needed for frontend display
 
-## 11.4 创建Hosted订单充值
+## 11.4 Create Hosted Order Deposit
 
-**接口:** `POST /createHostedOrderDeposit`
+**Interface:** `POST /createHostedOrderDeposit`
 
-**描述:** 为Hosted订单选择代币和链后创建充值地址。
+**Description:** Create a deposit address after selecting token and chain for a Hosted order.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度≥1 |
-| coinId | uint64 | 是 | 代币ID | ≥1 |
-| chain | string | 是 | 链名称 | 长度≥1 |
+| orderId | string | Yes | Order ID | Length ≥1 |
+| coinId | uint64 | Yes | Token ID | ≥1 |
+| chain | string | Yes | Chain name | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| address | string | 充值地址 |
-| memo | string | 备注（可选） |
-| amountToPay | string | 应付金额 |
-| confirmsNeeded | uint64 | 需要的确认数 |
+| address | string | Deposit address |
+| memo | string | Memo (optional) |
+| amountToPay | string | Amount to pay |
+| confirmsNeeded | uint64 | Required confirmation count |
 
-## 11.5 获取Hosted代币USDT价格
+## 11.5 Get Hosted Coin USDT Price
 
-**接口:** `POST /getHostedCoinUSDTPrice`
+**Interface:** `POST /getHostedCoinUSDTPrice`
 
-**描述:** 获取Hosted模式下代币的USDT价格。
+**Description:** Get the USDT price of a token in Hosted mode.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 |------|------|------|------|
-| coinIds | Array<uint64> | 是 | 代币ID列表 |
+| coinIds | Array<uint64> | Yes | Token ID list |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| prices | Object | 价格映射 |
+| prices | Object | Price map |
 
-## 11.6 获取主要代币列表
+## 11.6 Get Main Coin List
 
-**接口:** `POST /getMainCoinList`
+**Interface:** `POST /getMainCoinList`
 
-**描述:** 获取Hosted模式下支持的主要代币列表。
+**Description:** Get the list of main supported tokens in Hosted mode.
 
-**请求参数:** 无
+**Request Parameters:** None
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| coins | Array | 代币列表 |
-| coins[].coinId | uint64 | 代币ID |
-| coins[].symbol | string | 代币符号 |
+| coins | Array | Token list |
+| coins[].coinId | uint64 | Token ID |
+| coins[].symbol | string | Token symbol |
 | coins[].logoUrl | string | Logo URL |
-| coins[].chains | Array | 支持的链列表 |
+| coins[].chains | Array | Supported chain list |
 
-## 11.7 创建Demo订单充值
+## 11.7 Create Demo Order Deposit
 
-**接口:** `POST /createAppDemoOrderDeposit`
+**Interface:** `POST /createAppDemoOrderDeposit`
 
-**描述:** 创建Demo订单充值地址（用于测试）。
+**Description:** Create a Demo order deposit address (for testing).
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度3-64 |
-| coinId | uint64 | 是 | 代币ID | ≥1 |
-| chain | string | 是 | 链名称 | 长度≥1 |
-| price | string | 是 | 价格 | 长度≥1 |
+| orderId | string | Yes | Order ID | Length 3-64 |
+| coinId | uint64 | Yes | Token ID | ≥1 |
+| chain | string | Yes | Chain name | Length ≥1 |
+| price | string | Yes | Price | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| address | string | 充值地址 |
-| amount | string | 充值金额 |
-| memo | string | 备注（可选） |
+| address | string | Deposit address |
+| amount | string | Deposit amount |
+| memo | string | Memo (optional) |
 
-## 11.8 确认交易
+## 11.8 Confirm Trade
 
-**接口:** `POST /confirmTrade`
+**Interface:** `POST /confirmTrade`
 
-**描述:** 确认Hosted订单的交易。
+**Description:** Confirm the trade of a Hosted order.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度≥1 |
-| txId | string | 是 | 交易哈希 | 长度≥1 |
+| orderId | string | Yes | Order ID | Length ≥1 |
+| txId | string | Yes | Transaction hash | Length ≥1 |
 
-**响应数据:** 空对象
+**Response Data:** Empty object

@@ -1,46 +1,46 @@
-# 用户资产模块
+# User Assets Module
 
-## 6.1 获取用户资产列表
+## 6.1 Get User Asset List
 
-**接口:** `POST /getUserCoinAssetList`
+**Interface:** `POST /getUserCoinAssetList`
 
-**描述:** 获取指定用户的所有代币资产。
+**Description:** Get all token assets of a specified user.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| userId | string | 是 | 用户ID | 长度5-64 |
+| userId | string | Yes | User ID | Length 5-64 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| userId | string | 用户ID |
-| assets | Array | 资产列表 |
-| assets[].coinId | uint64 | 代币ID |
-| assets[].coinSymbol | string | 代币符号 |
-| assets[].available | string | 可用余额 |
+| userId | string | User ID |
+| assets | Array | Asset list |
+| assets[].coinId | uint64 | Token ID |
+| assets[].coinSymbol | string | Token symbol |
+| assets[].available | string | Available balance |
 
-## 6.2 获取用户资产
+## 6.2 Get User Asset
 
-**接口:** `POST /getUserCoinAsset`
+**Interface:** `POST /getUserCoinAsset`
 
-**描述:** 获取指定用户的特定代币资产。
+**Description:** Get a specific token asset of a specified user.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| userId | string | 是 | 用户ID | 长度5-64 |
-| coinId | uint64 | 是 | 代币ID | ≥1 |
+| userId | string | Yes | User ID | Length 5-64 |
+| coinId | uint64 | Yes | Token ID | ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| userId | string | 用户ID |
-| asset | Object | 资产信息 |
-| asset.coinId | uint64 | 代币ID |
-| asset.coinSymbol | string | 代币符号 |
-| asset.available | string | 可用余额 |
+| userId | string | User ID |
+| asset | Object | Asset information |
+| asset.coinId | uint64 | Token ID |
+| asset.coinSymbol | string | Token symbol |
+| asset.available | string | Available balance |

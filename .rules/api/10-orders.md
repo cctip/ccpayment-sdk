@@ -1,127 +1,127 @@
-# 订单模块
+# Orders Module
 
-## 10.1 获取订单信息
+## 10.1 Get Order Info
 
-**接口:** `POST /getAppOrderInfo`
+**Interface:** `POST /getAppOrderInfo`
 
-**描述:** 获取Order订单详情。
+**Description:** Get Order order details.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度≥1 |
+| orderId | string | Yes | Order ID | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| amountToPay | string | 应付金额 |
-| coinId | uint64 | 代币ID |
-| coinSymbol | string | 代币符号 |
-| chain | string | 链名称 |
-| toAddress | string | 到账地址 |
-| toMemo | string | 备注 |
-| createAt | int64 | 创建时间 |
-| rate | string | 汇率 |
-| fiatId | uint64 | 法币ID |
-| fiatSymbol | string | 法币符号 |
-| expiredAt | int64 | 过期时间 |
-| checkoutUrl | string | 收银台URL |
-| buyerEmail | string | 买家邮箱 |
-| paidList | Array | 已支付列表 |
-| paidList[].recordId | string | 记录ID |
-| paidList[].fromAddress | string | 来源地址 |
-| paidList[].amount | string | 金额 |
-| paidList[].serviceFee | string | 服务费 |
-| paidList[].txid | string | 交易哈希 |
-| paidList[].status | string | 状态 |
-| paidList[].arrivedAt | int64 | 到账时间 |
-| paidList[].rate | string | 汇率 |
-| paidList[].isFlaggedAsRisky | bool | 是否标记为风险 |
+| amountToPay | string | Amount to pay |
+| coinId | uint64 | Token ID |
+| coinSymbol | string | Token symbol |
+| chain | string | Chain name |
+| toAddress | string | Receiving address |
+| toMemo | string | Memo |
+| createAt | int64 | Creation time |
+| rate | string | Exchange rate |
+| fiatId | uint64 | Fiat currency ID |
+| fiatSymbol | string | Fiat currency symbol |
+| expiredAt | int64 | Expiration time |
+| checkoutUrl | string | Checkout URL |
+| buyerEmail | string | Buyer email |
+| paidList | Array | Paid list |
+| paidList[].recordId | string | Record ID |
+| paidList[].fromAddress | string | Source address |
+| paidList[].amount | string | Amount |
+| paidList[].serviceFee | string | Service fee |
+| paidList[].txid | string | Transaction hash |
+| paidList[].status | string | Status |
+| paidList[].arrivedAt | int64 | Arrival time |
+| paidList[].rate | string | Exchange rate |
+| paidList[].isFlaggedAsRisky | bool | Whether marked as risky |
 
-## 10.2 创建发票URL
+## 10.2 Create Invoice URL
 
-**接口:** `POST /createInvoiceUrl`
+**Interface:** `POST /createInvoiceUrl`
 
-**描述:** 创建Invoice订单并生成支付URL。
+**Description:** Create an Invoice order and generate a payment URL.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度3-64 |
-| product | string | 是 | 产品描述 | 长度≥1 |
-| priceFiatId | uint64 | 否 | 法币ID | - |
-| priceCoinId | uint64 | 否 | 代币ID | - |
-| price | string | 是 | 价格 | 长度≥1 |
-| buyerEmail | string | 否 | 买家邮箱 | 邮箱格式 |
-| returnUrl | string | 否 | 返回URL | 最大150字符，URI格式 |
-| expiredAt | int64 | 否 | 过期时间戳 | ≥1 |
-| closeUrl | string | 否 | 关闭URL | 最大150字符，URI格式 |
-| notifyUrl | string | 否 | 通知URL | 最大150字符，URI格式 |
+| orderId | string | Yes | Order ID | Length 3-64 |
+| product | string | Yes | Product description | Length ≥1 |
+| priceFiatId | uint64 | No | Fiat currency ID | - |
+| priceCoinId | uint64 | No | Token ID | - |
+| price | string | Yes | Price | Length ≥1 |
+| buyerEmail | string | No | Buyer email | Email format |
+| returnUrl | string | No | Return URL | Max 150 characters, URI format |
+| expiredAt | int64 | No | Expiration timestamp | ≥1 |
+| closeUrl | string | No | Close URL | Max 150 characters, URI format |
+| notifyUrl | string | No | Notification URL | Max 150 characters, URI format |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| invoiceUrl | string | 发票支付URL |
+| invoiceUrl | string | Invoice payment URL |
 
-## 10.3 获取发票订单信息
+## 10.3 Get Invoice Order Info
 
-**接口:** `POST /getInvoiceOrderInfo`
+**Interface:** `POST /getInvoiceOrderInfo`
 
-**描述:** 获取Invoice订单详情。
+**Description:** Get Invoice order details.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度≥1 |
+| orderId | string | Yes | Order ID | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| orderId | string | 订单ID |
-| createAt | int64 | 创建时间 |
-| product | string | 产品描述 |
-| price | string | 价格 |
-| priceCoinId | uint64 | 代币ID |
-| priceFiatId | uint64 | 法币ID |
-| priceSymbol | string | 价格符号 |
-| invoiceUrl | string | 发票URL |
-| buyerEmail | string | 买家邮箱 |
-| expiredAt | int64 | 过期时间 |
-| totalPaidValue | string | 已支付总价值 |
-| paidList | Array | 已支付列表 |
-| paidList[].recordId | string | 记录ID |
-| paidList[].coinId | uint64 | 代币ID |
-| paidList[].coinSymbol | string | 代币符号 |
-| paidList[].chain | string | 链名称 |
-| paidList[].fromAddress | string | 来源地址 |
-| paidList[].toAddress | string | 到账地址 |
-| paidList[].toMemo | string | 备注 |
-| paidList[].paidAmount | string | 支付金额 |
-| paidList[].serviceFee | string | 服务费 |
-| paidList[].txid | string | 交易哈希 |
-| paidList[].status | string | 状态 |
-| paidList[].arrivedAt | int64 | 到账时间 |
-| paidList[].rate | string | 汇率 |
-| paidList[].paidValue | string | 支付价值 |
-| paidList[].isFlaggedAsRisky | bool | 是否标记为风险 |
+| orderId | string | Order ID |
+| createAt | int64 | Creation time |
+| product | string | Product description |
+| price | string | Price |
+| priceCoinId | uint64 | Token ID |
+| priceFiatId | uint64 | Fiat currency ID |
+| priceSymbol | string | Price symbol |
+| invoiceUrl | string | Invoice URL |
+| buyerEmail | string | Buyer email |
+| expiredAt | int64 | Expiration time |
+| totalPaidValue | string | Total paid value |
+| paidList | Array | Paid list |
+| paidList[].recordId | string | Record ID |
+| paidList[].coinId | uint64 | Token ID |
+| paidList[].coinSymbol | string | Token symbol |
+| paidList[].chain | string | Chain name |
+| paidList[].fromAddress | string | Source address |
+| paidList[].toAddress | string | Receiving address |
+| paidList[].toMemo | string | Memo |
+| paidList[].paidAmount | string | Paid amount |
+| paidList[].serviceFee | string | Service fee |
+| paidList[].txid | string | Transaction hash |
+| paidList[].status | string | Status |
+| paidList[].arrivedAt | int64 | Arrival time |
+| paidList[].rate | string | Exchange rate |
+| paidList[].paidValue | string | Paid value |
+| paidList[].isFlaggedAsRisky | bool | Whether marked as risky |
 
-## 10.4 获取Webhook信息
+## 10.4 Get Webhook Info
 
-**接口:** `POST /getWebhookInfo`
+**Interface:** `POST /getWebhookInfo`
 
-**描述:** 获取商家的Webhook配置信息。
+**Description:** Get merchant's Webhook configuration information.
 
-**请求参数:** 无
+**Request Parameters:** None
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
 | webhookUrl | string | Webhook URL |
-| webhookSecret | string | Webhook密钥 |
+| webhookSecret | string | Webhook secret |

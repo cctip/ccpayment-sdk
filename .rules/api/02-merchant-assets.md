@@ -1,39 +1,39 @@
-# 商家资产模块
+# Merchant Assets Module
 
-## 2.1 获取全部资产
+## 2.1 Get All Assets
 
-**接口:** `POST /getAppCoinAssetList`
+**Interface:** `POST /getAppCoinAssetList`
 
-**描述:** 获取商家的所有代币资产。
+**Description:** Get all token assets of the merchant.
 
-**请求参数:** 无
+**Request Parameters:** None
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| assets | Array | 资产列表 |
-| assets[].coinId | uint64 | 代币ID |
-| assets[].coinSymbol | string | 代币符号 |
-| assets[].available | string | 可用余额 |
+| assets | Array | Asset list |
+| assets[].coinId | uint64 | Token ID |
+| assets[].coinSymbol | string | Token symbol |
+| assets[].available | string | Available balance |
 
-## 2.2 获取单个币资产
+## 2.2 Get Single Token Asset
 
-**接口:** `POST /getAppCoinAsset`
+**Interface:** `POST /getAppCoinAsset`
 
-**描述:** 获取商家指定代币的资产。
+**Description:** Get the asset of a specified token for the merchant.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 |------|------|------|------|
-| coinId | uint64 | 是 | 代币ID |
+| coinId | uint64 | Yes | Token ID |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| asset | Object | 资产信息 |
-| asset.coinId | uint64 | 代币ID |
-| asset.coinSymbol | string | 代币符号 |
-| asset.available | string | 可用余额 |
+| asset | Object | Asset information |
+| asset.coinId | uint64 | Token ID |
+| asset.coinSymbol | string | Token symbol |
+| asset.available | string | Available balance |

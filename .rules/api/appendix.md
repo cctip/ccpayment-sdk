@@ -1,66 +1,66 @@
-# 附录
+# Appendix
 
-## 数据类型说明
+## Data Type Reference
 
-- **uint64**: 无符号64位整数
-- **int64**: 有符号64位整数
-- **int32**: 有符号32位整数
-- **uint32**: 无符号32位整数
-- **string**: 字符串
-- **bool**: 布尔值
-- **Array**: 数组
-- **Object**: 对象
+- **uint64**: Unsigned 64-bit integer
+- **int64**: Signed 64-bit integer
+- **int32**: Signed 32-bit integer
+- **uint32**: Unsigned 32-bit integer
+- **string**: String
+- **bool**: Boolean
+- **Array**: Array
+- **Object**: Object
 
-## 状态枚举
+## Status Enums
 
-### 订单状态
+### Order Status
 
-- **Pending**: 待支付
-- **Success**: 成功
-- **Failed**: 失败
-- **Expired**: 已过期
+- **Pending**: Pending payment
+- **Success**: Success
+- **Failed**: Failed
+- **Expired**: Expired
 
-### 提现类型
+### Withdrawal Type
 
-- **Network**: 网络提现
-- **Cwallet**: CCWallet提现
+- **Network**: Network withdrawal
+- **Cwallet**: CCWallet withdrawal
 
-### Hosted步骤
+### Hosted Steps
 
-- **SelectCoin**: 选择代币
-- **Pay**: 支付中
-- **Completed**: 已完成
+- **SelectCoin**: Select token
+- **Pay**: Paying
+- **Completed**: Completed
 
-## 验证规则说明
+## Validation Rules
 
-- **长度验证**: min_len（最小长度）、max_len（最大长度）
-- **数值验证**: gte（大于等于）、lte（小于等于）、gt（大于）、lt（小于）
-- **数组验证**: min_items（最小项数）、max_items（最大项数）
-- **格式验证**: email（邮箱格式）、uri（URI格式）
+- **Length validation**: min_len (minimum length), max_len (maximum length)
+- **Numeric validation**: gte (greater than or equal), lte (less than or equal), gt (greater than), lt (less than)
+- **Array validation**: min_items (minimum items), max_items (maximum items)
+- **Format validation**: email (email format), uri (URI format)
 
-## 注意事项
+## Important Notes
 
-1. 所有时间戳均为Unix时间戳（秒）
-2. 所有金额字段均为字符串类型，避免精度丢失
-3. 分页查询使用nextId进行游标分页
-4. 默认查询时间范围为90天
-5. 批量操作最大支持500项
-6. 所有接口均需要签名验证
+1. All timestamps are Unix timestamps (seconds)
+2. All amount fields are string type to avoid precision loss
+3. Pagination queries use nextId for cursor pagination
+4. Default query time range is 90 days
+5. Batch operations support up to 500 items
+6. All interfaces require signature verification
 
-## 签名算法
+## Signature Algorithm
 
-### 签名生成步骤
+### Signature Generation Steps
 
-1. 将请求参数按照字母顺序排序
-2. 拼接成 key1=value1&key2=value2 格式
-3. 在末尾追加 AppSecret
-4. 对整个字符串进行 SHA256 加密
-5. 将加密结果转为大写
+1. Sort request parameters alphabetically
+2. Concatenate into key1=value1&key2=value2 format
+3. Append AppSecret at the end
+4. SHA256 encrypt the entire string
+5. Convert the encrypted result to uppercase
 
-### 示例代码
+### Example Code
 
 ```go
-// Go 示例
+// Go Example
 func GenerateSign(params map[string]string, appSecret string) string {
     keys := make([]string, 0, len(params))
     for k := range params {
@@ -82,56 +82,56 @@ func GenerateSign(params map[string]string, appSecret string) string {
 }
 ```
 
-## 错误处理
+## Error Handling
 
-### 通用错误码
+### Common Error Codes
 
-| 错误码 | 说明 |
+| Error Code | Description |
 |--------|------|
-| 10000 | 成功 |
-| 11000 | 参数错误 |
-| 11001 | 缺少必填参数 |
-| 11002 | 参数格式错误 |
-| 11003 | 参数值超出范围 |
-| 11004 | 无效的参数值 |
-| 11005 | 签名验证失败 |
-| 11006 | 时间戳过期 |
-| 12000 | 系统错误 |
-| 12001 | 服务暂时不可用 |
-| 13000 | 权限错误 |
-| 13001 | AppId不存在 |
-| 13002 | AppId已禁用 |
-| 14000 | 余额不足 |
-| 15000 | 订单不存在 |
-| 15001 | 订单状态错误 |
-| 15002 | 订单已过期 |
-| 16000 | 地址无效 |
-| 16001 | 链不支持 |
-| 16002 | 代币不支持 |
+| 10000 | Success |
+| 11000 | Parameter error |
+| 11001 | Missing required parameter |
+| 11002 | Parameter format error |
+| 11003 | Parameter value out of range |
+| 11004 | Invalid parameter value |
+| 11005 | Signature verification failed |
+| 11006 | Timestamp expired |
+| 12000 | System error |
+| 12001 | Service temporarily unavailable |
+| 13000 | Permission error |
+| 13001 | AppId does not exist |
+| 13002 | AppId disabled |
+| 14000 | Insufficient balance |
+| 15000 | Order does not exist |
+| 15001 | Order status error |
+| 15002 | Order expired |
+| 16000 | Invalid address |
+| 16001 | Chain not supported |
+| 16002 | Token not supported |
 
-完整错误码列表请参考proto文件中的Code枚举定义。
+For a complete list of error codes, please refer to the Code enum definition in the proto file.
 
-## Webhook通知
+## Webhook Notifications
 
-### 通知格式
+### Notification Format
 
-所有Webhook通知均采用POST方式，Content-Type为application/json。
+All Webhook notifications use POST method with Content-Type application/json.
 
-### 通知签名验证
+### Notification Signature Verification
 
-1. 从Header中获取 `X-CC-Sign` 字段
-2. 将请求Body与WebhookSecret拼接
-3. 对拼接后的字符串进行SHA256加密
-4. 将加密结果转为大写并与X-CC-Sign比对
+1. Get `X-CC-Sign` field from the Header
+2. Concatenate the request Body with WebhookSecret
+3. SHA256 encrypt the concatenated string
+4. Convert the encrypted result to uppercase and compare with X-CC-Sign
 
-### 通知重试机制
+### Notification Retry Mechanism
 
-- 如果通知失败，系统会进行重试
-- 重试间隔：1分钟、5分钟、15分钟、30分钟、1小时、2小时
-- 最多重试6次
+- If notification fails, the system will retry
+- Retry intervals: 1 minute, 5 minutes, 15 minutes, 30 minutes, 1 hour, 2 hours
+- Maximum 6 retries
 
-### 响应要求
+### Response Requirements
 
-- 接收方需在5秒内返回HTTP 200状态码
-- 返回内容可以为空或任意内容
-- 非200状态码视为通知失败，会触发重试
+- The receiver must return HTTP 200 status code within 5 seconds
+- The return content can be empty or any content
+- Non-200 status codes are considered notification failure and will trigger a retry

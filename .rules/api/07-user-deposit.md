@@ -1,81 +1,81 @@
-# 用户充值模块
+# User Deposit Module
 
-## 7.1 获取或创建用户充值地址
+## 7.1 Get or Create User Deposit Address
 
-**接口:** `POST /getOrCreateUserDepositAddress`
+**Interface:** `POST /getOrCreateUserDepositAddress`
 
-**描述:** 获取或创建用户的充值地址。
+**Description:** Get or create a user's deposit address.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| userId | string | 是 | 用户ID（不能以sys开头） | 长度5-64 |
-| chain | string | 是 | 链名称 | 长度≥1 |
-| notifyUrl | string | 否 | 通知URL | 最大150字符，URI格式 |
+| userId | string | Yes | User ID (cannot start with sys) | Length 5-64 |
+| chain | string | Yes | Chain name | Length ≥1 |
+| notifyUrl | string | No | Notification URL | Max 150 characters, URI format |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| address | string | 充值地址 |
-| memo | string | 备注（可选） |
+| address | string | Deposit address |
+| memo | string | Memo (optional) |
 
-## 7.2 查询用户充值记录
+## 7.2 Query User Deposit Record
 
-**接口:** `POST /getUserDepositRecord`
+**Interface:** `POST /getUserDepositRecord`
 
-**描述:** 查询单条用户充值记录详情。
+**Description:** Query details of a single user deposit record.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| recordId | string | 是 | 记录ID | 长度5-64 |
+| recordId | string | Yes | Record ID | Length 5-64 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| record | Object | 充值记录 |
-| record.userId | string | 用户ID |
-| record.recordId | string | 记录ID |
-| record.coinId | uint64 | 代币ID |
-| record.chain | string | 链名称 |
-| record.contract | string | 合约地址 |
-| record.coinSymbol | string | 代币符号 |
-| record.txId | string | 交易哈希 |
-| record.coinUSDPrice | string | 代币USD价格 |
-| record.fromAddress | string | 来源地址 |
-| record.toAddress | string | 到账地址 |
-| record.toMemo | string | 备注（可选） |
-| record.amount | string | 金额 |
-| record.serviceFee | string | 服务费 |
-| record.status | string | 状态 |
-| record.arrivedAt | int64 | 到账时间 |
-| record.isFlaggedAsRisky | bool | 是否标记为风险（可选） |
+| record | Object | Deposit record |
+| record.userId | string | User ID |
+| record.recordId | string | Record ID |
+| record.coinId | uint64 | Token ID |
+| record.chain | string | Chain name |
+| record.contract | string | Contract address |
+| record.coinSymbol | string | Token symbol |
+| record.txId | string | Transaction hash |
+| record.coinUSDPrice | string | Token USD price |
+| record.fromAddress | string | Source address |
+| record.toAddress | string | Receiving address |
+| record.toMemo | string | Memo (optional) |
+| record.amount | string | Amount |
+| record.serviceFee | string | Service fee |
+| record.status | string | Status |
+| record.arrivedAt | int64 | Arrival time |
+| record.isFlaggedAsRisky | bool | Whether marked as risky (optional) |
 
-## 7.3 查询用户充值记录列表
+## 7.3 Query User Deposit Record List
 
-**接口:** `POST /getUserDepositRecordList`
+**Interface:** `POST /getUserDepositRecordList`
 
-**描述:** 查询用户充值记录列表。
+**Description:** Query user deposit record list.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| userId | string | 是 | 用户ID | 长度5-64 |
-| chain | string | 否 | 链名称 | - |
-| coinId | uint64 | 否 | 代币ID | - |
-| toAddress | string | 否 | 到账地址 | - |
-| startAt | int64 | 否 | 开始时间（默认90天） | - |
-| endAt | int64 | 否 | 结束时间 | - |
-| nextId | string | 否 | 下一页ID | - |
+| userId | string | Yes | User ID | Length 5-64 |
+| chain | string | No | Chain name | - |
+| coinId | uint64 | No | Token ID | - |
+| toAddress | string | No | Receiving address | - |
+| startAt | int64 | No | Start time (default 90 days) | - |
+| endAt | int64 | No | End time | - |
+| nextId | string | No | Next page ID | - |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| records | Array | 充值记录列表（结构同getUserDepositRecord） |
-| nextId | string | 下一页ID（可选） |
+| records | Array | Deposit record list (same structure as getUserDepositRecord) |
+| nextId | string | Next page ID (optional) |

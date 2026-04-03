@@ -1,142 +1,142 @@
-# 换币模块
+# Swap Module
 
-## 12.1 获取换币代币列表
+## 12.1 Get Swap Coin List
 
-**接口:** `POST /getSwapCoinList`
+**Interface:** `POST /getSwapCoinList`
 
-**描述:** 获取支持换币的代币列表。
+**Description:** Get the list of tokens supported for swapping.
 
-**请求参数:** 无
+**Request Parameters:** None
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| coins | Array | 代币列表 |
-| coins[].coinId | uint64 | 代币ID |
-| coins[].symbol | string | 代币符号 |
+| coins | Array | Token list |
+| coins[].coinId | uint64 | Token ID |
+| coins[].symbol | string | Token symbol |
 | coins[].logoUrl | string | Logo URL |
-| coins[].chains | Array<string> | 支持的链列表 |
+| coins[].chains | Array<string> | Supported chain list |
 
-## 12.2 换币估算
+## 12.2 Swap Estimate
 
-**接口:** `POST /swapEstimate`
+**Interface:** `POST /swapEstimate`
 
-**描述:** 估算换币金额。
+**Description:** Estimate the swap amount.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| fromCoinId | uint64 | 是 | 换出代币ID | ≥1 |
-| toCoinId | uint64 | 是 | 换入代币ID | ≥1 |
-| fromAmount | string | 是 | 换出金额 | 长度≥1 |
+| fromCoinId | uint64 | Yes | From token ID | ≥1 |
+| toCoinId | uint64 | Yes | To token ID | ≥1 |
+| fromAmount | string | Yes | From amount | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| fromCoinId | uint64 | 换出代币ID |
-| fromCoinSymbol | string | 换出代币符号 |
-| fromAmount | string | 换出金额 |
-| toCoinId | uint64 | 换入代币ID |
-| toCoinSymbol | string | 换入代币符号 |
-| toAmount | string | 换入金额 |
-| rate | string | 汇率 |
+| fromCoinId | uint64 | From token ID |
+| fromCoinSymbol | string | From token symbol |
+| fromAmount | string | From amount |
+| toCoinId | uint64 | To token ID |
+| toCoinSymbol | string | To token symbol |
+| toAmount | string | To amount |
+| rate | string | Exchange rate |
 
-## 12.3 执行换币
+## 12.3 Execute Swap
 
-**接口:** `POST /swap`
+**Interface:** `POST /swap`
 
-**描述:** 执行换币操作。
+**Description:** Execute a swap operation.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度3-64 |
-| fromCoinId | uint64 | 是 | 换出代币ID | ≥1 |
-| toCoinId | uint64 | 是 | 换入代币ID | ≥1 |
-| fromAmount | string | 是 | 换出金额 | 长度≥1 |
+| orderId | string | Yes | Order ID | Length 3-64 |
+| fromCoinId | uint64 | Yes | From token ID | ≥1 |
+| toCoinId | uint64 | Yes | To token ID | ≥1 |
+| fromAmount | string | Yes | From amount | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| recordId | string | 换币记录ID |
+| recordId | string | Swap record ID |
 
-## 12.4 查询换币记录
+## 12.4 Query Swap Record
 
-**接口:** `POST /getSwapRecord`
+**Interface:** `POST /getSwapRecord`
 
-**描述:** 查询单条换币记录详情。
+**Description:** Query details of a single swap record.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| recordId | string | 否 | 记录ID | - |
-| orderId | string | 否 | 订单ID | - |
+| recordId | string | No | Record ID | - |
+| orderId | string | No | Order ID | - |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| record | Object | 换币记录 |
-| record.recordId | string | 记录ID |
-| record.orderId | string | 订单ID |
-| record.fromCoinId | uint64 | 换出代币ID |
-| record.fromCoinSymbol | string | 换出代币符号 |
-| record.fromAmount | string | 换出金额 |
-| record.toCoinId | uint64 | 换入代币ID |
-| record.toCoinSymbol | string | 换入代币符号 |
-| record.toAmount | string | 换入金额 |
-| record.rate | string | 汇率 |
-| record.status | string | 状态 |
-| record.createdAt | int64 | 创建时间 |
+| record | Object | Swap record |
+| record.recordId | string | Record ID |
+| record.orderId | string | Order ID |
+| record.fromCoinId | uint64 | From token ID |
+| record.fromCoinSymbol | string | From token symbol |
+| record.fromAmount | string | From amount |
+| record.toCoinId | uint64 | To token ID |
+| record.toCoinSymbol | string | To token symbol |
+| record.toAmount | string | To amount |
+| record.rate | string | Exchange rate |
+| record.status | string | Status |
+| record.createdAt | int64 | Creation time |
 
-## 12.5 查询换币记录列表
+## 12.5 Query Swap Record List
 
-**接口:** `POST /getSwapRecordList`
+**Interface:** `POST /getSwapRecordList`
 
-**描述:** 查询换币记录列表。
+**Description:** Query swap record list.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 |------|------|------|------|
-| orderIds | Array<string> | 否 | 订单ID列表 |
-| fromCoinId | uint64 | 否 | 换出代币ID |
-| toCoinId | uint64 | 否 | 换入代币ID |
-| startAt | int64 | 否 | 开始时间（默认90天） |
-| endAt | int64 | 否 | 结束时间 |
-| nextId | string | 否 | 下一页ID |
+| orderIds | Array<string> | No | Order ID list |
+| fromCoinId | uint64 | No | From token ID |
+| toCoinId | uint64 | No | To token ID |
+| startAt | int64 | No | Start time (default 90 days) |
+| endAt | int64 | No | End time |
+| nextId | string | No | Next page ID |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| records | Array | 换币记录列表（结构同getSwapRecord） |
-| nextId | string | 下一页ID（可选） |
+| records | Array | Swap record list (same structure as getSwapRecord) |
+| nextId | string | Next page ID (optional) |
 
-## 12.6 选择Hosted Invoice代币
+## 12.6 Select Hosted Invoice Coin
 
-**接口:** `POST /selectHostedInvoiceCoin`
+**Interface:** `POST /selectHostedInvoiceCoin`
 
-**描述:** 为Hosted Invoice订单选择支付代币。
+**Description:** Select the payment token for a Hosted Invoice order.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度≥1 |
-| coinId | uint64 | 是 | 代币ID | ≥1 |
-| chain | string | 是 | 链名称 | 长度≥1 |
+| orderId | string | Yes | Order ID | Length ≥1 |
+| coinId | uint64 | Yes | Token ID | ≥1 |
+| chain | string | Yes | Chain name | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| address | string | 充值地址 |
-| memo | string | 备注（可选） |
-| amountToPay | string | 应付金额 |
+| address | string | Deposit address |
+| memo | string | Memo (optional) |
+| amountToPay | string | Amount to pay |

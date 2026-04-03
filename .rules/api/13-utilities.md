@@ -1,110 +1,110 @@
-# 工具接口
+# Utilities
 
-## 13.1 验证地址
+## 13.1 Verify Address
 
-**接口:** `POST /verifyAddress`
+**Interface:** `POST /verifyAddress`
 
-**描述:** 验证区块链地址的有效性。
+**Description:** Verify the validity of a blockchain address.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| chain | string | 是 | 链名称 | 长度≥1 |
-| address | string | 是 | 地址 | 长度≥1 |
+| chain | string | Yes | Chain name | Length ≥1 |
+| address | string | Yes | Address | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| valid | bool | 是否有效 |
-| message | string | 验证消息 |
+| valid | bool | Whether valid |
+| message | string | Verification message |
 
-## 13.2 废弃地址
+## 13.2 Abandon Address
 
-**接口:** `POST /abandonAddress`
+**Interface:** `POST /abandonAddress`
 
-**描述:** 废弃不再使用的充值地址。
+**Description:** Abandon a deposit address that is no longer in use.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| chain | string | 是 | 链名称 | 长度≥1 |
-| address | string | 是 | 地址 | 长度≥1 |
+| chain | string | Yes | Chain name | Length ≥1 |
+| address | string | Yes | Address | Length ≥1 |
 
-**响应数据:** 空对象
+**Response Data:** Empty object
 
-## 13.3 获取Hosted Invoice订单信息
+## 13.3 Get Hosted Invoice Order Info
 
-**接口:** `POST /hostedInvoiceOrderInfo`
+**Interface:** `POST /hostedInvoiceOrderInfo`
 
-**描述:** 获取Hosted Invoice订单详情。
+**Description:** Get Hosted Invoice order details.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度≥1 |
+| orderId | string | Yes | Order ID | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| orderId | string | 订单ID |
-| product | string | 产品描述 |
-| price | string | 价格 |
-| priceSymbol | string | 价格符号 |
+| orderId | string | Order ID |
+| product | string | Product description |
+| price | string | Price |
+| priceSymbol | string | Price symbol |
 | invoiceUrl | string | Invoice URL |
-| buyerEmail | string | 买家邮箱 |
-| expiredAt | int64 | 过期时间 |
-| selectedCoinId | uint64 | 选择的代币ID |
-| selectedChain | string | 选择的链 |
-| toAddress | string | 到账地址 |
-| toMemo | string | 备注 |
-| amountToPay | string | 应付金额 |
-| totalPaidValue | string | 已支付总价值 |
-| paidList | Array | 已支付列表 |
+| buyerEmail | string | Buyer email |
+| expiredAt | int64 | Expiration time |
+| selectedCoinId | uint64 | Selected token ID |
+| selectedChain | string | Selected chain |
+| toAddress | string | Receiving address |
+| toMemo | string | Memo |
+| amountToPay | string | Amount to pay |
+| totalPaidValue | string | Total paid value |
+| paidList | Array | Paid list |
 
-## 13.4 获取支付信息
+## 13.4 Get Pay Info
 
-**接口:** `POST /getPayInfo`
+**Interface:** `POST /getPayInfo`
 
-**描述:** 获取订单的支付信息（用于前端展示）。
+**Description:** Get the payment information of an order (for frontend display).
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度≥1 |
+| orderId | string | Yes | Order ID | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| orderId | string | 订单ID |
-| product | string | 产品描述 |
-| price | string | 价格 |
-| priceSymbol | string | 价格符号 |
-| address | string | 支付地址 |
-| memo | string | 备注 |
-| amount | string | 支付金额 |
-| coinSymbol | string | 代币符号 |
-| chain | string | 链名称 |
-| qrCode | string | 二维码数据 |
-| expiredAt | int64 | 过期时间 |
+| orderId | string | Order ID |
+| product | string | Product description |
+| price | string | Price |
+| priceSymbol | string | Price symbol |
+| address | string | Payment address |
+| memo | string | Memo |
+| amount | string | Payment amount |
+| coinSymbol | string | Token symbol |
+| chain | string | Chain name |
+| qrCode | string | QR code data |
+| expiredAt | int64 | Expiration time |
 
-## 13.5 健康检查
+## 13.5 Health Check
 
-**接口:** `POST /health`
+**Interface:** `POST /health`
 
-**描述:** API健康检查接口。
+**Description:** API health check interface.
 
-**请求参数:** 无
+**Request Parameters:** None
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| status | string | 健康状态 |
-| timestamp | int64 | 时间戳 |
+| status | string | Health status |
+| timestamp | int64 | Timestamp |

@@ -1,174 +1,174 @@
-# 用户转账模块
+# User Transfer Module
 
-## 9.1 用户转账
+## 9.1 User Transfer
 
-**接口:** `POST /userTransfer`
+**Interface:** `POST /userTransfer`
 
-**描述:** 发起用户间转账。
+**Description:** Initiate a transfer between users.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度3-64 |
-| fromUserId | string | 是 | 转出用户ID | 长度5-64 |
-| toUserId | string | 是 | 转入用户ID | 长度5-64 |
-| coinId | uint64 | 是 | 代币ID | ≥1 |
-| amount | string | 是 | 转账金额 | 长度≥1 |
-| remark | string | 否 | 备注 | - |
+| orderId | string | Yes | Order ID | Length 3-64 |
+| fromUserId | string | Yes | From user ID | Length 5-64 |
+| toUserId | string | Yes | To user ID | Length 5-64 |
+| coinId | uint64 | Yes | Token ID | ≥1 |
+| amount | string | Yes | Transfer amount | Length ≥1 |
+| remark | string | No | Remark | - |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| recordId | string | 转账记录ID |
+| recordId | string | Transfer record ID |
 
-## 9.2 查询用户转账记录
+## 9.2 Query User Transfer Record
 
-**接口:** `POST /getUserTransferRecord`
+**Interface:** `POST /getUserTransferRecord`
 
-**描述:** 查询单条用户转账记录详情。
+**Description:** Query details of a single user transfer record.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 |------|------|------|------|
-| recordId | string | 否 | 记录ID |
-| orderId | string | 否 | 订单ID |
+| recordId | string | No | Record ID |
+| orderId | string | No | Order ID |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| record | Object | 转账记录 |
-| record.recordId | string | 记录ID |
-| record.coinId | uint64 | 代币ID |
-| record.coinSymbol | string | 代币符号 |
-| record.orderId | string | 订单ID |
-| record.fromUserId | string | 转出用户ID |
-| record.toUserId | string | 转入用户ID |
-| record.amount | string | 金额 |
-| record.status | string | 状态 |
-| record.remark | string | 备注（可选） |
-| record.coinUSDPrice | string | 代币USD价格 |
+| record | Object | Transfer record |
+| record.recordId | string | Record ID |
+| record.coinId | uint64 | Token ID |
+| record.coinSymbol | string | Token symbol |
+| record.orderId | string | Order ID |
+| record.fromUserId | string | From user ID |
+| record.toUserId | string | To user ID |
+| record.amount | string | Amount |
+| record.status | string | Status |
+| record.remark | string | Remark (optional) |
+| record.coinUSDPrice | string | Token USD price |
 
-## 9.3 查询用户转账记录列表
+## 9.3 Query User Transfer Record List
 
-**接口:** `POST /getUserTransferRecordList`
+**Interface:** `POST /getUserTransferRecordList`
 
-**描述:** 查询用户转账记录列表。
+**Description:** Query user transfer record list.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 |------|------|------|------|
-| orderIds | Array<string> | 否 | 订单ID列表 |
-| fromUserId | string | 否 | 转出用户ID |
-| toUserId | string | 否 | 转入用户ID |
-| coinId | uint64 | 否 | 代币ID |
-| startAt | int64 | 否 | 开始时间（默认90天） |
-| endAt | int64 | 否 | 结束时间 |
-| nextId | string | 否 | 下一页ID |
+| orderIds | Array<string> | No | Order ID list |
+| fromUserId | string | No | From user ID |
+| toUserId | string | No | To user ID |
+| coinId | uint64 | No | Token ID |
+| startAt | int64 | No | Start time (default 90 days) |
+| endAt | int64 | No | End time |
+| nextId | string | No | Next page ID |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| records | Array | 转账记录列表（结构同getUserTransferRecord） |
-| nextId | string | 下一页ID（可选） |
+| records | Array | Transfer record list (same structure as getUserTransferRecord) |
+| nextId | string | Next page ID (optional) |
 
-## 9.4 用户批量转账
+## 9.4 User Batch Transfer
 
-**接口:** `POST /userBatchTransfer`
+**Interface:** `POST /userBatchTransfer`
 
-**描述:** 发起用户批量转账。
+**Description:** Initiate a batch transfer for users.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| orderId | string | 是 | 订单ID | 长度3-64 |
-| userId | string | 是 | 转出用户ID | 长度5-64 |
-| toUsers | Array | 是 | 转入用户列表 | 至少1项 |
-| toUsers[].userId | string | 是 | 转入用户ID | 长度5-64 |
-| toUsers[].amount | string | 是 | 转账金额 | 长度5-64 |
-| coinId | uint64 | 是 | 代币ID | ≥1 |
-| remark | string | 否 | 备注 | - |
+| orderId | string | Yes | Order ID | Length 3-64 |
+| userId | string | Yes | From user ID | Length 5-64 |
+| toUsers | Array | Yes | To user list | At least 1 item |
+| toUsers[].userId | string | Yes | To user ID | Length 5-64 |
+| toUsers[].amount | string | Yes | Transfer amount | Length 5-64 |
+| coinId | uint64 | Yes | Token ID | ≥1 |
+| remark | string | No | Remark | - |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| recordId | string | 批量转账记录ID |
+| recordId | string | Batch transfer record ID |
 
-## 9.5 查询用户批量转账记录
+## 9.5 Query User Batch Transfer Record
 
-**接口:** `POST /getUserBatchTransferRecord`
+**Interface:** `POST /getUserBatchTransferRecord`
 
-**描述:** 查询单条用户批量转账记录详情。
+**Description:** Query details of a single user batch transfer record.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 |------|------|------|------|
-| recordId | string | 否 | 记录ID |
-| orderId | string | 否 | 订单ID |
+| recordId | string | No | Record ID |
+| orderId | string | No | Order ID |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| record | Object | 批量转账记录 |
-| record.recordId | string | 记录ID |
-| record.userId | string | 转出用户ID |
-| record.coinId | uint64 | 代币ID |
-| record.coinSymbol | string | 代币符号 |
-| record.orderId | string | 订单ID |
-| record.toUsers | Array | 转入用户列表 |
-| record.status | string | 状态 |
-| record.remark | string | 备注（可选） |
-| record.coinUSDPrice | string | 代币USD价格 |
+| record | Object | Batch transfer record |
+| record.recordId | string | Record ID |
+| record.userId | string | From user ID |
+| record.coinId | uint64 | Token ID |
+| record.coinSymbol | string | Token symbol |
+| record.orderId | string | Order ID |
+| record.toUsers | Array | To user list |
+| record.status | string | Status |
+| record.remark | string | Remark (optional) |
+| record.coinUSDPrice | string | Token USD price |
 
-## 9.6 查询用户批量转账记录列表
+## 9.6 Query User Batch Transfer Record List
 
-**接口:** `POST /getUserBatchTransferRecordList`
+**Interface:** `POST /getUserBatchTransferRecordList`
 
-**描述:** 查询用户批量转账记录列表。
+**Description:** Query user batch transfer record list.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 |------|------|------|------|
-| orderIds | Array<string> | 否 | 订单ID列表 |
-| userId | string | 否 | 用户ID |
-| coinId | uint64 | 否 | 代币ID |
-| startAt | int64 | 否 | 开始时间（默认90天） |
-| endAt | int64 | 否 | 结束时间 |
-| nextId | string | 否 | 下一页ID |
+| orderIds | Array<string> | No | Order ID list |
+| userId | string | No | User ID |
+| coinId | uint64 | No | Token ID |
+| startAt | int64 | No | Start time (default 90 days) |
+| endAt | int64 | No | End time |
+| nextId | string | No | Next page ID |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| records | Array | 批量转账记录列表（结构同getUserBatchTransferRecord） |
-| nextId | string | 下一页ID（可选） |
+| records | Array | Batch transfer record list (same structure as getUserBatchTransferRecord) |
+| nextId | string | Next page ID (optional) |
 
-## 9.7 查询用户批量转账记录明细
+## 9.7 Query User Batch Transfer Record Details
 
-**接口:** `POST /getUserBatchTransferRecordDetail`
+**Interface:** `POST /getUserBatchTransferRecordDetail`
 
-**描述:** 查询用户批量转账记录的明细列表。
+**Description:** Query the detail list of a user batch transfer record.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| recordId | string | 是 | 批量转账记录ID | 长度≥1 |
-| nextId | string | 否 | 下一页ID | - |
+| recordId | string | Yes | Batch transfer record ID | Length ≥1 |
+| nextId | string | No | Next page ID | - |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| records | Array | 转账明细列表（结构同getUserTransferRecord） |
-| nextId | string | 下一页ID（可选） |
+| records | Array | Transfer detail list (same structure as getUserTransferRecord) |
+| nextId | string | Next page ID (optional) |

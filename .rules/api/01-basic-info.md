@@ -1,178 +1,178 @@
-# 基础信息模块
+# Basic Info Module
 
-## 1.1 获取代币列表
+## 1.1 Get Token List
 
-**接口:** `POST /getCoinList`
+**Interface:** `POST /getCoinList`
 
-**描述:** 获取平台支持的所有代币信息，包括网络配置和价格。
+**Description:** Get all supported token information on the platform, including network configurations and prices.
 
-**请求参数:** 无
+**Request Parameters:** None
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| coins | Array | 代币列表 |
-| coins[].coinId | uint64 | 代币ID |
-| coins[].symbol | string | 代币符号 |
-| coins[].coinFullName | string | 代币全称 |
+| coins | Array | Token list |
+| coins[].coinId | uint64 | Token ID |
+| coins[].symbol | string | Token symbol |
+| coins[].coinFullName | string | Token full name |
 | coins[].logoUrl | string | Logo URL |
-| coins[].status | string | 状态（Normal/Maintain） |
-| coins[].networks | Object | 网络信息映射（key为链名称） |
-| coins[].networks[].chain | string | 链名称 |
-| coins[].networks[].chainFullName | string | 链全称 |
-| coins[].networks[].contract | string | 合约地址 |
-| coins[].networks[].precision | uint32 | 精度 |
-| coins[].networks[].canDeposit | bool | 是否支持充值 |
-| coins[].networks[].canWithdraw | bool | 是否支持提现 |
-| coins[].networks[].minimumDepositAmount | string | 最小充值金额 |
-| coins[].networks[].minimumWithdrawAmount | string | 最小提现金额 |
-| coins[].networks[].maximumWithdrawAmount | string | 最大提现金额 |
-| coins[].networks[].isSupportMemo | bool | 是否支持Memo |
-| coins[].networks[].protocol | string | 协议类型 |
-| coins[].price | string | USD价格 |
+| coins[].status | string | Status (Normal/Maintain) |
+| coins[].networks | Object | Network information map (key is chain name) |
+| coins[].networks[].chain | string | Chain name |
+| coins[].networks[].chainFullName | string | Chain full name |
+| coins[].networks[].contract | string | Contract address |
+| coins[].networks[].precision | uint32 | Precision |
+| coins[].networks[].canDeposit | bool | Whether deposit is supported |
+| coins[].networks[].canWithdraw | bool | Whether withdrawal is supported |
+| coins[].networks[].minimumDepositAmount | string | Minimum deposit amount |
+| coins[].networks[].minimumWithdrawAmount | string | Minimum withdrawal amount |
+| coins[].networks[].maximumWithdrawAmount | string | Maximum withdrawal amount |
+| coins[].networks[].isSupportMemo | bool | Whether Memo is supported |
+| coins[].networks[].protocol | string | Protocol type |
+| coins[].price | string | USD price |
 
-## 1.2 获取单个代币
+## 1.2 Get Single Token
 
-**接口:** `POST /getCoin`
+**Interface:** `POST /getCoin`
 
-**描述:** 获取指定代币的详细信息。
+**Description:** Get detailed information for a specified token.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| coinId | uint64 | 是 | 代币ID | ≥1 |
+| coinId | uint64 | Yes | Token ID | ≥1 |
 
-**响应数据:** 同getCoinList中的单个coin对象
+**Response Data:** Same as individual coin object in getCoinList
 
-## 1.3 获取代币USD价格
+## 1.3 Get Token USD Price
 
-**接口:** `POST /getCoinUSDTPrice`
+**Interface:** `POST /getCoinUSDTPrice`
 
-**描述:** 批量获取代币的USD价格。
+**Description:** Get USD prices for tokens in batch.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 |
+| Field | Type | Required | Description |
 |------|------|------|------|
-| coinIds | Array<uint64> | 是 | 代币ID列表 |
+| coinIds | Array<uint64> | Yes | Token ID list |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| prices | Object | 价格映射（key为coinId，value为价格字符串） |
+| prices | Object | Price map (key is coinId, value is price string) |
 
-## 1.4 获取法币列表
+## 1.4 Get Fiat Currency List
 
-**接口:** `POST /getFiatList`
+**Interface:** `POST /getFiatList`
 
-**描述:** 获取平台支持的所有法币信息。
+**Description:** Get all supported fiat currency information on the platform.
 
-**请求参数:** 无
+**Request Parameters:** None
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| fiats | Array | 法币列表 |
-| fiats[].fiatId | uint64 | 法币ID |
-| fiats[].symbol | string | 法币符号 |
+| fiats | Array | Fiat currency list |
+| fiats[].fiatId | uint64 | Fiat currency ID |
+| fiats[].symbol | string | Fiat currency symbol |
 | fiats[].logoUrl | string | Logo URL |
-| fiats[].mark | string | 标记 |
-| fiats[].usdRate | string | 对USD汇率 |
+| fiats[].mark | string | Mark |
+| fiats[].usdRate | string | USD exchange rate |
 
-## 1.5 获取链列表
+## 1.5 Get Chain List
 
-**接口:** `POST /getChainList`
+**Interface:** `POST /getChainList`
 
-**描述:** 查询指定链的状态信息，不传chains参数则查询所有链。
+**Description:** Query status information for specified chains. If chains parameter is not provided, query all chains.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| chains | Array<string> | 否 | 链名称列表 | 每项长度1-16 |
+| chains | Array<string> | No | Chain name list | Each item length 1-16 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| chains | Array | 链信息列表 |
-| chains[].chain | string | 链名称 |
-| chains[].chainFullName | string | 链全称 |
-| chains[].explorer | string | 区块浏览器URL |
+| chains | Array | Chain information list |
+| chains[].chain | string | Chain name |
+| chains[].chainFullName | string | Chain full name |
+| chains[].explorer | string | Block explorer URL |
 | chains[].logoUrl | string | Logo URL |
-| chains[].status | string | 状态（Normal/Maintain） |
-| chains[].confirmations | int32 | 确认数 |
-| chains[].baseUrl | string | 基础URL |
-| chains[].isEVM | bool | 是否为EVM链 |
-| chains[].supportMemo | bool | 是否支持Memo |
+| chains[].status | string | Status (Normal/Maintain) |
+| chains[].confirmations | int32 | Confirmation count |
+| chains[].baseUrl | string | Base URL |
+| chains[].isEVM | bool | Whether it's an EVM chain |
+| chains[].supportMemo | bool | Whether Memo is supported |
 
-## 1.6 获取所有链列表
+## 1.6 Get All Chain List
 
-**接口:** `POST /all/chain`
+**Interface:** `POST /all/chain`
 
-**描述:** 获取所有链的信息（简化版）。
+**Description:** Get information for all chains (simplified version).
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| chains | Array<string> | 否 | 链名称列表 | 每项长度1-16 |
+| chains | Array<string> | No | Chain name list | Each item length 1-16 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| chains | Array | 链信息列表 |
-| chains[].chain | string | 链名称 |
-| chains[].chainFullName | string | 链全称 |
-| chains[].explorer | string | 区块浏览器URL |
+| chains | Array | Chain information list |
+| chains[].chain | string | Chain name |
+| chains[].chainFullName | string | Chain full name |
+| chains[].explorer | string | Block explorer URL |
 | chains[].logoUrl | string | Logo URL |
-| chains[].status | string | 状态 |
-| chains[].confirmNum | int32 | 确认数 |
-| chains[].isEVM | bool | 是否为EVM链 |
+| chains[].status | string | Status |
+| chains[].confirmNum | int32 | Confirmation count |
+| chains[].isEVM | bool | Whether it's an EVM chain |
 
-## 1.7 获取CCWallet用户ID
+## 1.7 Get CCWallet User ID
 
-**接口:** `POST /getCwalletUserId`
+**Interface:** `POST /getCwalletUserId`
 
-**描述:** 验证并获取CCWallet用户信息。
+**Description:** Verify and get CCWallet user information.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| cwalletUserId | string | 是 | CCWallet用户ID | 长度≥1 |
+| cwalletUserId | string | Yes | CCWallet user ID | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| cwalletUserId | string | CCWallet用户ID |
-| cwalletUserName | string | CCWallet用户名 |
+| cwalletUserId | string | CCWallet user ID |
+| cwalletUserName | string | CCWallet username |
 
-## 1.8 获取提现手续费
+## 1.8 Get Withdrawal Fee
 
-**接口:** `POST /getWithdrawFee`
+**Interface:** `POST /getWithdrawFee`
 
-**描述:** 获取指定代币和链的提现手续费。
+**Description:** Get the withdrawal fee for a specified token and chain.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| coinId | uint64 | 是 | 代币ID | ≥1 |
-| chain | string | 是 | 链名称 | 长度≥1 |
+| coinId | uint64 | Yes | Token ID | ≥1 |
+| chain | string | Yes | Chain name | Length ≥1 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| fee | Object | 手续费信息 |
-| fee.coinId | uint64 | 代币ID |
-| fee.coinSymbol | string | 代币符号 |
-| fee.amount | string | 手续费金额 |
-| networkFeeInquiryID | string | 网络手续费查询ID |
+| fee | Object | Fee information |
+| fee.coinId | uint64 | Token ID |
+| fee.coinSymbol | string | Token symbol |
+| fee.amount | string | Fee amount |
+| networkFeeInquiryID | string | Network fee inquiry ID |

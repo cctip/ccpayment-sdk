@@ -1,181 +1,181 @@
-# 商家批量提现模块
+# Merchant Batch Withdrawal Module
 
-## 5.1 检查提现地址
+## 5.1 Check Withdrawal Address
 
-**接口:** `POST /checkWithdrawAddress`
+**Interface:** `POST /checkWithdrawAddress`
 
-**描述:** 批量检查提现地址的有效性。
+**Description:** Check the validity of withdrawal addresses in batch.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| chain | string | 是 | 链名称 | 长度≥1 |
-| addressInfoList | Array | 是 | 地址信息列表 | 1-500项 |
-| addressInfoList[].address | string | 是 | 地址 | 长度≥1 |
-| addressInfoList[].memo | string | 否 | 备注 | - |
-| addressInfoList[].seq | uint32 | 是 | 序号 | ≥1 |
-| addressInfoList[].codes | Array<int32> | 否 | 错误码 | - |
+| chain | string | Yes | Chain name | Length ≥1 |
+| addressInfoList | Array | Yes | Address information list | 1-500 items |
+| addressInfoList[].address | string | Yes | Address | Length ≥1 |
+| addressInfoList[].memo | string | No | Memo | - |
+| addressInfoList[].seq | uint32 | Yes | Sequence number | ≥1 |
+| addressInfoList[].codes | Array<int32> | No | Error codes | - |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| addressInfoResults | Array | 地址检查结果 |
-| addressInfoResults[].seq | uint32 | 序号 |
-| addressInfoResults[].codes | Array<int32> | 错误码列表（空表示有效） |
+| addressInfoResults | Array | Address check results |
+| addressInfoResults[].seq | uint32 | Sequence number |
+| addressInfoResults[].codes | Array<int32> | Error code list (empty means valid) |
 
-## 5.2 申请批量提现
+## 5.2 Apply Batch Withdrawal
 
-**接口:** `POST /applyBatchWithdraw`
+**Interface:** `POST /applyBatchWithdraw`
 
-**描述:** 创建批量提现订单。
+**Description:** Create a batch withdrawal order.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| batchOrderId | string | 是 | 批量订单ID | 长度3-64 |
-| coinId | uint64 | 是 | 代币ID | ≥1 |
-| chain | string | 是 | 链名称 | 长度≥1 |
-| productName | string | 否 | 产品名称 | - |
-| orders | Array | 否 | 订单列表 | 0-500项 |
-| orders[].seq | uint32 | 是 | 序号 | >0 |
-| orders[].address | string | 是 | 地址 | 长度≥1 |
-| orders[].memo | string | 否 | 备注 | 最大16字符 |
-| orders[].amount | string | 是 | 金额 | 长度≥1 |
-| orders[].remark | string | 否 | 备注说明 | 最大64字符 |
-| mode | string | 是 | 执行模式（Single/Batch） | 长度≥1 |
-| notifyUrl | string | 否 | 通知URL | 最大120字符，URI格式 |
+| batchOrderId | string | Yes | Batch order ID | Length 3-64 |
+| coinId | uint64 | Yes | Token ID | ≥1 |
+| chain | string | Yes | Chain name | Length ≥1 |
+| productName | string | No | Product name | - |
+| orders | Array | No | Order list | 0-500 items |
+| orders[].seq | uint32 | Yes | Sequence number | >0 |
+| orders[].address | string | Yes | Address | Length ≥1 |
+| orders[].memo | string | No | Memo | Max 16 characters |
+| orders[].amount | string | Yes | Amount | Length ≥1 |
+| orders[].remark | string | No | Remark | Max 64 characters |
+| mode | string | Yes | Execution mode (Single/Batch) | Length ≥1 |
+| notifyUrl | string | No | Notification URL | Max 120 characters, URI format |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| batchOrderId | string | 批量订单ID |
-| billId | string | 账单ID |
+| batchOrderId | string | Batch order ID |
+| billId | string | Bill ID |
 
-## 5.3 追加批量提现
+## 5.3 Append Batch Withdrawal
 
-**接口:** `POST /appendBatchWithdraw`
+**Interface:** `POST /appendBatchWithdraw`
 
-**描述:** 向已存在的批量提现订单追加任务。
+**Description:** Append tasks to an existing batch withdrawal order.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| batchOrderId | string | 是 | 批量订单ID | 长度3-64 |
-| orders | Array | 是 | 订单列表 | 1-500项 |
+| batchOrderId | string | Yes | Batch order ID | Length 3-64 |
+| orders | Array | Yes | Order list | 1-500 items |
 
-**响应数据:** 空对象
+**Response Data:** Empty object
 
-## 5.4 确认批量提现
+## 5.4 Confirm Batch Withdrawal
 
-**接口:** `POST /confirmBatchWithdraw`
+**Interface:** `POST /confirmBatchWithdraw`
 
-**描述:** 确认并执行批量提现订单。
+**Description:** Confirm and execute the batch withdrawal order.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| batchOrderId | string | 是 | 批量订单ID | 长度3-64 |
-| delaySeconds | int64 | 否 | 延迟执行时间（秒） | 0-3600 |
+| batchOrderId | string | Yes | Batch order ID | Length 3-64 |
+| delaySeconds | int64 | No | Delay execution time (seconds) | 0-3600 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| batchOrderId | string | 批量订单ID |
-| productName | string | 产品名称 |
-| billId | string | 账单ID |
-| coin | Object | 代币信息 |
-| coin.coin_id | uint64 | 代币ID |
-| coin.coin_symbol | string | 代币符号 |
-| coin.coin_price | string | 代币价格 |
-| amount | string | 总金额 |
-| networkFee | string | 网络手续费 |
-| networkFeeCoin | Object | 手续费代币信息 |
-| status | string | 状态（Init/Reviewing/Rejected/Pending/Processing/Completed） |
-| reason | string | 原因 |
-| mode | string | 执行模式 |
-| stats | Object | 统计信息 |
-| stats.total | int32 | 总笔数 |
-| stats.succeeded | int32 | 成功笔数 |
-| stats.failed | int32 | 失败笔数 |
-| stats.canceled | int32 | 取消笔数 |
-| stats.processing | int32 | 处理中笔数 |
-| stats.execSeq | uint32 | 已执行序号 |
-| createdAt | int64 | 创建时间 |
-| updatedAt | int64 | 更新时间 |
+| batchOrderId | string | Batch order ID |
+| productName | string | Product name |
+| billId | string | Bill ID |
+| coin | Object | Token information |
+| coin.coin_id | uint64 | Token ID |
+| coin.coin_symbol | string | Token symbol |
+| coin.coin_price | string | Token price |
+| amount | string | Total amount |
+| networkFee | string | Network fee |
+| networkFeeCoin | Object | Fee token information |
+| status | string | Status (Init/Reviewing/Rejected/Pending/Processing/Completed) |
+| reason | string | Reason |
+| mode | string | Execution mode |
+| stats | Object | Statistics |
+| stats.total | int32 | Total count |
+| stats.succeeded | int32 | Succeeded count |
+| stats.failed | int32 | Failed count |
+| stats.canceled | int32 | Canceled count |
+| stats.processing | int32 | Processing count |
+| stats.execSeq | uint32 | Executed sequence |
+| createdAt | int64 | Creation time |
+| updatedAt | int64 | Update time |
 
-## 5.5 取消批量提现
+## 5.5 Cancel Batch Withdrawal
 
-**接口:** `POST /abortBatchWithdraw`
+**Interface:** `POST /abortBatchWithdraw`
 
-**描述:** 取消批量提现订单或部分任务。
+**Description:** Cancel the batch withdrawal order or part of the tasks.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| batchOrderId | string | 是 | 批量订单ID | 长度3-64 |
-| seqs | Array<uint32> | 否 | 要取消的序号列表 | 0-500项 |
+| batchOrderId | string | Yes | Batch order ID | Length 3-64 |
+| seqs | Array<uint32> | No | List of sequence numbers to cancel | 0-500 items |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| batchOrderId | string | 批量订单ID |
-| canceledSeqs | Array<uint32> | 已取消的序号 |
-| ignoredSeqs | Array<uint32> | 被忽略的序号 |
+| batchOrderId | string | Batch order ID |
+| canceledSeqs | Array<uint32> | Canceled sequence numbers |
+| ignoredSeqs | Array<uint32> | Ignored sequence numbers |
 
-## 5.6 获取批量提现订单
+## 5.6 Get Batch Withdrawal Order
 
-**接口:** `POST /getBatchWithdrawOrder`
+**Interface:** `POST /getBatchWithdrawOrder`
 
-**描述:** 查询批量提现订单详情。
+**Description:** Query batch withdrawal order details.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| batchOrderId | string | 是 | 批量订单ID | 长度3-64 |
-| verbose | uint32 | 否 | 详细程度（0-3） | 0-3 |
+| batchOrderId | string | Yes | Batch order ID | Length 3-64 |
+| verbose | uint32 | No | Verbosity level (0-3) | 0-3 |
 
-**响应数据:** 同confirmBatchWithdraw
+**Response Data:** Same as confirmBatchWithdraw
 
-## 5.7 获取批量提现记录列表
+## 5.7 Get Batch Withdrawal Record List
 
-**接口:** `POST /getBatchWithdrawOrderRecordList`
+**Interface:** `POST /getBatchWithdrawOrderRecordList`
 
-**描述:** 查询批量提现订单的任务记录列表。
+**Description:** Query the task record list of a batch withdrawal order.
 
-**请求参数:**
+**Request Parameters:**
 
-| 字段 | 类型 | 必填 | 说明 | 验证规则 |
+| Field | Type | Required | Description | Validation Rules |
 |------|------|------|------|----------|
-| batchOrderId | string | 是 | 批量订单ID | 长度3-64 |
-| nextId | string | 否 | 下一页ID | - |
-| limit | uint64 | 否 | 每页数量 | ≤100 |
+| batchOrderId | string | Yes | Batch order ID | Length 3-64 |
+| nextId | string | No | Next page ID | - |
+| limit | uint64 | No | Items per page | ≤100 |
 
-**响应数据:**
+**Response Data:**
 
-| 字段 | 类型 | 说明 |
+| Field | Type | Description |
 |------|------|------|
-| nextId | string | 下一页ID |
-| records | Array | 任务记录列表 |
-| records[].seq | uint32 | 序号 |
-| records[].address | string | 地址 |
-| records[].memo | string | 备注 |
-| records[].amount | string | 金额 |
-| records[].remark | string | 备注说明 |
-| records[].recordId | string | 记录ID |
-| records[].orderId | string | 订单ID |
-| records[].status | string | 状态 |
-| records[].networkFee | string | 网络手续费 |
-| records[].txId | string | 交易哈希 |
-| records[].reason | string | 原因 |
-| records[].createdAt | int64 | 创建时间 |
-| records[].updatedAt | int64 | 更新时间 |
+| nextId | string | Next page ID |
+| records | Array | Task record list |
+| records[].seq | uint32 | Sequence number |
+| records[].address | string | Address |
+| records[].memo | string | Memo |
+| records[].amount | string | Amount |
+| records[].remark | string | Remark |
+| records[].recordId | string | Record ID |
+| records[].orderId | string | Order ID |
+| records[].status | string | Status |
+| records[].networkFee | string | Network fee |
+| records[].txId | string | Transaction hash |
+| records[].reason | string | Reason |
+| records[].createdAt | int64 | Creation time |
+| records[].updatedAt | int64 | Update time |

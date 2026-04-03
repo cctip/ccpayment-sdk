@@ -15,66 +15,66 @@ metadata:
   }
 ---
 
-# CCPayment SDK 代码生成器
+# CCPayment SDK Code Generator
 
-## 使用方式
+## Usage
 
-### 前置步骤：导入并学习
+### Prerequisites: Import and Learn
 
-在使用代码生成器之前，需要先将本文件导入到 AI Agent 中：
+Before using the code generator, you need to import this file into your AI Agent:
 
-**步骤1: 导入技能文件**
+**Step 1: Import the Skill File**
 
-在 AI Agent 中使用以下方式导入本文件：
+Import this file in your AI Agent using the following method:
 
 ```
 @(ccpayment-sdk/.skills/SKILL.md)
 ```
 
-**步骤2: 让AI Agent学习**
+**Step 2: Let AI Agent Learn**
 
-导入后，AI Agent会自动读取并学习本文档中的代码生成规则、类型映射、验证规则等内容。
+After importing, the AI Agent will automatically read and learn the code generation rules, type mappings, validation rules, etc. from this document.
 
 ---
 
-### 生成代码命令
+### Generate Code Command
 
-学习完成后，使用以下命令生成SDK代码：
+After learning is complete, use the following command to generate SDK code:
 
 ```bash
 ccpayment.sdk.codegen <language> [module] [path]
 ```
 
-**参数说明：**
-- `<language>` (必填): 目标语言，支持 `golang`, `typescript`, `python`, `java`, `php`, `ruby`, `javascript`, `shell`
-- `[module]` (可选): 指定生成的模块，不指定则生成所有模块
-- `[path]` (可选): 指定生成代码的输出路径，不指定则使用默认路径
+**Parameter Description:**
+- `<language>` (required): Target language, supports `golang`, `typescript`, `python`, `java`, `php`, `ruby`, `javascript`, `shell`
+- `[module]` (optional): Specify the module to generate, generate all modules if not specified
+- `[path]` (optional): Specify the output path for generated code, use default path if not specified
 
-**使用示例：**
+**Usage Examples:**
 ```bash
-# 生成所有模块到默认路径
+# Generate all modules to default path
 ccpayment.sdk.codegen golang
 
-# 只生成商家资产模块到默认路径
+# Generate only merchant-assets module to default path
 ccpayment.sdk.codegen golang merchant-assets
 
-# 生成所有模块到指定路径
+# Generate all modules to specified path
 ccpayment.sdk.codegen golang . /custom/output/path
 
-# 只生成商家资产模块到指定路径
+# Generate only merchant-assets module to specified path
 ccpayment.sdk.codegen golang merchant-assets /custom/output/path
 
-# 生成所有模块的 Shell 脚本
+# Generate Shell scripts for all modules
 ccpayment.sdk.codegen shell
 
-# 生成商家资产模块的 Shell 脚本
+# Generate Shell script for merchant-assets module
 ccpayment.sdk.codegen shell merchant-assets
 
-# 生成到指定路径
+# Generate to specified path
 ccpayment.sdk.codegen shell merchant-assets ./shell-examples
 ```
 
-**默认输出路径：**
+**Default Output Paths:**
 - Golang: `generated/golang/`
 - Python: `generated/python/`
 - TypeScript: `generated/typescript/`
@@ -82,56 +82,56 @@ ccpayment.sdk.codegen shell merchant-assets ./shell-examples
 - PHP: `generated/php/`
 - Shell: `generated/shell/`
 
-**支持的模块：**
-- `basic-info` - 基础信息模块（代币、法币、链信息）
-- `merchant-assets` - 商家资产模块
-- `merchant-deposit` - 商家充值模块
-- `merchant-withdraw` - 商家提现模块
-- `merchant-batch-withdraw` - 商家批量提现模块
-- `user-assets` - 用户资产模块
-- `user-deposit` - 用户充值模块
-- `user-withdraw` - 用户提现模块
-- `user-transfer` - 用户转账模块
-- `orders` - 订单模块
-- `checkout` - 收银台模块
-- `swap` - 换币模块
-- `utilities` - 工具接口
+**Supported Modules:**
+- `basic-info` - Basic Info Module (Coins, Fiat, Chains)
+- `merchant-assets` - Merchant Assets Module
+- `merchant-deposit` - Merchant Deposit Module
+- `merchant-withdraw` - Merchant Withdraw Module
+- `merchant-batch-withdraw` - Merchant Batch Withdraw Module
+- `user-assets` - User Assets Module
+- `user-deposit` - User Deposit Module
+- `user-withdraw` - User Withdraw Module
+- `user-transfer` - User Transfer Module
+- `orders` - Orders Module
+- `checkout` - Checkout Module
+- `swap` - Swap Module
+- `utilities` - Utilities
 
-## 工作原理
+## Working Principles
 
-当AI助手接收到命令时，根据参数执行不同的生成策略：
+When the AI assistant receives a command, it executes different generation strategies based on the parameters:
 
-### 完整生成模式
-**命令**: `ccpayment.sdk.codegen golang` 或 `ccpayment.sdk.codegen golang . /custom/path`
+### Full Generation Mode
+**Command**: `ccpayment.sdk.codegen golang` or `ccpayment.sdk.codegen golang . /custom/path`
 
-生成所有13个模块的完整SDK，包括所有核心组件和服务。
+Generate a complete SDK for all 13 modules, including all core components and services.
 
-### 模块化生成模式
-**命令**: `ccpayment.sdk.codegen golang merchant-assets` 或 `ccpayment.sdk.codegen golang merchant-assets /custom/path`
+### Modular Generation Mode
+**Command**: `ccpayment.sdk.codegen golang merchant-assets` or `ccpayment.sdk.codegen golang merchant-assets /custom/path`
 
-只生成指定模块的代码，包括：
-- 核心组件（Client, Signature, Models, Errors）
-- 指定模块的Service
-- 该模块相关的数据模型
-- 测试程序（只测试该模块）
+Only generate code for the specified module, including:
+- Core Components (Client, Signature, Models, Errors)
+- Service for the specified module
+- Data models related to this module
+- Test program (only tests this module)
 
-### 路径参数处理
-- 如果提供了 `[path]` 参数，代码将生成到指定路径
-- 如果未提供 `[path]` 参数，代码将生成到默认路径 `generated/<language>/`
-- 路径可以是相对路径或绝对路径
-- 如果目标路径不存在，将自动创建
+### Path Parameter Handling
+- If `[path]` parameter is provided, code will be generated to the specified path
+- If `[path]` parameter is not provided, code will be generated to the default path `generated/<language>/`
+- Path can be relative or absolute
+- If the target path does not exist, it will be created automatically
 
-### 执行步骤
+### Execution Steps
 
-#### 步骤1: 读取API文档
+#### Step 1: Read API Documentation
 
-**基础文件（总是需要）：**
-- `.rules/api/README.md` - 认证方式、Base URL
-- `.rules/api/appendix.md` - 数据类型、错误码、验证规则
+**Base Files (always required):**
+- `.rules/api/README.md` - Authentication, Base URL
+- `.rules/api/appendix.md` - Data types, error codes, validation rules
 
-**模块文件映射表：**
+**Module File Mapping Table:**
 
-| 模块名 | 文档文件 | 生成的服务类 |
+| Module Name | Documentation File | Generated Service Class |
 |:------|:---------|:------------|
 | `basic-info` | `01-basic-info.md` | `BasicInfoService` |
 | `merchant-assets` | `02-merchant-assets.md` | `MerchantAssetsService` |
@@ -147,60 +147,60 @@ ccpayment.sdk.codegen shell merchant-assets ./shell-examples
 | `swap` | `12-swap.md` | `SwapService` |
 | `utilities` | `13-utilities.md` | `UtilitiesService` |
 
-**读取策略：**
-- 完整生成：读取所有13个模块文件
-- 模块化生成：只读取指定模块的文件 + 基础文件
+**Reading Strategy:**
+- Full generation: Read all 13 module files
+- Modular generation: Only read the specified module file + base files
 
-#### 步骤2: 解析API定义
+#### Step 2: Parse API Definitions
 
-从每个模块文档中提取：
-- **接口路径**: 如 `POST /getCoinList`
-- **请求参数表格**: 字段名、类型、必填、说明、验证规则
-- **响应数据表格**: 字段名、类型、说明
+Extract from each module document:
+- **API Path**: e.g., `POST /getCoinList`
+- **Request Parameters Table**: field name, type, required, description, validation rules
+- **Response Data Table**: field name, type, description
 
-#### 步骤3: 生成强类型代码
+#### Step 3: Generate Strongly-Typed Code
 
-#### Golang 代码结构
+#### Golang Code Structure
 
-**完整生成** (`ccpayment.sdk.codegen golang` 或 `ccpayment.sdk.codegen golang . /output/path`):
+**Full Generation** (`ccpayment.sdk.codegen golang` or `ccpayment.sdk.codegen golang . /output/path`):
 ```
-<output_path>/  (默认: generated/golang/)
-├── client.go              # 主客户端（包含所有服务方法）
-├── signature.go           # 签名生成
-├── models.go              # 所有数据模型
-├── errors.go              # 错误处理
-├── basic_info.go          # 基础信息服务
-├── merchant_assets.go     # 商家资产服务
-├── merchant_deposit.go    # 商家充值服务
-├── ... (其他10个服务)
-├── test_main.go           # 完整测试程序
-├── go.mod                 # Go模块配置
-└── README.md              # 使用文档
-```
-
-**模块化生成** (`ccpayment.sdk.codegen golang merchant-assets` 或 `ccpayment.sdk.codegen golang merchant-assets /output/path`):
-```
-<output_path>/  (默认: generated/golang/)
-├── client.go              # 主客户端（只包含MerchantAssets方法）
-├── signature.go           # 签名生成
-├── models.go              # 只包含merchant-assets相关的数据模型
-├── errors.go              # 错误处理
-├── merchant_assets.go     # 商家资产服务
-├── test_main.go           # merchant-assets测试程序
-├── go.mod                 # Go模块配置
-└── README.md              # 使用文档（针对该模块）
+<output_path>/  (default: generated/golang/)
+├── client.go              # Main client (contains all service methods)
+├── signature.go           # Signature generation
+├── models.go              # All data models
+├── errors.go              # Error handling
+├── basic_info.go          # Basic info service
+├── merchant_assets.go     # Merchant assets service
+├── merchant_deposit.go    # Merchant deposit service
+├── ... (other 10 services)
+├── test_main.go           # Complete test program
+├── go.mod                 # Go module configuration
+└── README.md              # Usage documentation
 ```
 
-**自定义路径示例：**
+**Modular Generation** (`ccpayment.sdk.codegen golang merchant-assets` or `ccpayment.sdk.codegen golang merchant-assets /output/path`):
+```
+<output_path>/  (default: generated/golang/)
+├── client.go              # Main client (only contains MerchantAssets method)
+├── signature.go           # Signature generation
+├── models.go              # Only contains merchant-assets related data models
+├── errors.go              # Error handling
+├── merchant_assets.go     # Merchant assets service
+├── test_main.go           # merchant-assets test program
+├── go.mod                 # Go module configuration
+└── README.md              # Usage documentation (for this module)
+```
+
+**Custom Path Examples:**
 ```bash
-# 生成到项目的sdk目录
+# Generate to project's sdk directory
 ccpayment.sdk.codegen golang merchant-assets ./sdk/golang
 
-# 生成到绝对路径
+# Generate to absolute path
 ccpayment.sdk.codegen python . /Users/username/projects/my-sdk/python
 ```
 
-#### 核心组件实现
+#### Core Component Implementation
 
 **1. Client (client.go)**
 ```go
@@ -239,19 +239,19 @@ func (c *Client) SetHTTPClient(httpClient *http.Client) {
     c.httpClient = httpClient
 }
 
-// 返回各个服务（根据生成的模块动态添加）
-// 如果只生成merchant-assets模块，则只包含此方法
+// Returns each service (dynamically added based on generated modules)
+// If only generating merchant-assets module, only this method is included
 func (c *Client) MerchantAssets() *MerchantAssetsService {
     return &MerchantAssetsService{client: c}
 }
 
-// 完整生成时，包含所有服务方法：
+// When fully generated, includes all service methods:
 // func (c *Client) BasicInfo() *BasicInfoService
 // func (c *Client) MerchantDeposit() *MerchantDepositService
 // func (c *Client) UserAssets() *UserAssetsService
-// ... 等等
+// ... etc.
 
-// post 内部方法
+// post internal method
 func (c *Client) post(ctx context.Context, path string, req, resp interface{}) error {
     var bodyBytes []byte
     var err error
@@ -345,7 +345,7 @@ func (c *Client) generateSign(bodyBytes []byte) (sign, timestamp string, err err
 
 **3. Models (models.go)**
 
-为每个API生成请求和响应结构：
+Generate request and response structures for each API:
 
 ```go
 package main
@@ -365,7 +365,7 @@ func (e *APIError) Error() string {
     return e.Message
 }
 
-// 资产相关模型
+// Asset-related models
 type Asset struct {
     CoinID     uint64 `json:"coinId"`
     CoinSymbol string `json:"coinSymbol"`
@@ -418,9 +418,9 @@ func (s *MerchantAssetsService) GetAppCoinAsset(ctx context.Context, coinID uint
 
 **5. Test Program (test_main.go)**
 
-生成的测试程序会根据指定的模块自动调整测试内容。
+The generated test program automatically adjusts test content based on the specified module.
 
-**示例：merchant-assets 模块测试**
+**Example: merchant-assets module test**
 ```go
 package main
 
@@ -434,14 +434,14 @@ import (
 )
 
 func main() {
-    // API凭证
+    // API credentials
     appID := "your_app_id"
     appSecret := "your_app_secret"
 
-    // 创建客户端
+    // Create client
     client := NewClient(appID, appSecret)
 
-    // 可选：配置HTTP代理
+    // Optional: Configure HTTP proxy
     // proxyURL, _ := url.Parse("http://127.0.0.1:10808")
     // httpClient := &http.Client{
     //     Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)},
@@ -449,18 +449,18 @@ func main() {
     // }
     // client.SetHTTPClient(httpClient)
 
-    fmt.Println("=== 商家资产模块测试 ===")
+    fmt.Println("=== Merchant Assets Module Test ===")
     
-    // 测试1: 获取全部资产
-    fmt.Println("\n【测试1】获取全部资产...")
+    // Test 1: Get all assets
+    fmt.Println("\n[Test 1] Get all assets...")
     resp, err := client.MerchantAssets().GetAppCoinAssetList(context.Background())
     if err != nil {
         log.Fatal(err)
     }
 
-    fmt.Printf("✓ 成功获取资产列表，共 %d 种代币\n", len(resp.Assets))
+    fmt.Printf("✓ Successfully retrieved asset list, total %d tokens\n", len(resp.Assets))
     
-    // 显示前10个
+    // Display first 10
     for i, asset := range resp.Assets {
         if i >= 10 {
             break
@@ -468,67 +468,67 @@ func main() {
         fmt.Printf("%d. %s: %s\n", i+1, asset.CoinSymbol, asset.Available)
     }
 
-    // 测试2: 获取单个币资产
+    // Test 2: Get single coin asset
     if len(resp.Assets) > 0 {
-        fmt.Println("\n【测试2】获取单个币资产...")
+        fmt.Println("\n[Test 2] Get single coin asset...")
         coinID := resp.Assets[0].CoinID
         assetResp, err := client.MerchantAssets().GetAppCoinAsset(context.Background(), coinID)
         if err != nil {
-            log.Printf("获取失败: %v", err)
+            log.Printf("Failed to get: %v", err)
         } else {
-            fmt.Printf("✓ %s 可用余额: %s\n", assetResp.Asset.CoinSymbol, assetResp.Asset.Available)
+            fmt.Printf("✓ %s available balance: %s\n", assetResp.Asset.CoinSymbol, assetResp.Asset.Available)
         }
     }
     
-    fmt.Println("\n=== 测试完成 ===")
+    fmt.Println("\n=== Test completed ===")
 }
 ```
 
-**不同模块会生成不同的测试内容：**
-- `basic-info`: 测试获取代币列表、法币列表、链列表
-- `merchant-deposit`: 测试创建充值地址、查询充值记录
-- `user-transfer`: 测试用户转账、批量转账
-- 等等...
+**Different modules will generate different test content:**
+- `basic-info`: Test getting coin list, fiat list, chain list
+- `merchant-deposit`: Test creating deposit address, querying deposit records
+- `user-transfer`: Test user transfer, batch transfer
+- etc...
 
-#### Shell 脚本生成模式
+#### Shell Script Generation Mode
 
-**完整生成** (`ccpayment.sdk.codegen shell` 或 `ccpayment.sdk.codegen shell . /output/path`):
+**Full Generation** (`ccpayment.sdk.codegen shell` or `ccpayment.sdk.codegen shell . /output/path`):
 
-生成所有13个模块的 Shell 脚本文件：
-
-```
-<output_path>/  (默认: generated/shell/)
-├── basic_info.sh          # 基础信息模块 Shell 脚本
-├── merchant_assets.sh     # 商家资产模块 Shell 脚本
-├── merchant_deposit.sh    # 商家充值模块 Shell 脚本
-├── merchant_withdraw.sh   # 商家提现模块 Shell 脚本
-├── ... (其他模块)
-├── all_apis.sh            # 所有API的Shell脚本合集
-├── README.md              # 使用说明
-└── env.sh                 # 环境变量配置模板
-```
-
-**模块化生成** (`ccpayment.sdk.codegen shell merchant-assets`):
-
-只生成指定模块的 Shell 脚本：
+Generate Shell script files for all 13 modules:
 
 ```
-<output_path>/  (默认: generated/shell/)
-├── merchant_assets.sh     # 商家资产模块 Shell 脚本
-├── README.md              # 使用说明
-└── env.sh                 # 环境变量配置模板
+<output_path>/  (default: generated/shell/)
+├── basic_info.sh          # Basic info module Shell script
+├── merchant_assets.sh     # Merchant assets module Shell script
+├── merchant_deposit.sh    # Merchant deposit module Shell script
+├── merchant_withdraw.sh   # Merchant withdraw module Shell script
+├── ... (other modules)
+├── all_apis.sh            # All APIs Shell script collection
+├── README.md              # Usage documentation
+└── env.sh                 # Environment variables configuration template
 ```
 
-**生成的 Shell 脚本示例：**
+**Modular Generation** (`ccpayment.sdk.codegen shell merchant-assets`):
+
+Only generate Shell script for the specified module:
+
+```
+<output_path>/  (default: generated/shell/)
+├── merchant_assets.sh     # Merchant assets module Shell script
+├── README.md              # Usage documentation
+└── env.sh                 # Environment variables configuration template
+```
+
+**Generated Shell Script Example:**
 
 ```bash
 #!/bin/bash
-# 商家资产模块 - Shell 脚本示例
-# 使用方法: source env.sh && ./merchant_assets.sh
+# Merchant assets module - Shell script example
+# Usage: source env.sh && ./merchant_assets.sh
 
-# 获取全部资产
+# Get all assets
 # POST /getAppCoinAssetList
-# 请求参数: 无
+# Request parameters: None
 curl -X POST "${BASE_URL}/getAppCoinAssetList" \
   -H "Content-Type: application/json" \
   -H "Appid: ${APP_ID}" \
@@ -539,9 +539,9 @@ curl -X POST "${BASE_URL}/getAppCoinAssetList" \
 echo ""
 echo "---"
 
-# 获取单个币资产
+# Get single coin asset
 # POST /getAppCoinAsset
-# 请求参数: coinId (uint64, 必填)
+# Request parameters: coinId (uint64, required)
 curl -X POST "${BASE_URL}/getAppCoinAsset" \
   -H "Content-Type: application/json" \
   -H "Appid: ${APP_ID}" \
@@ -550,17 +550,17 @@ curl -X POST "${BASE_URL}/getAppCoinAsset" \
   -d '{"coinId":1280}'
 ```
 
-**env.sh 环境变量模板：**
+**env.sh Environment Variables Template:**
 
 ```bash
 #!/bin/bash
-# 环境变量配置
+# Environment variables configuration
 
 export BASE_URL="https://ccpayment.com/ccpayment/v2"
 export APP_ID="your_app_id"
 export APP_SECRET="your_app_secret"
 
-# 签名生成函数
+# Signature generation function
 generate_sign() {
     local body="$1"
     local timestamp=$(date +%s)
@@ -571,11 +571,11 @@ generate_sign() {
 export -f generate_sign
 ```
 
-#### 步骤4: 类型映射
+#### Step 4: Type Mapping
 
-从API文档类型映射到目标语言类型：
+Map API documentation types to target language types:
 
-| 文档类型 | Golang | TypeScript | Python | Java |
+| Doc Type | Golang | TypeScript | Python | Java |
 |:--------|:-------|:-----------|:-------|:-----|
 | `uint64` | `uint64` | `number` | `int` | `Long` |
 | `int64` | `int64` | `number` | `int` | `Long` |
@@ -586,75 +586,75 @@ export -f generate_sign
 | `Array` | `[]T` | `T[]` | `List[T]` | `List<T>` |
 | `Object` | `struct` | `interface` | `dict` | `Map` |
 
-#### 步骤5: 验证规则映射
+#### Step 5: Validation Rules Mapping
 
-从API文档验证规则生成代码验证逻辑：
+Generate code validation logic from API documentation validation rules:
 
-| 文档规则 | Golang validate tag |
+| Doc Rule | Golang validate tag |
 |:---------|:-------------------|
-| 必填 | `validate:"required"` |
-| 长度≥1 | `validate:"min=1"` |
-| 长度3-64 | `validate:"min=3,max=64"` |
+| Required | `validate:"required"` |
+| Length ≥1 | `validate:"min=1"` |
+| Length 3-64 | `validate:"min=3,max=64"` |
 | ≥1 | `validate:"gte=1"` |
 | ≤100 | `validate:"lte=100"` |
-| 邮箱格式 | `validate:"email"` |
-| URI格式 | `validate:"uri"` |
-| 最大50项 | `validate:"max=50"` |
+| Email format | `validate:"email"` |
+| URI format | `validate:"uri"` |
+| Max 50 items | `validate:"max=50"`
 
-## 重要注意事项
+## Important Notes
 
-### 路径参数处理
+### Path Parameter Handling
 
-⚠️ **路径参数规则**：
+⚠️ **Path Parameter Rules**:
 
-**路径格式：**
-- 相对路径：`./sdk/golang`, `../output/python`
-- 绝对路径：`/Users/username/projects/sdk`, `C:/projects/sdk`
+**Path Format:**
+- Relative path: `./sdk/golang`, `../output/python`
+- Absolute path: `/Users/username/projects/sdk`, `C:/projects/sdk`
 
-**路径处理：**
-- 如果目标路径不存在，自动创建目录
-- 如果目标路径已存在文件，会覆盖现有文件
-- 建议使用相对路径以保持项目可移植性
+**Path Processing:**
+- If target path does not exist, directory will be created automatically
+- If target path already contains files, existing files will be overwritten
+- Recommended to use relative paths for project portability
 
-**示例：**
+**Examples:**
 ```bash
-# 相对路径（推荐）
+# Relative path (recommended)
 ccpayment.sdk.codegen golang merchant-assets ./sdk/golang
 
-# 绝对路径
+# Absolute path
 ccpayment.sdk.codegen python . /Users/oks/projects/ccpayment-sdk/python
 
-# 默认路径（不指定path参数）
+# Default path (without path parameter)
 ccpayment.sdk.codegen golang merchant-assets
 ```
 
-### 包名处理
+### Package Name Handling
 
-⚠️ **关键问题**：生成测试代码时，所有文件必须使用相同的包名。
+⚠️ **Key Issue**: When generating test code, all files must use the same package name.
 
-**正确做法**：
-- 如果生成独立测试程序，所有文件使用 `package main`
-- 如果生成SDK库，所有文件使用 `package ccpayment`，测试文件使用 `package ccpayment_test`
+**Correct Approach:**
+- If generating standalone test program, all files use `package main`
+- If generating SDK library, all files use `package ccpayment`, test files use `package ccpayment_test`
 
-**错误示例**（会导致编译失败）：
+**Incorrect Example** (will cause compilation failure):
 ```
 client.go: package main
 models.go: package main
-example_test.go: package ccpayment  // ❌ 包名不一致
+example_test.go: package ccpayment  // ❌ Package name inconsistent
 ```
 
-### Go工作区配置
+### Go Workspace Configuration
 
-如果遇到 "module is not one of the workspace modules" 错误：
+If you encounter "module is not one of the workspace modules" error:
 
 ```bash
 cd generated/golang
 go work use .
 ```
 
-### HTTP代理配置
+### HTTP Proxy Configuration
 
-支持通过自定义HTTP客户端配置代理：
+Support for proxy configuration via custom HTTP client:
 
 ```go
 proxyURL, _ := url.Parse("http://127.0.0.1:10808")
@@ -667,36 +667,36 @@ httpClient := &http.Client{
 client.SetHTTPClient(httpClient)
 ```
 
-### IP白名单
+### IP Whitelist
 
-⚠️ **首次测试前必须配置**
+⚠️ **Must configure before first test**
 
-API调用需要在CCPayment开发者后台配置IP白名单：
+API calls require IP whitelist configuration in CCPayment developer console:
 
-1. 登录 https://console.ccpayment.com/developer/config
-2. 找到"IP白名单"设置
-3. 添加您的公网IP地址
-4. 保存配置
+1. Log in to https://console.ccpayment.com/developer/config
+2. Find "IP Whitelist" settings
+3. Add your public IP address
+4. Save configuration
 
-如果未配置，会收到错误：
+If not configured, you will receive error:
 ```
 ip not in whitelist, please check the ip whitelist settings on the developer page
 ```
 
-## 生成README.md
+## Generate README.md
 
-为生成的SDK创建使用文档：
+Create usage documentation for the generated SDK:
 
 ```markdown
 # CCPayment Go SDK
 
-## 安装
+## Installation
 
 \`\`\`bash
 go get github.com/yourusername/ccpayment-sdk/generated/golang
 \`\`\`
 
-## 快速开始
+## Quick Start
 
 \`\`\`go
 package main
@@ -709,7 +709,7 @@ import (
 func main() {
     client := NewClient("your_app_id", "your_app_secret")
     
-    // 获取全部资产
+    // Get all assets
     resp, err := client.MerchantAssets().GetAppCoinAssetList(context.Background())
     if err != nil {
         log.Fatal(err)
@@ -721,7 +721,7 @@ func main() {
 }
 \`\`\`
 
-## 配置HTTP代理
+## Configure HTTP Proxy
 
 \`\`\`go
 import (
@@ -738,47 +738,47 @@ httpClient := &http.Client{
 client.SetHTTPClient(httpClient)
 \`\`\`
 
-## API认证
+## API Authentication
 
-所有API请求都需要在Header中包含：
-- \`Appid\`: 应用ID
-- \`Timestamp\`: 当前时间戳（秒）
-- \`Sign\`: HMAC-SHA256签名
+All API requests must include in Header:
+- \`Appid\`: Application ID
+- \`Timestamp\`: Current timestamp (seconds)
+- \`Sign\`: HMAC-SHA256 signature
 
-SDK会自动处理签名生成。
+SDK automatically handles signature generation.
 
-## 错误处理
+## Error Handling
 
 \`\`\`go
 resp, err := client.MerchantAssets().GetAppCoinAssetList(ctx)
 if err != nil {
     if apiErr, ok := err.(*APIError); ok {
-        log.Printf("API错误: code=%d, message=%s", apiErr.Code, apiErr.Message)
+        log.Printf("API Error: code=%d, message=%s", apiErr.Code, apiErr.Message)
     } else {
-        log.Printf("其他错误: %v", err)
+        log.Printf("Other Error: %v", err)
     }
     return
 }
 \`\`\`
 ```
 
-## 测试验证清单
+## Testing Verification Checklist
 
-生成代码后，按以下步骤验证：
+After generating code, verify with the following steps:
 
-1. ✅ **检查输出路径**
+1. ✅ **Check Output Path**
    ```bash
-   # 确认文件已生成到指定路径
+   # Confirm files are generated to the specified path
    ls -la <output_path>
    
-   # 默认路径示例
+   # Default path example
    ls -la generated/golang
    
-   # 自定义路径示例
+   # Custom path example
    ls -la ./sdk/python
    ```
 
-2. ✅ **编译检查**
+2. ✅ **Compilation Check**
    ```bash
    # Golang
    cd <output_path>
@@ -789,11 +789,11 @@ if err != nil {
    python3 -m py_compile *.py
    ```
 
-3. ✅ **配置IP白名单**
-   - 登录开发者后台
-   - 添加公网IP到白名单
+3. ✅ **Configure IP Whitelist**
+   - Log in to developer console
+   - Add public IP to whitelist
 
-4. ✅ **运行测试**
+4. ✅ **Run Tests**
    ```bash
    # Golang
    cd <output_path>
@@ -804,50 +804,50 @@ if err != nil {
    python3 test_main.py
    ```
 
-5. ✅ **验证输出**
+5. ✅ **Verify Output**
    
-   **完整生成时**：
-   - 测试所有13个模块的主要接口
-   - 验证所有数据类型正确解析
+   **Full Generation**:
+   - Test main interfaces of all 13 modules
+   - Verify all data types are parsed correctly
    
-   **模块化生成时**（如 `merchant-assets`）：
-   - ✓ 成功获取资产列表，共 X 种代币
-   - ✓ 成功获取单个币资产信息
-   - 确认数据类型正确解析
-   - 验证错误处理正常
+   **Modular Generation** (e.g., `merchant-assets`):
+   - ✓ Successfully retrieved asset list, total X tokens
+   - ✓ Successfully retrieved single coin asset info
+   - Confirm data types are parsed correctly
+   - Verify error handling works normally
 
-6. ✅ **代码质量检查**
+6. ✅ **Code Quality Check**
    ```bash
    # Golang
    go fmt .
    go vet .
    
    # Python
-   python3 -m pylint *.py  # 需要安装pylint
-   python3 -m black *.py   # 需要安装black
+   python3 -m pylint *.py  # Requires pylint
+   python3 -m black *.py   # Requires black
    ```
 
-## 常见问题
+## FAQ
 
-### 1. 包名冲突
-**问题**: `found packages main and ccpayment`
-**解决**: 删除或重命名冲突的测试文件，确保所有文件使用相同包名
+### 1. Package Name Conflict
+**Problem**: `found packages main and ccpayment`
+**Solution**: Delete or rename conflicting test files, ensure all files use the same package name
 
-### 2. IP白名单错误
-**问题**: `ip not in whitelist`
-**解决**: 在开发者后台配置IP白名单
+### 2. IP Whitelist Error
+**Problem**: `ip not in whitelist`
+**Solution**: Configure IP whitelist in developer console
 
-### 3. 工作区错误
-**问题**: `module is not one of the workspace modules`
-**解决**: 运行 `go work use .`
+### 3. Workspace Error
+**Problem**: `module is not one of the workspace modules`
+**Solution**: Run `go work use .`
 
-### 4. 代理连接失败
-**问题**: 无法通过代理访问API
-**解决**: 检查代理地址和端口，确保代理服务正常运行
+### 4. Proxy Connection Failure
+**Problem**: Cannot access API through proxy
+**Solution**: Check proxy address and port, ensure proxy service is running normally
 
-## 参考
+## References
 
-- API文档: `.rules/api/README.md`
+- API Documentation: `.rules/api/README.md`
 - Base URL: `https://ccpayment.com/ccpayment/v2/`
-- 官网: https://ccpayment.com
-- 开发者控制台: https://console.ccpayment.com
+- Official Website: https://ccpayment.com
+- Developer Console: https://console.ccpayment.com
