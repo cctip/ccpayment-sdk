@@ -19,10 +19,13 @@ func (e *APIError) Error() string {
 
 // Asset 资产信息
 type Asset struct {
-	CoinID      uint64 `json:"coinId"`
-	CoinSymbol  string `json:"coinSymbol"`
-	Available   string `json:"available"`
+	CoinID     uint64 `json:"coinId"`
+	CoinSymbol string `json:"coinSymbol"`
+	Available  string `json:"available"`
 }
+
+// GetAppCoinAssetListRequest 获取全部资产请求（无参数）
+type GetAppCoinAssetListRequest struct{}
 
 // GetAppCoinAssetListResponse 获取全部资产响应
 type GetAppCoinAssetListResponse struct {

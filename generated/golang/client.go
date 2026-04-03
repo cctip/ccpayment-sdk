@@ -10,7 +10,6 @@ import (
 )
 
 const (
-	// DefaultBaseURL CCPayment API默认Base URL
 	DefaultBaseURL = "https://ccpayment.com/ccpayment/v2"
 )
 
@@ -32,11 +31,6 @@ func NewClient(appID, appSecret string) *Client {
 	}
 }
 
-// SetBaseURL 设置自定义Base URL
-func (c *Client) SetBaseURL(baseURL string) {
-	c.baseURL = baseURL
-}
-
 // SetHTTPClient 设置自定义HTTP客户端
 func (c *Client) SetHTTPClient(httpClient *http.Client) {
 	c.httpClient = httpClient
@@ -47,7 +41,7 @@ func (c *Client) MerchantAssets() *MerchantAssetsService {
 	return &MerchantAssetsService{client: c}
 }
 
-// post 内部方法：发送POST请求
+// post 内部POST请求方法
 func (c *Client) post(ctx context.Context, path string, req, resp interface{}) error {
 	var bodyBytes []byte
 	var err error

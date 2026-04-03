@@ -1,3 +1,3 @@
-module github.com/cctip/ccpayment-sdk/generated/golang
+module ccpayment
 
 go 1.21

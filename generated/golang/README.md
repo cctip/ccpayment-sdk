@@ -1,12 +1,6 @@
-# CCPayment Go SDK
+# CCPayment Go SDK - Merchant Assets Module
 
-CCPayment API v2 的 Golang SDK，提供强类型的API调用接口。
-
-## 安装
-
-```bash
-go get github.com/yourusername/ccpayment-sdk/generated/golang
-```
+CCPayment API v2 的 Golang SDK，专注于商家资产模块。
 
 ## 快速开始
 
@@ -18,16 +12,18 @@ package main
 import (
     "context"
     "log"
-    
-    ccpayment "path/to/ccpayment-sdk/generated/golang"
 )
 
 func main() {
     // 使用您的App ID和App Secret创建客户端
-    client := ccpayment.NewClient("your_app_id", "your_app_secret")
+    client := NewClient("your_app_id", "your_app_secret")
     
-    // 可选: 设置自定义Base URL
-    // client.SetBaseURL("https://custom-api.ccpayment.com/v2")
+    // 可选: 设置HTTP代理
+    // proxyURL, _ := url.Parse("http://127.0.0.1:10808")
+    // httpClient := &http.Client{
+    //     Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)},
+    // }
+    // client.SetHTTPClient(httpClient)
 }
 ```
 
@@ -58,31 +54,38 @@ if err != nil {
 log.Printf("USDT可用余额: %s", resp.Asset.Available)
 ```
 
+## 配置HTTP代理
+
+```go
+import (
+    "net/http"
+    "net/url"
+    "time"
+)
+
+proxyURL, _ := url.Parse("http://127.0.0.1:10808")
+httpClient := &http.Client{
+    Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)},
+    Timeout: 30 * time.Second,
+}
+client.SetHTTPClient(httpClient)
+```
+
 ## API认证
 
-所有API请求都需要在Header中包含以下字段：
+所有API请求需要在Header中包含：
 - `Appid`: 应用ID
 - `Timestamp`: 当前时间戳（秒）
 - `Sign`: HMAC-SHA256签名
 
-SDK会自动处理签名生成，您只需提供App ID和App Secret即可。
-
-### 签名算法
-
-```
-signText = appID + timestamp + requestBody
-sign = HMAC-SHA256(signText, appSecret)
-```
+SDK会自动处理签名生成。
 
 ## 错误处理
-
-SDK使用标准的Go error处理方式：
 
 ```go
 resp, err := client.MerchantAssets().GetAppCoinAssetList(ctx)
 if err != nil {
-    // 检查是否为API错误
-    if apiErr, ok := err.(*ccpayment.APIError); ok {
+    if apiErr, ok := err.(*APIError); ok {
         log.Printf("API错误: code=%d, message=%s", apiErr.Code, apiErr.Message)
     } else {
         log.Printf("其他错误: %v", err)
@@ -91,7 +94,7 @@ if err != nil {
 }
 ```
 
-## 数据类型
+## 数据模型
 
 ### Asset (资产信息)
 
@@ -101,87 +104,35 @@ if err != nil {
 | CoinSymbol | string | 代币符号 |
 | Available | string | 可用余额 |
 
-## 完整示例
+### GetAppCoinAssetListResponse
 
-```go
-package main
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| Assets | []Asset | 资产列表 |
 
-import (
-    "context"
-    "fmt"
-    "log"
-    
-    ccpayment "path/to/ccpayment-sdk/generated/golang"
-)
+### GetAppCoinAssetResponse
 
-func main() {
-    // 1. 创建客户端
-    client := ccpayment.NewClient("your_app_id", "your_app_secret")
-    
-    // 2. 获取全部资产
-    assets, err := client.MerchantAssets().GetAppCoinAssetList(context.Background())
-    if err != nil {
-        log.Fatalf("获取资产失败: %v", err)
-    }
-    
-    fmt.Printf("共有 %d 种代币资产\n", len(assets.Assets))
-    
-    // 3. 打印每种资产
-    for _, asset := range assets.Assets {
-        fmt.Printf("- %s: %s\n", asset.CoinSymbol, asset.Available)
-    }
-    
-    // 4. 获取特定代币资产
-    usdtAsset, err := client.MerchantAssets().GetAppCoinAsset(context.Background(), 1280)
-    if err != nil {
-        log.Fatalf("获取USDT资产失败: %v", err)
-    }
-    
-    fmt.Printf("\nUSDT可用余额: %s\n", usdtAsset.Asset.Available)
-}
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| Asset | Asset | 资产信息 |
+
+## 运行测试
+
+```bash
+cd generated/golang
+go run .
 ```
 
-## API参考
+## 注意事项
 
-### MerchantAssetsService
+⚠️ **IP白名单**: 首次测试前必须在CCPayment开发者后台配置IP白名单。
 
-#### GetAppCoinAssetList
-
-获取商家的所有代币资产。
-
-```go
-func (s *MerchantAssetsService) GetAppCoinAssetList(ctx context.Context) (*GetAppCoinAssetListResponse, error)
-```
-
-**参数:**
-- `ctx`: 上下文对象
-
-**返回:**
-- `*GetAppCoinAssetListResponse`: 包含资产列表的响应
-- `error`: 错误信息
-
-#### GetAppCoinAsset
-
-获取商家指定代币的资产。
-
-```go
-func (s *MerchantAssetsService) GetAppCoinAsset(ctx context.Context, coinID uint64) (*GetAppCoinAssetResponse, error)
-```
-
-**参数:**
-- `ctx`: 上下文对象
-- `coinID`: 代币ID
-
-**返回:**
-- `*GetAppCoinAssetResponse`: 包含单个资产信息的响应
-- `error`: 错误信息
+1. 登录 https://console.ccpayment.com/developer/config
+2. 找到"IP白名单"设置
+3. 添加您的公网IP地址
+4. 保存配置
 
 ## 相关链接
 
 - [CCPayment官网](https://ccpayment.com)
-- [API文档](https://ccpayment.com/api/doc)
 - [开发者控制台](https://console.ccpayment.com)
-
-## License
-
-MIT
