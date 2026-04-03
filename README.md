@@ -47,17 +47,28 @@ ccpayment.sdk.codegen golang merchant-assets
 ccpayment.sdk.codegen python merchant-assets ./sdk/python
 ```
 
+### Shell 脚本示例
+
+```bash
+# 生成商家资产模块的 Shell 脚本
+ccpayment.sdk.codegen shell merchant-assets
+
+# 生成后使用
+source generated/shell/env.sh && ./generated/shell/merchant_assets.sh
+```
+
 ## 支持的语言
 
 | 语言 | 状态 | 默认输出路径 |
 |------|------|-------------|
-| Golang | ✅ 已测试 | `generated/golang/` |
-| Python | ✅ 已测试 | `generated/python/` |
-| TypeScript | 🚧 开发中 | `generated/typescript/` |
-| JavaScript | 🚧 开发中 | `generated/javascript/` |
-| Java | 🚧 开发中 | `generated/java/` |
-| PHP | 🚧 开发中 | `generated/php/` |
-| Ruby | 🚧 开发中 | `generated/ruby/` |
+| Golang | ✅ 已支持 | `generated/golang/` |
+| Python | ✅ 已支持 | `generated/python/` |
+| TypeScript | ✅ 已支持 | `generated/typescript/` |
+| JavaScript | ✅  已支持 | `generated/javascript/` |
+| Java | ✅ 已支持 | `generated/java/` |
+| PHP | ✅  已支持 | `generated/php/` |
+| Ruby | ✅ 已支持 | `generated/ruby/` |
+| Shell | ✅ 已支持 | `generated/shell/` |
 
 ## 支持的模块
 
@@ -127,6 +138,31 @@ for asset in response.assets:
     print(f"{asset.coin_symbol}: {asset.available}")
 ```
 
+### Shell 示例
+
+```bash
+# 设置环境变量
+export BASE_URL="https://ccpayment.com/ccpayment/v2"
+export APP_ID="your_app_id"
+export APP_SECRET="your_app_secret"
+
+# 生成签名并调用 API
+generate_sign() {
+    local body="$1"
+    local timestamp=$(date +%s)
+    local sign_text="${APP_ID}${timestamp}${body}"
+    echo -n "$sign_text" | openssl dgst -sha256 -hmac "$APP_SECRET" | sed 's/^.* //'
+}
+
+# 获取全部资产
+curl -X POST "${BASE_URL}/getAppCoinAssetList" \
+  -H "Content-Type: application/json" \
+  -H "Appid: ${APP_ID}" \
+  -H "Sign: $(generate_sign '{}')" \
+  -H "Timestamp: $(date +%s)" \
+  -d '{}'
+```
+
 ## 生成的代码结构
 
 每个SDK都包含以下组件：
@@ -165,9 +201,9 @@ httpClient := &http.Client{
 client.SetHTTPClient(httpClient)
 ```
 
-**Python:**
-```python
-client.set_proxy("http://127.0.0.1:10808")
+**Shell:**
+```bash
+source generated/shell/env.sh && ./generated/shell/merchant_assets.sh
 ```
 
 ## 测试
@@ -182,6 +218,9 @@ go run .
 # Python
 cd generated/python
 python3 test_main.py
+
+# Shell
+source generated/shell/env.sh && ./generated/shell/merchant_assets.sh
 ```
 
 ## 文档
@@ -239,6 +278,9 @@ ccpayment.sdk.codegen golang merchant-assets
 可以！使用命令时添加路径参数：
 ```bash
 ccpayment.sdk.codegen golang merchant-assets ./custom/path
+
+# 或生成 Shell 脚本到指定路径
+ccpayment.sdk.codegen shell merchant-assets ./shell-examples
 ```
 
 ## 贡献

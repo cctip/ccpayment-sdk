@@ -10,7 +10,7 @@ metadata:
         "category": "sdk-generator",
         "api_base": "https://ccpayment.com/ccpayment/v2/",
         "api_docs": ".rules/api/",
-        "supported_languages": ["golang", "typescript", "python", "java", "php"]
+        "supported_languages": ["golang", "typescript", "python", "java", "php", "shell"]
       },
   }
 ---
@@ -46,7 +46,7 @@ ccpayment.sdk.codegen <language> [module] [path]
 ```
 
 **参数说明：**
-- `<language>` (必填): 目标语言，支持 `golang`, `typescript`, `python`, `java`, `php`, `ruby`, `javascript`
+- `<language>` (必填): 目标语言，支持 `golang`, `typescript`, `python`, `java`, `php`, `ruby`, `javascript`, `shell`
 - `[module]` (可选): 指定生成的模块，不指定则生成所有模块
 - `[path]` (可选): 指定生成代码的输出路径，不指定则使用默认路径
 
@@ -64,8 +64,14 @@ ccpayment.sdk.codegen golang . /custom/output/path
 # 只生成商家资产模块到指定路径
 ccpayment.sdk.codegen golang merchant-assets /custom/output/path
 
-# 生成Python SDK到自定义路径
-ccpayment.sdk.codegen python merchant-assets ./sdk/python
+# 生成所有模块的 Shell 脚本
+ccpayment.sdk.codegen shell
+
+# 生成商家资产模块的 Shell 脚本
+ccpayment.sdk.codegen shell merchant-assets
+
+# 生成到指定路径
+ccpayment.sdk.codegen shell merchant-assets ./shell-examples
 ```
 
 **默认输出路径：**
@@ -74,6 +80,7 @@ ccpayment.sdk.codegen python merchant-assets ./sdk/python
 - TypeScript: `generated/typescript/`
 - Java: `generated/java/`
 - PHP: `generated/php/`
+- Shell: `generated/shell/`
 
 **支持的模块：**
 - `basic-info` - 基础信息模块（代币、法币、链信息）
@@ -482,6 +489,87 @@ func main() {
 - `merchant-deposit`: 测试创建充值地址、查询充值记录
 - `user-transfer`: 测试用户转账、批量转账
 - 等等...
+
+#### Shell 脚本生成模式
+
+**完整生成** (`ccpayment.sdk.codegen shell` 或 `ccpayment.sdk.codegen shell . /output/path`):
+
+生成所有13个模块的 Shell 脚本文件：
+
+```
+<output_path>/  (默认: generated/shell/)
+├── basic_info.sh          # 基础信息模块 Shell 脚本
+├── merchant_assets.sh     # 商家资产模块 Shell 脚本
+├── merchant_deposit.sh    # 商家充值模块 Shell 脚本
+├── merchant_withdraw.sh   # 商家提现模块 Shell 脚本
+├── ... (其他模块)
+├── all_apis.sh            # 所有API的Shell脚本合集
+├── README.md              # 使用说明
+└── env.sh                 # 环境变量配置模板
+```
+
+**模块化生成** (`ccpayment.sdk.codegen shell merchant-assets`):
+
+只生成指定模块的 Shell 脚本：
+
+```
+<output_path>/  (默认: generated/shell/)
+├── merchant_assets.sh     # 商家资产模块 Shell 脚本
+├── README.md              # 使用说明
+└── env.sh                 # 环境变量配置模板
+```
+
+**生成的 Shell 脚本示例：**
+
+```bash
+#!/bin/bash
+# 商家资产模块 - Shell 脚本示例
+# 使用方法: source env.sh && ./merchant_assets.sh
+
+# 获取全部资产
+# POST /getAppCoinAssetList
+# 请求参数: 无
+curl -X POST "${BASE_URL}/getAppCoinAssetList" \
+  -H "Content-Type: application/json" \
+  -H "Appid: ${APP_ID}" \
+  -H "Sign: $(generate_sign '{}')" \
+  -H "Timestamp: $(date +%s)" \
+  -d '{}'
+
+echo ""
+echo "---"
+
+# 获取单个币资产
+# POST /getAppCoinAsset
+# 请求参数: coinId (uint64, 必填)
+curl -X POST "${BASE_URL}/getAppCoinAsset" \
+  -H "Content-Type: application/json" \
+  -H "Appid: ${APP_ID}" \
+  -H "Sign: $(generate_sign '{"coinId":1280}')" \
+  -H "Timestamp: $(date +%s)" \
+  -d '{"coinId":1280}'
+```
+
+**env.sh 环境变量模板：**
+
+```bash
+#!/bin/bash
+# 环境变量配置
+
+export BASE_URL="https://ccpayment.com/ccpayment/v2"
+export APP_ID="your_app_id"
+export APP_SECRET="your_app_secret"
+
+# 签名生成函数
+generate_sign() {
+    local body="$1"
+    local timestamp=$(date +%s)
+    local sign_text="${APP_ID}${timestamp}${body}"
+    echo -n "$sign_text" | openssl dgst -sha256 -hmac "$APP_SECRET" | sed 's/^.* //'
+}
+
+export -f generate_sign
+```
 
 #### 步骤4: 类型映射
 
