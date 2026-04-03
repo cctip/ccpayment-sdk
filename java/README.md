@@ -1,23 +1,79 @@
-# ccpayment
+# CCPayment Java SDK
 
-## 1、 Modify file: src/main/java/com/Ccpayment/constant/Config.java,  set AppId, AppSecrete of your own
+Official Java SDK for CCPayment API v2.
 
-## 2、 User cases: src/test/java/com/Ccpayment/apis/CcpaymentApisTest.java
+## Installation
 
-## Reference of functions
-Specific parameters: Refer to the API documentation<br>
-Document Address : https://doc.ccpayment.com/ccpayment-for-merchant/home
+Add the following dependency to your `pom.xml`:
 
+```xml
+<dependency>
+    <groupId>com.ccpayment</groupId>
+    <artifactId>ccpayment-sdk</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
 
-| Name            | Description                                                                                                                                                                                                |
-|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| getSupportToken | Obtain the token list supported by merchants                                                                                                                                                               |
-| getTokenChain   | Obtain the list of the available networks for a certain token                                                                                                                                              |
-| createOrder     | Manage 100% of your front-end interactions and use our APIs to build your own checkout page.                                                                                                               |
-| checkoutUrl     | Simplify your integration by utilizing CCPayment's hosted checkout page. CCPayment will generate a checkout URL to merchant, it will direct customers to CCPayment hosted checkout page to make payment.   |
-| withdraw        | Call the withdrawal API to initiate withdrawals                                                                                                                                                            |
-| checkUser       | Check the Validity of Cwallet ID                                                                                                                                                                           |
-| getTokenRate    | The amount of USD converted into tokens                                                                                                                                                                    |
-| assets          | Obtain details of merchant's assets                                                                                                                                                                        |
-| networkFee      | Obtain the network fee of a certain network                                                                                                                                                                |
-| webhook         | Notification of order callbacks                                                                                                                                                                            |
+## Quick Start
+
+```java
+import com.ccpayment.Client;
+import com.google.gson.JsonObject;
+
+public class Example {
+    public static void main(String[] args) {
+        // Create client
+        Client client = new Client("your_app_id", "your_app_secret");
+        
+        try {
+            // Get all assets
+            JsonObject response = client.merchantAssets().getAppCoinAssetList();
+            System.out.println(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+## Configuration
+
+### Custom Base URL
+
+```java
+client.setBaseUrl("https://custom.ccpayment.com/ccpayment/v2");
+```
+
+## API Modules
+
+- **basicInfo** - Token, fiat currency, and chain information queries
+- **merchantAssets** - Merchant asset queries
+- **merchantDeposit** - Deposit address generation and deposit record queries
+- **merchantWithdraw** - Withdrawal requests and withdrawal record queries
+- **merchantBatchWithdraw** - Batch withdrawal management
+- **userAssets** - User asset queries
+- **userDeposit** - User deposit addresses and deposit records
+- **userWithdraw** - User withdrawal requests and withdrawal records
+- **userTransfer** - User transfers and batch transfers
+- **orders** - Order and Invoice orders
+- **checkout** - Checkout and Hosted related
+- **swap** - Swap related interfaces
+- **utilities** - Webhook, address validation, etc.
+
+## Error Handling
+
+```java
+import com.ccpayment.APIError;
+
+try {
+    JsonObject response = client.merchantAssets().getAppCoinAssetList();
+} catch (APIError e) {
+    System.out.println("API Error " + e.getCode() + ": " + e.getMessage());
+} catch (IOException e) {
+    System.out.println("IO Error: " + e.getMessage());
+}
+```
+
+## API Documentation
+
+For complete API documentation, visit: https://doc.ccpayment.com

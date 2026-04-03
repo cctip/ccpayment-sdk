@@ -1,0 +1,15 @@
+{
+  "name": "ccpayment-sdk",
+  "version": "1.0.0",
+  "description": "Official JavaScript SDK for CCPayment API v2",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": ["ccpayment", "crypto", "payment", "sdk"],
+  "author": "CCPayment",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}

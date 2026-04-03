@@ -1,47 +1,54 @@
-# CCPayment Python SDK
+# CCPayment Ruby SDK
 
-Official Python SDK for CCPayment API v2.
+Official Ruby SDK for CCPayment API v2.
 
 ## Installation
 
-```bash
-pip install ccpayment-sdk
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'ccpayment-sdk'
 ```
 
-Or install from source:
+And then execute:
 
 ```bash
-git clone https://github.com/ccpayment/ccpayment-sdk-python.git
-cd ccpayment-sdk-python
-pip install -r requirements.txt
+bundle install
+```
+
+Or install it yourself as:
+
+```bash
+gem install ccpayment-sdk
 ```
 
 ## Quick Start
 
-```python
-from ccpayment import Client
+```ruby
+require 'ccpayment'
 
 # Create client
-client = Client("your_app_id", "your_app_secret")
+client = CCPayment::Client.new('your_app_id', 'your_app_secret')
 
 # Get all assets
-response = client.merchant_assets().get_app_coin_asset_list()
-for asset in response["assets"]:
-    print(f"{asset['coinSymbol']}: {asset['available']}")
+response = client.merchant_assets.get_app_coin_asset_list
+response['assets'].each do |asset|
+  puts "#{asset['coinSymbol']}: #{asset['available']}"
+end
 ```
 
 ## Configuration
 
 ### HTTP Proxy
 
-```python
-client.set_proxy("http://127.0.0.1:10808")
+```ruby
+client.set_proxy('http://127.0.0.1:10808')
 ```
 
 ### Custom Base URL
 
-```python
-client.set_base_url("https://custom.ccpayment.com/ccpayment/v2")
+```ruby
+client.base_url = 'https://custom.ccpayment.com/ccpayment/v2'
 ```
 
 ## API Modules
@@ -62,15 +69,16 @@ client.set_base_url("https://custom.ccpayment.com/ccpayment/v2")
 
 ## Error Handling
 
-```python
-from ccpayment import Client, APIError
+```ruby
+require 'ccpayment'
 
-client = Client("your_app_id", "your_app_secret")
-
-try:
-    response = client.merchant_assets().get_app_coin_asset_list()
-except APIError as e:
-    print(f"API Error {e.code}: {e.message}")
+begin
+  response = client.merchant_assets.get_app_coin_asset_list
+rescue CCPayment::APIError => e
+  puts "API Error #{e.code}: #{e.message}"
+rescue => e
+  puts "Error: #{e.message}"
+end
 ```
 
 ## API Documentation

@@ -1,28 +1,31 @@
-# CCPayment PHP SDK
+# CCPayment TypeScript SDK
 
-Official PHP SDK for CCPayment API v2.
+Official TypeScript SDK for CCPayment API v2.
 
 ## Installation
 
 ```bash
-composer require ccpayment/ccpayment-sdk
+npm install ccpayment-sdk
+```
+
+Or with yarn:
+
+```bash
+yarn add ccpayment-sdk
 ```
 
 ## Quick Start
 
-```php
-<?php
-require_once 'vendor/autoload.php';
-
-use CCPayment\Client;
+```typescript
+import { Client } from 'ccpayment-sdk';
 
 // Create client
-$client = new Client('your_app_id', 'your_app_secret');
+const client = new Client('your_app_id', 'your_app_secret');
 
 // Get all assets
-$response = $client->merchantAssets()->getAppCoinAssetList();
-foreach ($response['assets'] as $asset) {
-    echo $asset['coinSymbol'] . ': ' . $asset['available'] . PHP_EOL;
+const { assets } = await client.merchantAssets().getAppCoinAssetList();
+for (const asset of assets) {
+  console.log(`${asset.coinSymbol}: ${asset.available}`);
 }
 ```
 
@@ -30,14 +33,17 @@ foreach ($response['assets'] as $asset) {
 
 ### HTTP Proxy
 
-```php
-$client->setProxy('http://127.0.0.1:10808');
+```typescript
+client.setProxy({
+  host: '127.0.0.1',
+  port: 10808
+});
 ```
 
 ### Custom Base URL
 
-```php
-$client->setBaseUrl('https://custom.ccpayment.com/ccpayment/v2');
+```typescript
+client.setBaseUrl('https://custom.ccpayment.com/ccpayment/v2');
 ```
 
 ## API Modules
@@ -58,15 +64,19 @@ $client->setBaseUrl('https://custom.ccpayment.com/ccpayment/v2');
 
 ## Error Handling
 
-```php
-use CCPayment\APIError;
+```typescript
+import { Client, APIError } from 'ccpayment-sdk';
+
+const client = new Client('your_app_id', 'your_app_secret');
 
 try {
-    $response = $client->merchantAssets()->getAppCoinAssetList();
-} catch (APIError $e) {
-    echo "API Error {$e->getErrorCode()}: {$e->getMessage()}" . PHP_EOL;
-} catch (\Exception $e) {
-    echo "Error: {$e->getMessage()}" . PHP_EOL;
+  const { assets } = await client.merchantAssets().getAppCoinAssetList();
+} catch (error) {
+  if (error instanceof APIError) {
+    console.log(`API Error ${error.code}: ${error.message}`);
+  } else {
+    console.log('Other error:', error);
+  }
 }
 ```
 

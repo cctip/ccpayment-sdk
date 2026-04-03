@@ -1,22 +1,110 @@
-# ccpayment
-## Reference of functions
-Specific parameters: Refer to the API documentation<br>
-Document Address : https://doc.ccpayment.com/ccpayment-for-merchant/home
-```azure
-Due to the different command rules in different programming languages, there may be small hump, underscore, and other command methods, but the words are the same.
-Use the function name of php as a reference:
+# CCPayment Go SDK
+
+Official Go SDK for CCPayment API v2.
+
+## Installation
+
+```bash
+go get github.com/cctip/ccpayment-sdk/golang
 ```
 
+## Quick Start
 
-| Name            | Description                                                                                                                                                                                                |
-|-----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GetSupportToken | Obtain the token list supported by merchants                                                                                                                                                               |
-| GetTokenChain   | Obtain the list of the available networks for a certain token                                                                                                                                              |
-| CreateOrder     | Manage 100% of your front-end interactions and use our APIs to build your own checkout page.                                                                                                               |
-| CheckoutUrl     | Simplify your integration by utilizing CCPayment's hosted checkout page. CCPayment will generate a checkout URL to merchant, it will direct customers to CCPayment hosted checkout page to make payment.   |
-| Withdraw        | Call the withdrawal API to initiate withdrawals                                                                                                                                                            |
-| CheckUser       | Check the Validity of Cwallet ID                                                                                                                                                                           |
-| GetTokenRate    | The amount of USD converted into tokens                                                                                                                                                                    |
-| Assets          | Obtain details of merchant's assets                                                                                                                                                                        |
-| NetworkFee      | Obtain the network fee of a certain network                                                                                                                                                                |
-| Webhook         | Notification of order callbacks                                                                                                                                                                            |
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "log"
+    "os"
+    
+    ccpayment "github.com/cctip/ccpayment-sdk/golang"
+)
+
+func main() {
+    // Get credentials from environment variables
+    appID := os.Getenv("CCPAYMENT_APP_ID")
+    appSecret := os.Getenv("CCPAYMENT_APP_SECRET")
+    proxyURL := os.Getenv("CCPAYMENT_PROXY_URL")
+    
+    if appID == "" || appSecret == "" {
+        log.Fatal("Please set CCPAYMENT_APP_ID and CCPAYMENT_APP_SECRET environment variables")
+    }
+    
+    // Create client
+    client := ccpayment.NewClient(appID, appSecret)
+    
+    // Optional: Configure HTTP proxy
+    if proxyURL != "" {
+        proxyURLParsed, _ := url.Parse(proxyURL)
+        httpClient := &http.Client{
+            Transport: &http.Transport{Proxy: http.ProxyURL(proxyURLParsed)},
+        }
+        client.SetHTTPClient(httpClient)
+    }
+    
+    // Get all assets
+    resp, err := client.MerchantAssets().GetAppCoinAssetList(context.Background())
+    if err != nil {
+        log.Fatal(err)
+    }
+    
+    // Print assets
+    for _, asset := range resp.Assets {
+        fmt.Printf("%s: %s\n", asset.CoinSymbol, asset.Available)
+    }
+}
+```
+
+## Configuration
+
+### HTTP Proxy
+
+```go
+proxyURL, _ := url.Parse("http://127.0.0.1:10808")
+httpClient := &http.Client{
+    Transport: &http.Transport{Proxy: http.ProxyURL(proxyURL)},
+}
+client.SetHTTPClient(httpClient)
+```
+
+### Custom Base URL
+
+```go
+client.SetBaseURL("https://custom.ccpayment.com/ccpayment/v2")
+```
+
+## API Modules
+
+- **BasicInfo** - Token, fiat currency, and chain information queries
+- **MerchantAssets** - Merchant asset queries
+- **MerchantDeposit** - Deposit address generation and deposit record queries
+- **MerchantWithdraw** - Withdrawal requests and withdrawal record queries
+- **MerchantBatchWithdraw** - Batch withdrawal management
+- **UserAssets** - User asset queries
+- **UserDeposit** - User deposit addresses and deposit records
+- **UserWithdraw** - User withdrawal requests and withdrawal records
+- **UserTransfer** - User transfers and batch transfers
+- **Orders** - Order and Invoice orders
+- **Checkout** - Checkout and Hosted related
+- **Swap** - Swap related interfaces
+- **Utilities** - Webhook, address validation, etc.
+
+## Error Handling
+
+```go
+resp, err := client.MerchantAssets().GetAppCoinAssetList(ctx)
+if err != nil {
+    if apiErr, ok := err.(*ccpayment.APIError); ok {
+        log.Printf("API Error: code=%d, message=%s", apiErr.Code, apiErr.Message)
+    } else {
+        log.Printf("Other Error: %v", err)
+    }
+    return
+}
+```
+
+## API Documentation
+
+For complete API documentation, visit: https://doc.ccpayment.com

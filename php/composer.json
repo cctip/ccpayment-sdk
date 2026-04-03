@@ -1,0 +1,21 @@
+{
+    "name": "ccpayment/ccpayment-sdk",
+    "description": "Official PHP SDK for CCPayment API v2",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "CCPayment",
+            "email": "support@ccpayment.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CCPayment\\": "src/"
+        }
+    }
+}
