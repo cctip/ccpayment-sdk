@@ -38,8 +38,4 @@ public class UtilitiesService {
         data.addProperty("orderId", orderId);
         return client.post("/getPayInfo", data, JsonObject.class);
     }
-
-    public JsonObject health() throws APIError, IOException {
-        return client.post("/health", null, JsonObject.class);
-    }
 }

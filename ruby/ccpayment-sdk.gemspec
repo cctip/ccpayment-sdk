@@ -8,6 +8,4 @@ Gem::Specification.new do |s|
   s.files       = Dir['lib/**/*.rb']
   s.homepage    = 'https://github.com/ccpayment/ccpayment-sdk-ruby'
   s.license     = 'MIT'
-
-  s.add_dependency 'faraday', '~> 2.0'
 end

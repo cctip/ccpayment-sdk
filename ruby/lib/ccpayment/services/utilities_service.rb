@@ -20,10 +20,6 @@ module CCPayment
       def get_pay_info(order_id)
         @client.post('/getPayInfo', { orderId: order_id })
       end
-
-      def health
-        @client.post('/health', {})
-      end
     end
   end
 end

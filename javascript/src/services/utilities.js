@@ -18,10 +18,6 @@ class UtilitiesService {
   async getPayInfo(orderId) {
     return this.client.post('/getPayInfo', { orderId });
   }
-
-  async health() {
-    return this.client.post('/health', {});
-  }
 }
 
 module.exports = UtilitiesService;

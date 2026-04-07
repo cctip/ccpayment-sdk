@@ -1,5 +1,6 @@
 const axios = require('axios');
 const crypto = require('crypto');
+const { HttpsProxyAgent } = require('https-proxy-agent');
 const { APIError } = require('./errors');
 
 const DEFAULT_BASE_URL = 'https://ccpayment.com/ccpayment/v2';
@@ -16,8 +17,10 @@ class Client {
     this.baseUrl = baseUrl;
   }
 
-  setProxy(proxy) {
-    this.axiosInstance.defaults.proxy = proxy;
+  setProxy(proxyUrl) {
+    const agent = new HttpsProxyAgent(proxyUrl);
+    this.axiosInstance.defaults.httpsAgent = agent;
+    this.axiosInstance.defaults.proxy = false;
   }
 
   generateSign(body) {

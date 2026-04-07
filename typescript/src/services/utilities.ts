@@ -33,8 +33,4 @@ export class UtilitiesService {
   }> {
     return this.client.post('/getPayInfo', { orderId });
   }
-
-  async health(): Promise<{ status: string; timestamp: number }> {
-    return this.client.post('/health', {});
-  }
 }

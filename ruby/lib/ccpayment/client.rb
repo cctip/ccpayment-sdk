@@ -1,4 +1,4 @@
-require 'faraday'
+require 'net/http'
 require 'json'
 require 'openssl'
 
@@ -12,11 +12,11 @@ module CCPayment
       @app_id = app_id
       @app_secret = app_secret
       @base_url = DEFAULT_BASE_URL
-      @http_client = Faraday.new
+      @proxy_url = nil
     end
 
     def set_proxy(proxy_url)
-      @http_client = Faraday.new(proxy: proxy_url)
+      @proxy_url = proxy_url
     end
 
     def generate_sign(body)
@@ -37,7 +37,25 @@ module CCPayment
         'Timestamp' => timestamp
       }
 
-      response = @http_client.post("#{@base_url}#{path}", body, headers)
+      uri = URI.parse("#{@base_url}#{path}")
+
+      response = if @proxy_url
+        proxy_uri = URI.parse(@proxy_url)
+        http = Net::HTTP.new(uri.host, uri.port, proxy_uri.host, proxy_uri.port)
+        http.use_ssl = uri.scheme == 'https'
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        request = Net::HTTP::Post.new(uri.path, headers)
+        request.body = body
+        http.request(request)
+      else
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = uri.scheme == 'https'
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        request = Net::HTTP::Post.new(uri.path, headers)
+        request.body = body
+        http.request(request)
+      end
+
       result = JSON.parse(response.body)
 
       raise APIError.new(result['code'], result['msg']) unless result['code'] == 10000

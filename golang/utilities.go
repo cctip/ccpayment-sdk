@@ -44,14 +44,3 @@ func (s *UtilitiesService) GetPayInfo(ctx context.Context, orderId string) (*Get
 	}
 	return &result, nil
 }
-
-// Health API health check interface
-func (s *UtilitiesService) Health(ctx context.Context) (*HealthResponse, error) {
-	// Health endpoint may return plain text, use custom handling
-	var result HealthResponse
-	err := s.client.postWithStringResponse(ctx, "/health", nil, &result)
-	if err != nil {
-		return nil, err
-	}
-	return &result, nil
-}

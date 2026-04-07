@@ -81,18 +81,6 @@ func main() {
 		}
 	}
 
-	// Test 3: Health check
-	fmt.Println("\n[Test 3] Health Check...")
-	healthResp, err := client.Utilities().Health(ctx)
-	if err != nil {
-		log.Printf("Error health check: %v", err)
-		if apiErr, ok := err.(*ccpayment.APIError); ok {
-			log.Printf("API Error Code: %d", apiErr.Code)
-		}
-	} else {
-		fmt.Printf("✓ Health check passed: %s\n", healthResp.Status)
-	}
-
 	fmt.Println("\n========================================")
 	fmt.Println("Test completed")
 }

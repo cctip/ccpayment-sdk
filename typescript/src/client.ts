@@ -1,5 +1,6 @@
-import axios, { AxiosInstance, AxiosProxyConfig } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import crypto from 'crypto';
+import { HttpsProxyAgent } from 'https-proxy-agent';
 import { APIError } from './errors';
 import { BasicInfoService } from './services/basic-info';
 import { MerchantAssetsService } from './services/merchant-assets';
@@ -34,18 +35,11 @@ export class Client {
   }
 
   public setProxy(proxyUrl: string): void {
-    // Parse proxy URL like "http://127.0.0.1:10808" or "127.0.0.1:10808"
-    const cleanUrl = proxyUrl.replace(/^http:\/\//, '');
-    const parts = cleanUrl.split(':');
-    const host = parts[0];
-    const port = parts[1] ? parseInt(parts[1]) : 80;
+    const agent = new HttpsProxyAgent(proxyUrl);
     
     this.axiosInstance = axios.create({
-      proxy: {
-        host: host,
-        port: port,
-        protocol: 'http'
-      }
+      httpsAgent: agent,
+      proxy: false  // Disable axios built-in proxy to use custom agent
     });
   }
 

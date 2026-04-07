@@ -81,16 +81,6 @@ def main():
         print(f"✗ Error: {e}")
         traceback.print_exc()
 
-    # Test 3: Health check
-    print("\n[Test 3] Health Check...")
-    try:
-        response = client.utilities.health()
-        print(f"✓ Health check passed: {response}")
-    except APIError as e:
-        print(f"✗ API Error: code={e.code}, message={str(e)}")
-    except Exception as e:
-        print(f"✗ Error: {e}")
-
     print("\n" + "=" * 50)
     print("Test completed")
 

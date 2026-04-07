@@ -1,5 +1,5 @@
-import { Client } from './src/client';
-import { APIError } from './src/errors';
+const { Client } = require('./src/client');
+const { APIError } = require('./src/errors');
 
 // Get credentials from environment variables
 const appId = process.env.CCPAYMENT_APP_ID || '';
@@ -28,7 +28,7 @@ async function runTests() {
   // Test 1: Get coin list
   console.log('\n[Test 1] Get Coin List...');
   try {
-    const response = await client.basicInfo.getCoinList();
+    const response = await client.basicInfo().getCoinList();
     console.log(`✓ Successfully retrieved coin list, total ${response.coins?.length || 0} coins`);
     if (response.coins && response.coins.length > 0) {
       console.log(`  First coin: ${response.coins[0].symbol} (ID: ${response.coins[0].coinId})`);
@@ -37,14 +37,14 @@ async function runTests() {
     if (error instanceof APIError) {
       console.log(`✗ API Error: code=${error.code}, message=${error.message}`);
     } else {
-      console.log(`✗ Error: ${error}`);
+      console.log(`✗ Error: ${error.message || error}`);
     }
   }
 
   // Test 2: Get merchant assets
   console.log('\n[Test 2] Get Merchant Assets...');
   try {
-    const response = await client.merchantAssets.getAppCoinAssetList();
+    const response = await client.merchantAssets().getAppCoinAssetList();
     const assets = response.assets || [];
     console.log(`✓ Successfully retrieved merchant assets, total ${assets.length} assets`);
     if (assets.length > 0) {
@@ -59,7 +59,7 @@ async function runTests() {
     if (error instanceof APIError) {
       console.log(`✗ API Error: code=${error.code}, message=${error.message}`);
     } else {
-      console.log(`✗ Error: ${error}`);
+      console.log(`✗ Error: ${error.message || error}`);
     }
   }
 

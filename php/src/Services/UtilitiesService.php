@@ -50,13 +50,4 @@ class UtilitiesService
     {
         return $this->client->post('/getPayInfo', ['orderId' => $orderId]);
     }
-
-    /**
-     * @throws APIError
-     * @throws GuzzleException
-     */
-    public function health(): array
-    {
-        return $this->client->post('/health', []);
-    }
 }
