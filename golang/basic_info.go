@@ -70,22 +70,11 @@ func (s *BasicInfoService) AllChain(ctx context.Context, chains []string) (*AllC
 	return &result, nil
 }
 
-// GetCwalletUserId verifies and gets CCWallet user information
-func (s *BasicInfoService) GetCwalletUserId(ctx context.Context, cwalletUserId string) (*GetCwalletUserIdResponse, error) {
-	req := &GetCwalletUserIdRequest{CwalletUserId: cwalletUserId}
-	var result GetCwalletUserIdResponse
-	err := s.client.post(ctx, "/getCwalletUserId", req, &result)
-	if err != nil {
-		return nil, err
-	}
-	return &result, nil
-}
-
-// GetWithdrawFee gets the withdrawal fee for a specified token and chain
-func (s *BasicInfoService) GetWithdrawFee(ctx context.Context, coinId uint64, chain string) (*GetWithdrawFeeResponse, error) {
-	req := &GetWithdrawFeeRequest{CoinId: coinId, Chain: chain}
-	var result GetWithdrawFeeResponse
-	err := s.client.post(ctx, "/getWithdrawFee", req, &result)
+// GetMainCoinList gets the main-chain token list for an app
+func (s *BasicInfoService) GetMainCoinList(ctx context.Context, appID string) (*GetMainCoinListResponse, error) {
+	req := &GetMainCoinListRequest{AppID: appID}
+	var result GetMainCoinListResponse
+	err := s.client.post(ctx, "/getMainCoinList", req, &result)
 	if err != nil {
 		return nil, err
 	}

@@ -37,13 +37,3 @@ func (s *OrdersService) GetInvoiceOrderInfo(ctx context.Context, orderId string)
 	}
 	return &result, nil
 }
-
-// GetWebhookInfo gets merchant's Webhook configuration information
-func (s *OrdersService) GetWebhookInfo(ctx context.Context) (*GetWebhookInfoResponse, error) {
-	var result GetWebhookInfoResponse
-	err := s.client.post(ctx, "/getWebhookInfo", nil, &result)
-	if err != nil {
-		return nil, err
-	}
-	return &result, nil
-}

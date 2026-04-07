@@ -26,3 +26,13 @@ func (s *MerchantAssetsService) GetAppCoinAsset(ctx context.Context, coinId uint
 	}
 	return &result, nil
 }
+
+// GetAppCollectFeeRecordList queries merchant consolidation fee records
+func (s *MerchantAssetsService) GetAppCollectFeeRecordList(ctx context.Context, req *GetAppCollectFeeRecordListRequest) (*GetAppCollectFeeRecordListResponse, error) {
+	var result GetAppCollectFeeRecordListResponse
+	err := s.client.post(ctx, "/getAggregationFeeRecord", req, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
+}

@@ -79,12 +79,12 @@ func (c *Client) Orders() *OrdersService {
 	return &OrdersService{client: c}
 }
 
-func (c *Client) Checkout() *CheckoutService {
-	return &CheckoutService{client: c}
-}
-
 func (c *Client) Swap() *SwapService {
 	return &SwapService{client: c}
+}
+
+func (c *Client) UserSwap() *UserSwapService {
+	return &UserSwapService{client: c}
 }
 
 func (c *Client) Utilities() *UtilitiesService {

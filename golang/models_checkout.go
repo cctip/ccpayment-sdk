@@ -3,10 +3,10 @@ package ccpayment
 // ==================== Checkout Models ====================
 
 type CheckoutCoin struct {
-	CoinId   uint64   `json:"coinId"`
-	Symbol   string   `json:"symbol"`
-	LogoUrl  string   `json:"logoUrl"`
-	Chains   []string `json:"chains"`
+	CoinId  uint64   `json:"coinId"`
+	Symbol  string   `json:"symbol"`
+	LogoUrl string   `json:"logoUrl"`
+	Chains  []string `json:"chains"`
 }
 
 // Request/Response for Checkout
@@ -80,7 +80,7 @@ type GetHostedCoinUSDTPriceResponse struct {
 }
 
 type GetMainCoinListResponse struct {
-	Coins []CheckoutCoin `json:"coins"`
+	CoinChainList []CheckoutCoin `json:"coinChainList"`
 }
 
 type CreateAppDemoOrderDepositRequest struct {
@@ -184,74 +184,68 @@ type GetSwapRecordListResponse struct {
 	NextId  string       `json:"nextId,omitempty"`
 }
 
-type SelectHostedInvoiceCoinRequest struct {
-	OrderId string `json:"orderId"`
-	CoinId  uint64 `json:"coinId"`
-	Chain   string `json:"chain"`
-}
-
-type SelectHostedInvoiceCoinResponse struct {
-	Address     string `json:"address"`
-	Memo        string `json:"memo,omitempty"`
-	AmountToPay string `json:"amountToPay"`
-}
-
 // ==================== Utilities Models ====================
 
 // Request/Response for Utilities
 
-type VerifyAddressRequest struct {
+type WebhookResendRequest struct {
+	StartTimestamp  int64    `json:"startTimestamp,omitempty"`
+	EndTimestamp    int64    `json:"endTimestamp,omitempty"`
+	WebhookResult   string   `json:"webhookResult,omitempty"`
+	TransactionType string   `json:"transactionType,omitempty"`
+	RecordIDs       []string `json:"recordIds,omitempty"`
+}
+
+type WebhookResendResponse struct {
+	ResendCount *int64 `json:"resendCount,omitempty"`
+}
+
+type GetTradeBlockHeightRequest struct {
+	RecordID string `json:"record_id"`
+}
+
+type GetTradeBlockHeightResponse struct {
+	Chain            *string `json:"chain,omitempty"`
+	TxBlockHeight    *int64  `json:"txBlockHeight,omitempty"`
+	CurrBlockHeight  *int64  `json:"currBlockHeight,omitempty"`
+	ReqConfirmations *int64  `json:"reqConfirmations,omitempty"`
+}
+
+type CheckWithdrawalAddressValidityRequest struct {
 	Chain   string `json:"chain"`
 	Address string `json:"address"`
 }
 
-type VerifyAddressResponse struct {
-	Valid   bool   `json:"valid"`
-	Message string `json:"message"`
+type CheckWithdrawalAddressValidityResponse struct {
+	AddrIsValid *bool `json:"addrIsValid,omitempty"`
 }
 
-type AbandonAddressRequest struct {
+type DeprecatedAddressRequest struct {
 	Chain   string `json:"chain"`
 	Address string `json:"address"`
 }
 
-type HostedInvoiceOrderInfoRequest struct {
-	OrderId string `json:"orderId"`
+type UnboundAddressDetail struct {
+	Chain   string `json:"chain"`
+	Address string `json:"address"`
 }
 
-type HostedInvoiceOrderInfoResponse struct {
-	OrderId        string            `json:"orderId"`
-	Product        string            `json:"product"`
-	Price          string            `json:"price"`
-	PriceSymbol    string            `json:"priceSymbol"`
-	InvoiceUrl     string            `json:"invoiceUrl"`
-	BuyerEmail     string            `json:"buyerEmail"`
-	ExpiredAt      int64             `json:"expiredAt"`
-	SelectedCoinId uint64            `json:"selectedCoinId"`
-	SelectedChain  string            `json:"selectedChain"`
-	ToAddress      string            `json:"toAddress"`
-	ToMemo         string            `json:"toMemo"`
-	AmountToPay    string            `json:"amountToPay"`
-	TotalPaidValue string            `json:"totalPaidValue"`
-	PaidList       []InvoicePaidInfo `json:"paidList"`
+type DeprecatedAddressResponse struct {
+	Unbound     []UnboundAddressDetail `json:"unbound"`
+	UnboundAt   int64                  `json:"unboundAt"`
+	UserID      string                 `json:"userID,omitempty"`
+	ReferenceID string                 `json:"referenceID,omitempty"`
 }
 
-type GetPayInfoRequest struct {
-	OrderId string `json:"orderId"`
+type RescanLostTransactionRequest struct {
+	Chain     string `json:"chain"`
+	ToAddress string `json:"toAddress"`
+	TxID      string `json:"txId"`
+	Memo      string `json:"memo,omitempty"`
 }
 
-type GetPayInfoResponse struct {
-	OrderId    string `json:"orderId"`
-	Product    string `json:"product"`
-	Price      string `json:"price"`
-	PriceSymbol string `json:"priceSymbol"`
-	Address    string `json:"address"`
-	Memo       string `json:"memo"`
-	Amount     string `json:"amount"`
-	CoinSymbol string `json:"coinSymbol"`
-	Chain      string `json:"chain"`
-	QrCode     string `json:"qrCode"`
-	ExpiredAt  int64  `json:"expiredAt"`
+type RescanLostTransactionResponse struct {
+	Description string `json:"description"`
 }
 
 type HealthResponse struct {

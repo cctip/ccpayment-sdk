@@ -5,24 +5,17 @@ class UtilitiesService:
     def __init__(self, client):
         self.client = client
 
-    def verify_address(self, chain: str, address: str) -> dict:
-        """Verify the validity of a blockchain address"""
-        return self.client._post("/verifyAddress", {
-            "chain": chain,
-            "address": address
-        })
+    def webhook_resend(self, data=None):
+        return self.client._post("/webhook/resend", data or {})
 
-    def abandon_address(self, chain: str, address: str):
-        """Abandon a deposit address that is no longer in use"""
-        self.client._post("/abandonAddress", {
-            "chain": chain,
-            "address": address
-        })
+    def get_trade_block_height(self, data):
+        return self.client._post("/getTradeBlockHeight", data)
 
-    def hosted_invoice_order_info(self, order_id: str) -> dict:
-        """Get Hosted Invoice order details"""
-        return self.client._post("/hostedInvoiceOrderInfo", {"orderId": order_id})
+    def check_withdrawal_address_validity(self, data):
+        return self.client._post("/checkWithdrawalAddressValidity", data)
 
-    def get_pay_info(self, order_id: str) -> dict:
-        """Get the payment information of an order"""
-        return self.client._post("/getPayInfo", {"orderId": order_id})
+    def deprecated_address(self, data):
+        return self.client._post("/addressUnbinding", data)
+
+    def rescan_lost_transaction(self, data):
+        return self.client._post("/rescanLostTransaction", data)

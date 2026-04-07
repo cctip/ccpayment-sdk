@@ -12,8 +12,8 @@ import { UserDepositService } from './services/user-deposit';
 import { UserWithdrawService } from './services/user-withdraw';
 import { UserTransferService } from './services/user-transfer';
 import { OrdersService } from './services/orders';
-import { CheckoutService } from './services/checkout';
 import { SwapService } from './services/swap';
+import { UserSwapService } from './services/user-swap';
 import { UtilitiesService } from './services/utilities';
 
 export class Client {
@@ -36,98 +36,44 @@ export class Client {
 
   public setProxy(proxyUrl: string): void {
     const agent = new HttpsProxyAgent(proxyUrl);
-    
-    this.axiosInstance = axios.create({
-      httpsAgent: agent,
-      proxy: false  // Disable axios built-in proxy to use custom agent
-    });
+    this.axiosInstance = axios.create({ httpsAgent: agent, proxy: false });
   }
 
   private generateSign(body: string): { sign: string; timestamp: string } {
     const timestamp = Math.floor(Date.now() / 1000).toString();
     const signText = this.appId + timestamp + body;
-    const sign = crypto
-      .createHmac('sha256', this.appSecret)
-      .update(signText)
-      .digest('hex');
+    const sign = crypto.createHmac('sha256', this.appSecret).update(signText).digest('hex');
     return { sign, timestamp };
   }
 
   public async post<T>(path: string, data?: Record<string, unknown>): Promise<T> {
     const body = data ? JSON.stringify(data) : '{}';
     const { sign, timestamp } = this.generateSign(body);
-
     const headers = {
       'Content-Type': 'application/json',
-      'Appid': this.appId,
-      'Sign': sign,
-      'Timestamp': timestamp,
+      Appid: this.appId,
+      Sign: sign,
+      Timestamp: timestamp,
     };
-
-    const response = await this.axiosInstance.post(
-      `${this.baseUrl}${path}`,
-      data || {},
-      { headers }
-    );
-
+    const response = await this.axiosInstance.post(`${this.baseUrl}${path}`, data || {}, { headers });
     const result = response.data as { code: number; msg: string; data: T };
     if (result.code !== 10000) {
       throw new APIError(result.code, result.msg);
     }
-
     return result.data;
   }
 
-  // Service accessors - using getters for property-like access
-  get basicInfo(): BasicInfoService {
-    return new BasicInfoService(this);
-  }
-
-  get merchantAssets(): MerchantAssetsService {
-    return new MerchantAssetsService(this);
-  }
-
-  get merchantDeposit(): MerchantDepositService {
-    return new MerchantDepositService(this);
-  }
-
-  get merchantWithdraw(): MerchantWithdrawService {
-    return new MerchantWithdrawService(this);
-  }
-
-  get merchantBatchWithdraw(): MerchantBatchWithdrawService {
-    return new MerchantBatchWithdrawService(this);
-  }
-
-  get userAssets(): UserAssetsService {
-    return new UserAssetsService(this);
-  }
-
-  get userDeposit(): UserDepositService {
-    return new UserDepositService(this);
-  }
-
-  get userWithdraw(): UserWithdrawService {
-    return new UserWithdrawService(this);
-  }
-
-  get userTransfer(): UserTransferService {
-    return new UserTransferService(this);
-  }
-
-  get orders(): OrdersService {
-    return new OrdersService(this);
-  }
-
-  get checkout(): CheckoutService {
-    return new CheckoutService(this);
-  }
-
-  get swap(): SwapService {
-    return new SwapService(this);
-  }
-
-  get utilities(): UtilitiesService {
-    return new UtilitiesService(this);
-  }
+  get basicInfo(): BasicInfoService { return new BasicInfoService(this); }
+  get merchantAssets(): MerchantAssetsService { return new MerchantAssetsService(this); }
+  get merchantDeposit(): MerchantDepositService { return new MerchantDepositService(this); }
+  get merchantWithdraw(): MerchantWithdrawService { return new MerchantWithdrawService(this); }
+  get merchantBatchWithdraw(): MerchantBatchWithdrawService { return new MerchantBatchWithdrawService(this); }
+  get userAssets(): UserAssetsService { return new UserAssetsService(this); }
+  get userDeposit(): UserDepositService { return new UserDepositService(this); }
+  get userWithdraw(): UserWithdrawService { return new UserWithdrawService(this); }
+  get userTransfer(): UserTransferService { return new UserTransferService(this); }
+  get orders(): OrdersService { return new OrdersService(this); }
+  get swap(): SwapService { return new SwapService(this); }
+  get userSwap(): UserSwapService { return new UserSwapService(this); }
+  get utilities(): UtilitiesService { return new UtilitiesService(this); }
 }

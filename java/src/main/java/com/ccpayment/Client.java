@@ -1,5 +1,6 @@
 package com.ccpayment;
 
+import com.ccpayment.services.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import okhttp3.*;
@@ -30,9 +31,7 @@ public class Client {
                 .build();
     }
 
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
+    public void setBaseUrl(String baseUrl) { this.baseUrl = baseUrl; }
 
     public void setProxy(java.net.Proxy proxy) {
         this.httpClient = new OkHttpClient.Builder()
@@ -62,7 +61,6 @@ public class Client {
             String body = data != null ? gson.toJson(data) : "{}";
             String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
             String sign = generateSign(body, timestamp);
-
             RequestBody requestBody = RequestBody.create(body, JSON);
             Request request = new Request.Builder()
                     .url(baseUrl + path)
@@ -72,29 +70,22 @@ public class Client {
                     .addHeader("Sign", sign)
                     .addHeader("Timestamp", timestamp)
                     .build();
-
             try (Response response = httpClient.newCall(request).execute()) {
                 if (!response.isSuccessful()) {
                     throw new IOException("Unexpected code " + response);
                 }
-
                 String responseBody = response.body().string();
                 JsonObject jsonObject = gson.fromJson(responseBody, JsonObject.class);
-
                 int code = jsonObject.get("code").getAsInt();
                 if (code != 10000) {
-                    String msg = jsonObject.get("msg").getAsString();
-                    throw new APIError(code, msg);
+                    throw new APIError(code, jsonObject.get("msg").getAsString());
                 }
-
                 if (responseClass == Void.class) {
                     return null;
                 }
-
                 if (jsonObject.has("data") && !jsonObject.get("data").isJsonNull()) {
                     return gson.fromJson(jsonObject.get("data"), responseClass);
                 }
-
                 return null;
             }
         } catch (APIError | IOException e) {
@@ -104,58 +95,17 @@ public class Client {
         }
     }
 
-    // Service accessors - temporarily disabled for initial compilation
-    /*
-    public BasicInfoService basicInfo() {
-        return new BasicInfoService(this);
-    }
-
-    public MerchantAssetsService merchantAssets() {
-        return new MerchantAssetsService(this);
-    }
-
-    public MerchantDepositService merchantDeposit() {
-        return new MerchantDepositService(this);
-    }
-
-    public MerchantWithdrawService merchantWithdraw() {
-        return new MerchantWithdrawService(this);
-    }
-
-    public MerchantBatchWithdrawService merchantBatchWithdraw() {
-        return new MerchantBatchWithdrawService(this);
-    }
-
-    public UserAssetsService userAssets() {
-        return new UserAssetsService(this);
-    }
-
-    public UserDepositService userDeposit() {
-        return new UserDepositService(this);
-    }
-
-    public UserWithdrawService userWithdraw() {
-        return new UserWithdrawService(this);
-    }
-
-    public UserTransferService userTransfer() {
-        return new UserTransferService(this);
-    }
-
-    public OrdersService orders() {
-        return new OrdersService(this);
-    }
-
-    public CheckoutService checkout() {
-        return new CheckoutService(this);
-    }
-
-    public SwapService swap() {
-        return new SwapService(this);
-    }
-
-    public UtilitiesService utilities() {
-        return new UtilitiesService(this);
-    }
-    */
+    public BasicInfoService basicInfo() { return new BasicInfoService(this); }
+    public MerchantAssetsService merchantAssets() { return new MerchantAssetsService(this); }
+    public MerchantDepositService merchantDeposit() { return new MerchantDepositService(this); }
+    public MerchantWithdrawService merchantWithdraw() { return new MerchantWithdrawService(this); }
+    public MerchantBatchWithdrawService merchantBatchWithdraw() { return new MerchantBatchWithdrawService(this); }
+    public UserAssetsService userAssets() { return new UserAssetsService(this); }
+    public UserDepositService userDeposit() { return new UserDepositService(this); }
+    public UserWithdrawService userWithdraw() { return new UserWithdrawService(this); }
+    public UserTransferService userTransfer() { return new UserTransferService(this); }
+    public OrdersService orders() { return new OrdersService(this); }
+    public SwapService swap() { return new SwapService(this); }
+    public UserSwapService userSwap() { return new UserSwapService(this); }
+    public UtilitiesService utilities() { return new UtilitiesService(this); }
 }

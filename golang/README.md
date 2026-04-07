@@ -93,8 +93,8 @@ client.SetBaseURL("https://custom.ccpayment.com/ccpayment/v2")
 - **UserWithdraw** - User withdrawal requests and withdrawal records
 - **UserTransfer** - User transfers and batch transfers
 - **Orders** - Order and Invoice orders
-- **Checkout** - Checkout and Hosted related
 - **Swap** - Swap related interfaces
+- **User Swap** - User swap management
 - **Utilities** - Webhook, address validation, etc.
 
 ## Error Handling

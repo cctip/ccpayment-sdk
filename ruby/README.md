@@ -69,8 +69,8 @@ client.base_url = 'https://custom.ccpayment.com/ccpayment/v2'
 - **user_withdraw** - User withdrawal requests and withdrawal records
 - **user_transfer** - User transfers and batch transfers
 - **orders** - Order and Invoice orders
-- **checkout** - Checkout and Hosted related
 - **swap** - Swap related interfaces
+- **user_swap** - User swap management
 - **utilities** - Webhook, address validation, etc.
 
 ## Error Handling

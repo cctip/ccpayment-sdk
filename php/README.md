@@ -58,8 +58,8 @@ $client->setBaseUrl('https://custom.ccpayment.com/ccpayment/v2');
 - **userWithdraw** - User withdrawal requests and withdrawal records
 - **userTransfer** - User transfers and batch transfers
 - **orders** - Order and Invoice orders
-- **checkout** - Checkout and Hosted related
 - **swap** - Swap related interfaces
+- **userSwap** - User swap management
 - **utilities** - Webhook, address validation, etc.
 
 ## Error Handling

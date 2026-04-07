@@ -8,34 +8,10 @@ import java.io.IOException;
 
 public class UtilitiesService {
     private final Client client;
-
-    public UtilitiesService(Client client) {
-        this.client = client;
-    }
-
-    public JsonObject verifyAddress(String chain, String address) throws APIError, IOException {
-        JsonObject data = new JsonObject();
-        data.addProperty("chain", chain);
-        data.addProperty("address", address);
-        return client.post("/verifyAddress", data, JsonObject.class);
-    }
-
-    public void abandonAddress(String chain, String address) throws APIError, IOException {
-        JsonObject data = new JsonObject();
-        data.addProperty("chain", chain);
-        data.addProperty("address", address);
-        client.post("/abandonAddress", data, Void.class);
-    }
-
-    public JsonObject hostedInvoiceOrderInfo(String orderId) throws APIError, IOException {
-        JsonObject data = new JsonObject();
-        data.addProperty("orderId", orderId);
-        return client.post("/hostedInvoiceOrderInfo", data, JsonObject.class);
-    }
-
-    public JsonObject getPayInfo(String orderId) throws APIError, IOException {
-        JsonObject data = new JsonObject();
-        data.addProperty("orderId", orderId);
-        return client.post("/getPayInfo", data, JsonObject.class);
-    }
+    public UtilitiesService(Client client) { this.client = client; }
+    public JsonObject webhookResend(JsonObject data) throws APIError, IOException { return client.post("/webhook/resend", data, JsonObject.class); }
+    public JsonObject getTradeBlockHeight(JsonObject data) throws APIError, IOException { return client.post("/getTradeBlockHeight", data, JsonObject.class); }
+    public JsonObject checkWithdrawalAddressValidity(JsonObject data) throws APIError, IOException { return client.post("/checkWithdrawalAddressValidity", data, JsonObject.class); }
+    public JsonObject deprecatedAddress(JsonObject data) throws APIError, IOException { return client.post("/addressUnbinding", data, JsonObject.class); }
+    public JsonObject rescanLostTransaction(JsonObject data) throws APIError, IOException { return client.post("/rescanLostTransaction", data, JsonObject.class); }
 }

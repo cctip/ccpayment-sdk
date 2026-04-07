@@ -6,39 +6,50 @@ type UtilitiesService struct {
 	client *Client
 }
 
-// VerifyAddress verifies the validity of a blockchain address
-func (s *UtilitiesService) VerifyAddress(ctx context.Context, chain, address string) (*VerifyAddressResponse, error) {
-	req := &VerifyAddressRequest{Chain: chain, Address: address}
-	var result VerifyAddressResponse
-	err := s.client.post(ctx, "/verifyAddress", req, &result)
+// WebhookResend resends webhook notifications
+func (s *UtilitiesService) WebhookResend(ctx context.Context, req *WebhookResendRequest) (*WebhookResendResponse, error) {
+	var result WebhookResendResponse
+	err := s.client.post(ctx, "/webhook/resend", req, &result)
 	if err != nil {
 		return nil, err
 	}
 	return &result, nil
 }
 
-// AbandonAddress abandons a deposit address that is no longer in use
-func (s *UtilitiesService) AbandonAddress(ctx context.Context, chain, address string) error {
-	req := &AbandonAddressRequest{Chain: chain, Address: address}
-	return s.client.post(ctx, "/abandonAddress", req, nil)
-}
-
-// HostedInvoiceOrderInfo gets Hosted Invoice order details
-func (s *UtilitiesService) HostedInvoiceOrderInfo(ctx context.Context, orderId string) (*HostedInvoiceOrderInfoResponse, error) {
-	req := &HostedInvoiceOrderInfoRequest{OrderId: orderId}
-	var result HostedInvoiceOrderInfoResponse
-	err := s.client.post(ctx, "/hostedInvoiceOrderInfo", req, &result)
+// GetTradeBlockHeight gets trade confirmation height information
+func (s *UtilitiesService) GetTradeBlockHeight(ctx context.Context, req *GetTradeBlockHeightRequest) (*GetTradeBlockHeightResponse, error) {
+	var result GetTradeBlockHeightResponse
+	err := s.client.post(ctx, "/getTradeBlockHeight", req, &result)
 	if err != nil {
 		return nil, err
 	}
 	return &result, nil
 }
 
-// GetPayInfo gets the payment information of an order
-func (s *UtilitiesService) GetPayInfo(ctx context.Context, orderId string) (*GetPayInfoResponse, error) {
-	req := &GetPayInfoRequest{OrderId: orderId}
-	var result GetPayInfoResponse
-	err := s.client.post(ctx, "/getPayInfo", req, &result)
+// CheckWithdrawalAddressValidity checks whether a withdrawal address is valid
+func (s *UtilitiesService) CheckWithdrawalAddressValidity(ctx context.Context, req *CheckWithdrawalAddressValidityRequest) (*CheckWithdrawalAddressValidityResponse, error) {
+	var result CheckWithdrawalAddressValidityResponse
+	err := s.client.post(ctx, "/checkWithdrawalAddressValidity", req, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+// DeprecatedAddress deprecates an unused address
+func (s *UtilitiesService) DeprecatedAddress(ctx context.Context, req *DeprecatedAddressRequest) (*DeprecatedAddressResponse, error) {
+	var result DeprecatedAddressResponse
+	err := s.client.post(ctx, "/addressUnbinding", req, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
+}
+
+// RescanLostTransaction triggers a rescan for a lost transaction
+func (s *UtilitiesService) RescanLostTransaction(ctx context.Context, req *RescanLostTransactionRequest) (*RescanLostTransactionResponse, error) {
+	var result RescanLostTransactionResponse
+	err := s.client.post(ctx, "/rescanLostTransaction", req, &result)
 	if err != nil {
 		return nil, err
 	}

@@ -10,8 +10,8 @@ require_relative 'ccpayment/services/user_deposit_service'
 require_relative 'ccpayment/services/user_withdraw_service'
 require_relative 'ccpayment/services/user_transfer_service'
 require_relative 'ccpayment/services/orders_service'
-require_relative 'ccpayment/services/checkout_service'
 require_relative 'ccpayment/services/swap_service'
+require_relative 'ccpayment/services/user_swap_service'
 require_relative 'ccpayment/services/utilities_service'
 
 module CCPayment

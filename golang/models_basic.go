@@ -4,13 +4,13 @@ package ccpayment
 
 // Coin represents a token with its network information
 type Coin struct {
-	CoinID     uint64                  `json:"coinId"`
-	Symbol     string                  `json:"symbol"`
-	CoinFullName string                `json:"coinFullName"`
-	LogoUrl    string                  `json:"logoUrl"`
-	Status     string                  `json:"status"`
-	Networks   map[string]NetworkInfo  `json:"networks"`
-	Price      string                  `json:"price"`
+	CoinID       uint64                 `json:"coinId"`
+	Symbol       string                 `json:"symbol"`
+	CoinFullName string                 `json:"coinFullName"`
+	LogoUrl      string                 `json:"logoUrl"`
+	Status       string                 `json:"status"`
+	Networks     map[string]NetworkInfo `json:"networks"`
+	Price        string                 `json:"price"`
 }
 
 type NetworkInfo struct {
@@ -36,31 +36,31 @@ type Fiat struct {
 }
 
 type Chain struct {
-	Chain          string `json:"chain"`
-	ChainFullName  string `json:"chainFullName"`
-	Explorer       string `json:"explorer"`
-	LogoUrl        string `json:"logoUrl"`
-	Status         string `json:"status"`
-	Confirmations  int32  `json:"confirmations"`
-	BaseUrl        string `json:"baseUrl"`
-	IsEVM          bool   `json:"isEVM"`
-	SupportMemo    bool   `json:"supportMemo"`
+	Chain         string `json:"chain"`
+	ChainFullName string `json:"chainFullName"`
+	Explorer      string `json:"explorer"`
+	LogoUrl       string `json:"logoUrl"`
+	Status        string `json:"status"`
+	Confirmations int32  `json:"confirmations"`
+	BaseUrl       string `json:"baseUrl"`
+	IsEVM         bool   `json:"isEVM"`
+	SupportMemo   bool   `json:"supportMemo"`
 }
 
 type ChainSimple struct {
-	Chain          string `json:"chain"`
-	ChainFullName  string `json:"chainFullName"`
-	Explorer       string `json:"explorer"`
-	LogoUrl        string `json:"logoUrl"`
-	Status         string `json:"status"`
-	ConfirmNum     int32  `json:"confirmNum"`
-	IsEVM          bool   `json:"isEVM"`
+	Chain         string `json:"chain"`
+	ChainFullName string `json:"chainFullName"`
+	Explorer      string `json:"explorer"`
+	LogoUrl       string `json:"logoUrl"`
+	Status        string `json:"status"`
+	ConfirmNum    int32  `json:"confirmNum"`
+	IsEVM         bool   `json:"isEVM"`
 }
 
 type Fee struct {
-	CoinId       uint64 `json:"coinId"`
-	CoinSymbol   string `json:"coinSymbol"`
-	Amount       string `json:"amount"`
+	CoinId     uint64 `json:"coinId"`
+	CoinSymbol string `json:"coinSymbol"`
+	Amount     string `json:"amount"`
 }
 
 // Request/Response for Basic Info
@@ -99,6 +99,10 @@ type AllChainRequest struct {
 
 type AllChainResponse struct {
 	Chains []ChainSimple `json:"chains"`
+}
+
+type GetMainCoinListRequest struct {
+	AppID string `json:"appId"`
 }
 
 type GetCwalletUserIdRequest struct {
@@ -142,23 +146,50 @@ type GetAppCoinAssetResponse struct {
 	Asset Asset `json:"asset"`
 }
 
+type GetAppCollectFeeRecordListRequest struct {
+	StartAt int64  `json:"startAt"`
+	EndAt   int64  `json:"endAt"`
+	NextID  string `json:"nextId,omitempty"`
+	Limit   uint64 `json:"limit,omitempty"`
+	Chain   string `json:"chain,omitempty"`
+	Address string `json:"address,omitempty"`
+}
+
+type CollectFeeItem struct {
+	CoinID         uint64 `json:"coinId"`
+	CoinSymbol     string `json:"coinSymbol"`
+	AggregationFee string `json:"aggregationFee"`
+}
+
+type CollectFeeRecord struct {
+	Collects        []CollectFeeItem `json:"collects"`
+	AggregationTime int64            `json:"aggregationTime"`
+	Chain           string           `json:"chain"`
+	Address         string           `json:"address"`
+}
+
+type GetAppCollectFeeRecordListResponse struct {
+	List   []CollectFeeRecord `json:"list"`
+	NextID string             `json:"nextId,omitempty"`
+}
+
 // ==================== Merchant Deposit Models ====================
 
 // Request/Response for Merchant Deposit
 
 type CreateAppOrderDepositAddressRequest struct {
-	OrderId               string `json:"orderId"`
-	CoinId                uint64 `json:"coinId"`
-	FiatId                uint64 `json:"fiatId,omitempty"`
-	Chain                 string `json:"chain"`
-	Price                 string `json:"price"`
-	ExpiredAt             int64  `json:"expiredAt,omitempty"`
-	BuyerEmail            string `json:"buyerEmail,omitempty"`
-	GenerateCheckoutURL   bool   `json:"generateCheckoutURL,omitempty"`
-	Product               string `json:"product,omitempty"`
-	ReturnUrl             string `json:"returnUrl,omitempty"`
-	NotifyUrl             string `json:"notifyUrl,omitempty"`
-	CloseUrl              string `json:"closeUrl,omitempty"`
+	OrderId             string `json:"orderId"`
+	CoinId              uint64 `json:"coinId"`
+	FiatId              uint64 `json:"fiatId,omitempty"`
+	Chain               string `json:"chain"`
+	Price               string `json:"price"`
+	ExpiredAt           int64  `json:"expiredAt,omitempty"`
+	BuyerEmail          string `json:"buyerEmail,omitempty"`
+	GenerateCheckoutURL bool   `json:"generateCheckoutURL,omitempty"`
+	Product             string `json:"product,omitempty"`
+	ReturnUrl           string `json:"returnUrl,omitempty"`
+	NotifyUrl           string `json:"notifyUrl,omitempty"`
+	CloseUrl            string `json:"closeUrl,omitempty"`
 }
 
 type CreateAppOrderDepositAddressResponse struct {
@@ -210,18 +241,18 @@ type GetAppDepositRecordResponse struct {
 }
 
 type GetAppDepositRecordListRequest struct {
-	Chain         string   `json:"chain,omitempty"`
-	ReferenceId   string   `json:"referenceId,omitempty"`
-	OrderId       string   `json:"orderId,omitempty"`
-	ToAddress     string   `json:"toAddress,omitempty"`
-	CoinId        uint64   `json:"coinId,omitempty"`
-	StartAt       int64    `json:"startAt,omitempty"`
-	EndAt         int64    `json:"endAt,omitempty"`
-	NextId        string   `json:"nextId,omitempty"`
-	RecordIds     []string `json:"recordIds,omitempty"`
-	ReferenceIds  []string `json:"referenceIds,omitempty"`
-	OrderIds      []string `json:"orderIds,omitempty"`
-	Limit         uint64   `json:"limit,omitempty"`
+	Chain        string   `json:"chain,omitempty"`
+	ReferenceId  string   `json:"referenceId,omitempty"`
+	OrderId      string   `json:"orderId,omitempty"`
+	ToAddress    string   `json:"toAddress,omitempty"`
+	CoinId       uint64   `json:"coinId,omitempty"`
+	StartAt      int64    `json:"startAt,omitempty"`
+	EndAt        int64    `json:"endAt,omitempty"`
+	NextId       string   `json:"nextId,omitempty"`
+	RecordIds    []string `json:"recordIds,omitempty"`
+	ReferenceIds []string `json:"referenceIds,omitempty"`
+	OrderIds     []string `json:"orderIds,omitempty"`
+	Limit        uint64   `json:"limit,omitempty"`
 }
 
 type GetAppDepositRecordListResponse struct {
@@ -250,10 +281,10 @@ type ApplyAppWithdrawToNetworkResponse struct {
 }
 
 type ApplyAppWithdrawToCwalletRequest struct {
-	OrderId      string `json:"orderId"`
-	CoinId       uint64 `json:"coinId"`
-	CwalletUser  string `json:"cwalletUser"`
-	Amount       string `json:"amount"`
+	OrderId     string `json:"orderId"`
+	CoinId      uint64 `json:"coinId"`
+	CwalletUser string `json:"cwalletUser"`
+	Amount      string `json:"amount"`
 }
 
 type ApplyAppWithdrawToCwalletResponse struct {
@@ -296,13 +327,13 @@ type GetAppWithdrawRecordResponse struct {
 }
 
 type GetAppWithdrawRecordListRequest struct {
-	Chain   string   `json:"chain,omitempty"`
-	CoinId  uint64   `json:"coinId,omitempty"`
-	OrderIds []string `json:"orderIds,omitempty"`
-	StartAt int64    `json:"startAt,omitempty"`
-	EndAt   int64    `json:"endAt,omitempty"`
-	ToAddress string `json:"toAddress,omitempty"`
-	NextId  string   `json:"nextId,omitempty"`
+	Chain     string   `json:"chain,omitempty"`
+	CoinId    uint64   `json:"coinId,omitempty"`
+	OrderIds  []string `json:"orderIds,omitempty"`
+	StartAt   int64    `json:"startAt,omitempty"`
+	EndAt     int64    `json:"endAt,omitempty"`
+	ToAddress string   `json:"toAddress,omitempty"`
+	NextId    string   `json:"nextId,omitempty"`
 }
 
 type GetAppWithdrawRecordListResponse struct {
@@ -311,19 +342,19 @@ type GetAppWithdrawRecordListResponse struct {
 }
 
 type AutoWithdrawRecord struct {
-	RecordId    string      `json:"recordId"`
-	CoinId      uint64      `json:"coinId"`
-	CoinSymbol  string      `json:"coinSymbol"`
-	Chain       string      `json:"chain"`
-	OrderId     string      `json:"orderId"`
-	ToAddress   string      `json:"toAddress"`
-	ToMemo      string      `json:"toMemo,omitempty"`
-	Amount      string      `json:"amount"`
-	TxId        string      `json:"txId,omitempty"`
-	Status      string      `json:"status"`
-	Fee         WithdrawFee `json:"fee"`
-	ServiceFee  string      `json:"serviceFee"`
-	CreatedAt   int64       `json:"createdAt"`
+	RecordId   string      `json:"recordId"`
+	CoinId     uint64      `json:"coinId"`
+	CoinSymbol string      `json:"coinSymbol"`
+	Chain      string      `json:"chain"`
+	OrderId    string      `json:"orderId"`
+	ToAddress  string      `json:"toAddress"`
+	ToMemo     string      `json:"toMemo,omitempty"`
+	Amount     string      `json:"amount"`
+	TxId       string      `json:"txId,omitempty"`
+	Status     string      `json:"status"`
+	Fee        WithdrawFee `json:"fee"`
+	ServiceFee string      `json:"serviceFee"`
+	CreatedAt  int64       `json:"createdAt"`
 }
 
 type GetAutoWithdrawRecordListRequest struct {

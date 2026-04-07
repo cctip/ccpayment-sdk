@@ -19,7 +19,7 @@ func (s *SwapService) GetSwapCoinList(ctx context.Context) (*GetSwapCoinListResp
 // SwapEstimate estimates the swap amount
 func (s *SwapService) SwapEstimate(ctx context.Context, req *SwapEstimateRequest) (*SwapEstimateResponse, error) {
 	var result SwapEstimateResponse
-	err := s.client.post(ctx, "/swapEstimate", req, &result)
+	err := s.client.post(ctx, "/estimate", req, &result)
 	if err != nil {
 		return nil, err
 	}
@@ -50,16 +50,6 @@ func (s *SwapService) GetSwapRecord(ctx context.Context, req *GetSwapRecordReque
 func (s *SwapService) GetSwapRecordList(ctx context.Context, req *GetSwapRecordListRequest) (*GetSwapRecordListResponse, error) {
 	var result GetSwapRecordListResponse
 	err := s.client.post(ctx, "/getSwapRecordList", req, &result)
-	if err != nil {
-		return nil, err
-	}
-	return &result, nil
-}
-
-// SelectHostedInvoiceCoin selects the payment token for a Hosted Invoice order
-func (s *SwapService) SelectHostedInvoiceCoin(ctx context.Context, req *SelectHostedInvoiceCoinRequest) (*SelectHostedInvoiceCoinResponse, error) {
-	var result SelectHostedInvoiceCoinResponse
-	err := s.client.post(ctx, "/selectHostedInvoiceCoin", req, &result)
 	if err != nil {
 		return nil, err
 	}
