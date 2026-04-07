@@ -89,4 +89,4 @@ end
 
 ## API Documentation
 
-For complete API documentation, visit: https://ccpayment.com/doc
+For complete API documentation, visit: https://ccpayment.com/api/doc
