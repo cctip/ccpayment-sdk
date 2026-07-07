@@ -113,19 +113,43 @@ export interface AddressInfo {
 }
 
 export interface BatchWithdrawOrder {
-  seq: number;
+  orderId: string;
   address: string;
   amount: string;
   memo?: string;
   remark?: string;
   recordId?: string;
-  orderId?: string;
   status?: string;
   networkFee?: string;
   txId?: string;
   reason?: string;
   createdAt?: number;
   updatedAt?: number;
+}
+
+export interface BatchWithdrawStats {
+  total: number;
+  succeeded: number;
+  failed: number;
+  canceled: number;
+  processing: number;
+  execOrderId: string;
+}
+
+export interface BatchWithdrawOrderDetail {
+  batchOrderId: string;
+  taskName: string;
+  billId: string;
+  coin: { coin_id: number; coin_symbol: string; coin_price: string };
+  amount: string;
+  networkFee: string;
+  networkFeeCoin: { coin_id: number; coin_symbol: string; coin_price: string };
+  status: string;
+  reason?: string;
+  mode: string;
+  stats: BatchWithdrawStats;
+  createdAt: number;
+  updatedAt: number;
 }
 
 export interface TransferRecord {

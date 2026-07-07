@@ -3,6 +3,10 @@ class MerchantBatchWithdrawService {
     this.client = client;
   }
 
+  /**
+   * Request fields: taskName, orders[].orderId, orderIds, confirmExecution, stats.execOrderId.
+   */
+
   async checkWithdrawAddress(data) {
     return this.client.post('/checkWithdrawAddress', data);
   }

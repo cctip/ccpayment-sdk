@@ -22,7 +22,7 @@ class MerchantBatchWithdrawService:
         chain: str,
         mode: str,
         orders: Optional[List[dict]] = None,
-        product_name: Optional[str] = None,
+        task_name: Optional[str] = None,
         notify_url: Optional[str] = None
     ) -> dict:
         """Create a batch withdrawal order"""
@@ -32,34 +32,47 @@ class MerchantBatchWithdrawService:
             "chain": chain,
             "mode": mode
         }
-        if orders: data["orders"] = orders
-        if product_name: data["productName"] = product_name
-        if notify_url: data["notifyUrl"] = notify_url
+        if orders:
+            data["orders"] = orders
+        if task_name:
+            data["taskName"] = task_name
+        if notify_url:
+            data["notifyUrl"] = notify_url
         return self.client._post("/applyBatchWithdraw", data)
 
-    def append_batch_withdraw(self, batch_order_id: str, orders: List[dict]):
+    def append_batch_withdraw(self, batch_order_id: str, orders: List[dict]) -> dict:
         """Append tasks to an existing batch withdrawal order"""
-        self.client._post("/appendBatchWithdraw", {
+        return self.client._post("/appendBatchWithdraw", {
             "batchOrderId": batch_order_id,
             "orders": orders
         })
 
-    def confirm_batch_withdraw(self, batch_order_id: str, delay_seconds: Optional[int] = None) -> dict:
+    def confirm_batch_withdraw(
+        self,
+        batch_order_id: str,
+        delay_seconds: Optional[int] = None,
+        confirm_execution: Optional[bool] = None
+    ) -> dict:
         """Confirm and execute the batch withdrawal order"""
         data = {"batchOrderId": batch_order_id}
-        if delay_seconds is not None: data["delaySeconds"] = delay_seconds
+        if delay_seconds is not None:
+            data["delaySeconds"] = delay_seconds
+        if confirm_execution is not None:
+            data["confirmExecution"] = confirm_execution
         return self.client._post("/confirmBatchWithdraw", data)
 
-    def abort_batch_withdraw(self, batch_order_id: str, seqs: Optional[List[int]] = None) -> dict:
+    def abort_batch_withdraw(self, batch_order_id: str, order_ids: Optional[List[str]] = None) -> dict:
         """Cancel the batch withdrawal order or part of the tasks"""
         data = {"batchOrderId": batch_order_id}
-        if seqs: data["seqs"] = seqs
+        if order_ids:
+            data["orderIds"] = order_ids
         return self.client._post("/abortBatchWithdraw", data)
 
     def get_batch_withdraw_order(self, batch_order_id: str, verbose: Optional[int] = None) -> dict:
         """Query batch withdrawal order details"""
         data = {"batchOrderId": batch_order_id}
-        if verbose is not None: data["verbose"] = verbose
+        if verbose is not None:
+            data["verbose"] = verbose
         return self.client._post("/getBatchWithdrawOrder", data)
 
     def get_batch_withdraw_order_record_list(
@@ -70,6 +83,8 @@ class MerchantBatchWithdrawService:
     ) -> dict:
         """Query the task record list of a batch withdrawal order"""
         data = {"batchOrderId": batch_order_id}
-        if next_id: data["nextId"] = next_id
-        if limit: data["limit"] = limit
+        if next_id:
+            data["nextId"] = next_id
+        if limit:
+            data["limit"] = limit
         return self.client._post("/getBatchWithdrawOrderRecordList", data)

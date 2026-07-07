@@ -15,28 +15,27 @@ type AddressInfoResult struct {
 }
 
 type BatchWithdrawOrder struct {
-	Seq       uint32 `json:"seq"`
-	Address   string `json:"address"`
-	Memo      string `json:"memo,omitempty"`
-	Amount    string `json:"amount"`
-	Remark    string `json:"remark,omitempty"`
-	RecordId  string `json:"recordId,omitempty"`
-	OrderId   string `json:"orderId,omitempty"`
-	Status    string `json:"status,omitempty"`
+	OrderId    string `json:"orderId"`
+	Address    string `json:"address"`
+	Memo       string `json:"memo,omitempty"`
+	Amount     string `json:"amount"`
+	Remark     string `json:"remark,omitempty"`
+	RecordId   string `json:"recordId,omitempty"`
+	Status     string `json:"status,omitempty"`
 	NetworkFee string `json:"networkFee,omitempty"`
-	TxId      string `json:"txId,omitempty"`
-	Reason    string `json:"reason,omitempty"`
-	CreatedAt int64  `json:"createdAt,omitempty"`
-	UpdatedAt int64  `json:"updatedAt,omitempty"`
+	TxId       string `json:"txId,omitempty"`
+	Reason     string `json:"reason,omitempty"`
+	CreatedAt  int64  `json:"createdAt,omitempty"`
+	UpdatedAt  int64  `json:"updatedAt,omitempty"`
 }
 
 type BatchWithdrawStats struct {
-	Total      int32  `json:"total"`
-	Succeeded  int32  `json:"succeeded"`
-	Failed     int32  `json:"failed"`
-	Canceled   int32  `json:"canceled"`
-	Processing int32  `json:"processing"`
-	ExecSeq    uint32 `json:"execSeq"`
+	Total       int32  `json:"total"`
+	Succeeded   int32  `json:"succeeded"`
+	Failed      int32  `json:"failed"`
+	Canceled    int32  `json:"canceled"`
+	Processing  int32  `json:"processing"`
+	ExecOrderId string `json:"execOrderId"`
 }
 
 type BatchWithdrawCoin struct {
@@ -57,13 +56,13 @@ type CheckWithdrawAddressResponse struct {
 }
 
 type ApplyBatchWithdrawRequest struct {
-	BatchOrderId string             `json:"batchOrderId"`
-	CoinId       uint64             `json:"coinId"`
-	Chain        string             `json:"chain"`
-	ProductName  string             `json:"productName,omitempty"`
+	BatchOrderId string               `json:"batchOrderId"`
+	CoinId       uint64               `json:"coinId"`
+	Chain        string               `json:"chain"`
+	TaskName     string               `json:"taskName,omitempty"`
 	Orders       []BatchWithdrawOrder `json:"orders,omitempty"`
-	Mode         string             `json:"mode"`
-	NotifyUrl    string             `json:"notifyUrl,omitempty"`
+	Mode         string               `json:"mode"`
+	NotifyUrl    string               `json:"notifyUrl,omitempty"`
 }
 
 type ApplyBatchWithdrawResponse struct {
@@ -72,18 +71,25 @@ type ApplyBatchWithdrawResponse struct {
 }
 
 type AppendBatchWithdrawRequest struct {
-	BatchOrderId string             `json:"batchOrderId"`
+	BatchOrderId string               `json:"batchOrderId"`
 	Orders       []BatchWithdrawOrder `json:"orders"`
 }
 
+type AppendBatchWithdrawResponse struct {
+	Appended     int32  `json:"appended"`
+	Total        int32  `json:"total"`
+	BatchOrderID string `json:"batch_order_id"`
+}
+
 type ConfirmBatchWithdrawRequest struct {
-	BatchOrderId  string `json:"batchOrderId"`
-	DelaySeconds  int64  `json:"delaySeconds,omitempty"`
+	BatchOrderId     string `json:"batchOrderId"`
+	DelaySeconds     int64  `json:"delaySeconds,omitempty"`
+	ConfirmExecution *bool  `json:"confirmExecution,omitempty"`
 }
 
 type ConfirmBatchWithdrawResponse struct {
 	BatchOrderId   string             `json:"batchOrderId"`
-	ProductName    string             `json:"productName"`
+	TaskName       string             `json:"taskName"`
 	BillId         string             `json:"billId"`
 	Coin           BatchWithdrawCoin  `json:"coin"`
 	Amount         string             `json:"amount"`
@@ -99,13 +105,14 @@ type ConfirmBatchWithdrawResponse struct {
 
 type AbortBatchWithdrawRequest struct {
 	BatchOrderId string   `json:"batchOrderId"`
-	Seqs         []uint32 `json:"seqs,omitempty"`
+	OrderIds     []string `json:"orderIds,omitempty"`
 }
 
 type AbortBatchWithdrawResponse struct {
-	BatchOrderId   string   `json:"batchOrderId"`
-	CanceledSeqs   []uint32 `json:"canceledSeqs"`
-	IgnoredSeqs    []uint32 `json:"ignoredSeqs"`
+	BatchOrderId     string   `json:"batchOrderId"`
+	Status           string   `json:"status,omitempty"`
+	CanceledOrderIds []string `json:"canceledOrderIds,omitempty"`
+	IgnoredOrderIds  []string `json:"ignoredOrderIds,omitempty"`
 }
 
 type GetBatchWithdrawOrderRequest struct {
@@ -120,7 +127,7 @@ type GetBatchWithdrawOrderRecordListRequest struct {
 }
 
 type GetBatchWithdrawOrderRecordListResponse struct {
-	NextId  []BatchWithdrawOrder `json:"records"`
+	NextId  string               `json:"nextId,omitempty"`
 	Records []BatchWithdrawOrder `json:"records"`
 }
 
@@ -265,17 +272,17 @@ type GetUserWithdrawRecordResponse struct {
 }
 
 type GetUserWithdrawRecordListRequest struct {
-	UserId   string   `json:"userId"`
-	OrderIds []string `json:"orderIds,omitempty"`
-	Chain    string   `json:"chain,omitempty"`
-	CoinId   uint64   `json:"coinId,omitempty"`
-	StartAt  int64    `json:"startAt,omitempty"`
-	EndAt    int64    `json:"endAt,omitempty"`
-	ToAddress string  `json:"toAddress,omitempty"`
-	NextId   string   `json:"nextId,omitempty"`
+	UserId    string   `json:"userId"`
+	OrderIds  []string `json:"orderIds,omitempty"`
+	Chain     string   `json:"chain,omitempty"`
+	CoinId    uint64   `json:"coinId,omitempty"`
+	StartAt   int64    `json:"startAt,omitempty"`
+	EndAt     int64    `json:"endAt,omitempty"`
+	ToAddress string   `json:"toAddress,omitempty"`
+	NextId    string   `json:"nextId,omitempty"`
 }
 
 type GetUserWithdrawRecordListResponse struct {
 	Records []UserWithdrawRecord `json:"records"`
-	NextId  string                 `json:"nextId,omitempty"`
+	NextId  string               `json:"nextId,omitempty"`
 }

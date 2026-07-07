@@ -187,13 +187,12 @@ class AddressInfoResult:
 
 @dataclass
 class BatchWithdrawOrder:
-    seq: int
+    order_id: str
     address: str
     amount: str
     memo: Optional[str] = None
     remark: Optional[str] = None
     record_id: Optional[str] = None
-    order_id: Optional[str] = None
     status: Optional[str] = None
     network_fee: Optional[str] = None
     tx_id: Optional[str] = None
@@ -209,7 +208,7 @@ class BatchWithdrawStats:
     failed: int
     canceled: int
     processing: int
-    exec_seq: int
+    exec_order_id: str
 
 
 @dataclass

@@ -1,5 +1,6 @@
 module CCPayment
   module Services
+    # Request fields: taskName, orders[].orderId, orderIds, confirmExecution, stats.execOrderId.
     class MerchantBatchWithdrawService
       def initialize(client)
         @client = client

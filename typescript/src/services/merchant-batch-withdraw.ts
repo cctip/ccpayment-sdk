@@ -1,5 +1,5 @@
 import { Client } from '../client';
-import { AddressInfo, BatchWithdrawOrder } from '../types';
+import { AddressInfo, BatchWithdrawOrder, BatchWithdrawOrderDetail } from '../types';
 
 export class MerchantBatchWithdrawService {
   constructor(private client: Client) {}
@@ -17,7 +17,7 @@ export class MerchantBatchWithdrawService {
     chain: string;
     mode: string;
     orders?: BatchWithdrawOrder[];
-    productName?: string;
+    taskName?: string;
     notifyUrl?: string;
   }): Promise<{ batchOrderId: string; billId: string }> {
     return this.client.post('/applyBatchWithdraw', data);
@@ -26,49 +26,34 @@ export class MerchantBatchWithdrawService {
   async appendBatchWithdraw(data: {
     batchOrderId: string;
     orders: BatchWithdrawOrder[];
-  }): Promise<void> {
-    await this.client.post('/appendBatchWithdraw', data);
+  }): Promise<{ appended: number; total: number; batch_order_id: string }> {
+    return this.client.post('/appendBatchWithdraw', data);
   }
 
   async confirmBatchWithdraw(data: {
     batchOrderId: string;
     delaySeconds?: number;
-  }): Promise<{
-    batchOrderId: string;
-    productName: string;
-    billId: string;
-    coin: { coin_id: number; coin_symbol: string; coin_price: string };
-    amount: string;
-    networkFee: string;
-    networkFeeCoin: { coin_id: number; coin_symbol: string; coin_price: string };
-    status: string;
-    reason?: string;
-    mode: string;
-    stats: {
-      total: number;
-      succeeded: number;
-      failed: number;
-      canceled: number;
-      processing: number;
-      execSeq: number;
-    };
-    createdAt: number;
-    updatedAt: number;
-  }> {
+    confirmExecution?: boolean;
+  }): Promise<BatchWithdrawOrderDetail> {
     return this.client.post('/confirmBatchWithdraw', data);
   }
 
   async abortBatchWithdraw(data: {
     batchOrderId: string;
-    seqs?: number[];
-  }): Promise<{ batchOrderId: string; canceledSeqs: number[]; ignoredSeqs: number[] }> {
+    orderIds?: string[];
+  }): Promise<{
+    batchOrderId: string;
+    status?: string;
+    canceledOrderIds?: string[];
+    ignoredOrderIds?: string[];
+  }> {
     return this.client.post('/abortBatchWithdraw', data);
   }
 
   async getBatchWithdrawOrder(data: {
     batchOrderId: string;
     verbose?: number;
-  }): Promise<any> {
+  }): Promise<BatchWithdrawOrderDetail> {
     return this.client.post('/getBatchWithdrawOrder', data);
   }
 

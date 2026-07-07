@@ -6,6 +6,10 @@ use CCPayment\Client;
 use CCPayment\APIError;
 use GuzzleHttp\Exception\GuzzleException;
 
+/**
+ * Merchant batch withdraw service.
+ * Request fields: taskName, orders[].orderId, orderIds, confirmExecution, stats.execOrderId.
+ */
 class MerchantBatchWithdrawService
 {
     private Client $client;
@@ -34,12 +38,14 @@ class MerchantBatchWithdrawService
     }
 
     /**
+     * Request fields: taskName, orders[].orderId, orderIds, confirmExecution, stats.execOrderId.
+     *
      * @throws APIError
      * @throws GuzzleException
      */
-    public function appendBatchWithdraw(array $data): void
+    public function appendBatchWithdraw(array $data): array
     {
-        $this->client->post('/appendBatchWithdraw', $data);
+        return $this->client->post('/appendBatchWithdraw', $data);
     }
 
     /**

@@ -6,6 +6,10 @@ import com.google.gson.JsonObject;
 
 import java.io.IOException;
 
+/**
+ * Merchant batch withdraw service.
+ * Request fields: taskName, orders[].orderId, orderIds, confirmExecution, stats.execOrderId.
+ */
 public class MerchantBatchWithdrawService {
     private final Client client;
 
@@ -21,8 +25,8 @@ public class MerchantBatchWithdrawService {
         return client.post("/applyBatchWithdraw", data, JsonObject.class);
     }
 
-    public void appendBatchWithdraw(JsonObject data) throws APIError, IOException {
-        client.post("/appendBatchWithdraw", data, Void.class);
+    public JsonObject appendBatchWithdraw(JsonObject data) throws APIError, IOException {
+        return client.post("/appendBatchWithdraw", data, JsonObject.class);
     }
 
     public JsonObject confirmBatchWithdraw(JsonObject data) throws APIError, IOException {

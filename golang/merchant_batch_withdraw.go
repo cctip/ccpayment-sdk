@@ -27,8 +27,13 @@ func (s *MerchantBatchWithdrawService) ApplyBatchWithdraw(ctx context.Context, r
 }
 
 // AppendBatchWithdraw appends tasks to an existing batch withdrawal order
-func (s *MerchantBatchWithdrawService) AppendBatchWithdraw(ctx context.Context, req *AppendBatchWithdrawRequest) error {
-	return s.client.post(ctx, "/appendBatchWithdraw", req, nil)
+func (s *MerchantBatchWithdrawService) AppendBatchWithdraw(ctx context.Context, req *AppendBatchWithdrawRequest) (*AppendBatchWithdrawResponse, error) {
+	var result AppendBatchWithdrawResponse
+	err := s.client.post(ctx, "/appendBatchWithdraw", req, &result)
+	if err != nil {
+		return nil, err
+	}
+	return &result, nil
 }
 
 // ConfirmBatchWithdraw confirms and executes the batch withdrawal order
