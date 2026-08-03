@@ -1,0 +1,28 @@
+{
+  "name": "ccpayment-sdk",
+  "version": "1.0.0",
+  "description": "Official TypeScript SDK for CCPayment API v2",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "keywords": [
+    "ccpayment",
+    "crypto",
+    "payment",
+    "sdk"
+  ],
+  "author": "CCPayment",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.8.4",
+    "https-proxy-agent": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  }
+}
