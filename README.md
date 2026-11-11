@@ -19,6 +19,20 @@ Official multi-language SDKs for [CCPayment](https://ccpayment.com) API v2.
 - [API Documentation](https://ccpayment.com/api/doc)
 - [Developer Console](https://console.ccpayment.com)
 
+## Swap V2
+
+All seven language SDKs expose the eight `/swapv2/*` routes through the existing swap and user-swap services. The Swap V1 methods remain callable but are deprecated. Use the V2 methods for new integrations.
+
+| Swap service | User-swap service |
+| --- | --- |
+| `getSwapPairList` | `userSwapV2` |
+| `swapEstimateV2` | `getUserSwapRecordV2` |
+| `swapV2` | `getUserSwapRecordListV2` |
+| `getSwapRecordV2` | |
+| `getSwapRecordListV2` | |
+
+Go uses exported names such as `SwapV2`; Python and Ruby use snake_case names such as `swap_v2`. V2 order and estimate requests use `fromCoinId`, `fromAmount`, `toCoinId`, optional `markupFeeRate`, and optional `slippageRate`. These fields have different meanings from V1's `coinIdIn`, `amountIn`, and `coinIdOut`; migrate request bodies explicitly.
+
 ## Disclaimer
 
 This SDK is provided by CCPayment on an "as is" and "as available" basis for use at your own risk. CCPayment makes no representations or warranties of any kind, whether express or implied, as to the operation of the SDK, its accuracy, reliability, completeness, or fitness for any particular purpose.

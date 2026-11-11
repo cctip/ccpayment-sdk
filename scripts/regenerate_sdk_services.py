@@ -269,19 +269,39 @@ class SwapService:
         self.client = client
 
     def get_swap_coin_list(self):
+        """Deprecated: use get_swap_pair_list."""
         return self.client._post("/getSwapCoinList", {})
 
     def swap_estimate(self, data):
+        """Deprecated: use swap_estimate_v2 with SwapReqV2 fields."""
         return self.client._post("/estimate", data)
 
     def get_swap_record(self, data):
+        """Deprecated: use get_swap_record_v2."""
         return self.client._post("/getSwapRecord", data)
 
     def get_swap_record_list(self, data=None):
+        """Deprecated: use get_swap_record_list_v2."""
         return self.client._post("/getSwapRecordList", data or {})
 
     def swap(self, data):
+        """Deprecated: use swap_v2 with SwapReqV2 fields."""
         return self.client._post("/swap", data)
+
+    def get_swap_pair_list(self):
+        return self.client._post("/swapv2/getSwapPairList", {})
+
+    def swap_estimate_v2(self, data):
+        return self.client._post("/swapv2/estimate", data)
+
+    def swap_v2(self, data):
+        return self.client._post("/swapv2/swap", data)
+
+    def get_swap_record_v2(self, data):
+        return self.client._post("/swapv2/getSwapRecord", data)
+
+    def get_swap_record_list_v2(self, data=None):
+        return self.client._post("/swapv2/getSwapRecordList", data or {})
 ''')
     write(services / "user_swap.py", '''"""User Swap Service"""
 
@@ -291,13 +311,25 @@ class UserSwapService:
         self.client = client
 
     def get_user_swap_record(self, data):
+        """Deprecated: use get_user_swap_record_v2."""
         return self.client._post("/getUserSwapRecord", data)
 
     def get_user_swap_record_list(self, data=None):
+        """Deprecated: use get_user_swap_record_list_v2."""
         return self.client._post("/getUserSwapRecordList", data or {})
 
     def user_swap(self, data):
+        """Deprecated: use user_swap_v2 with SwapReqV2 fields."""
         return self.client._post("/userSwap", data)
+
+    def user_swap_v2(self, data):
+        return self.client._post("/swapv2/userSwap", data)
+
+    def get_user_swap_record_v2(self, data):
+        return self.client._post("/swapv2/getUserSwapRecord", data)
+
+    def get_user_swap_record_list_v2(self, data=None):
+        return self.client._post("/swapv2/getUserSwapRecordList", data or {})
 ''')
     write(services / "utilities.py", '''"""Utilities Service"""
 
@@ -457,20 +489,36 @@ export class OrdersService {
 
 export class SwapService {
   constructor(private client: Client) {}
+  /** @deprecated Use getSwapPairList. */
   async getSwapCoinList(): Promise<any> { return this.client.post('/getSwapCoinList', {}); }
+  /** @deprecated Use swapEstimateV2 with SwapReqV2 fields. */
   async swapEstimate(data: Record<string, unknown>): Promise<any> { return this.client.post('/estimate', data); }
+  /** @deprecated Use getSwapRecordV2. */
   async getSwapRecord(data: Record<string, unknown>): Promise<any> { return this.client.post('/getSwapRecord', data); }
+  /** @deprecated Use getSwapRecordListV2. */
   async getSwapRecordList(data: Record<string, unknown> = {}): Promise<any> { return this.client.post('/getSwapRecordList', data); }
+  /** @deprecated Use swapV2 with SwapReqV2 fields. */
   async swap(data: Record<string, unknown>): Promise<any> { return this.client.post('/swap', data); }
+  async getSwapPairList(): Promise<any> { return this.client.post('/swapv2/getSwapPairList', {}); }
+  async swapEstimateV2(data: Record<string, unknown>): Promise<any> { return this.client.post('/swapv2/estimate', data); }
+  async swapV2(data: Record<string, unknown>): Promise<any> { return this.client.post('/swapv2/swap', data); }
+  async getSwapRecordV2(data: Record<string, unknown>): Promise<any> { return this.client.post('/swapv2/getSwapRecord', data); }
+  async getSwapRecordListV2(data: Record<string, unknown> = {}): Promise<any> { return this.client.post('/swapv2/getSwapRecordList', data); }
 }
 ''')
     write(svc / "user-swap.ts", '''import { Client } from '../client';
 
 export class UserSwapService {
   constructor(private client: Client) {}
+  /** @deprecated Use getUserSwapRecordV2. */
   async getUserSwapRecord(data: Record<string, unknown>): Promise<any> { return this.client.post('/getUserSwapRecord', data); }
+  /** @deprecated Use getUserSwapRecordListV2. */
   async getUserSwapRecordList(data: Record<string, unknown> = {}): Promise<any> { return this.client.post('/getUserSwapRecordList', data); }
+  /** @deprecated Use userSwapV2 with SwapReqV2 fields. */
   async userSwap(data: Record<string, unknown>): Promise<any> { return this.client.post('/userSwap', data); }
+  async userSwapV2(data: Record<string, unknown>): Promise<any> { return this.client.post('/swapv2/userSwap', data); }
+  async getUserSwapRecordV2(data: Record<string, unknown>): Promise<any> { return this.client.post('/swapv2/getUserSwapRecord', data); }
+  async getUserSwapRecordListV2(data: Record<string, unknown> = {}): Promise<any> { return this.client.post('/swapv2/getUserSwapRecordList', data); }
 }
 ''')
     write(svc / "utilities.ts", '''import { Client } from '../client';
@@ -600,19 +648,35 @@ module.exports = OrdersService;
 ''')
     write(svc / "swap.js", '''class SwapService {
   constructor(client) { this.client = client; }
+  /** @deprecated Use getSwapPairList. */
   async getSwapCoinList() { return this.client.post('/getSwapCoinList', {}); }
+  /** @deprecated Use swapEstimateV2 with SwapReqV2 fields. */
   async swapEstimate(data) { return this.client.post('/estimate', data); }
+  /** @deprecated Use getSwapRecordV2. */
   async getSwapRecord(data) { return this.client.post('/getSwapRecord', data); }
+  /** @deprecated Use getSwapRecordListV2. */
   async getSwapRecordList(data = {}) { return this.client.post('/getSwapRecordList', data); }
+  /** @deprecated Use swapV2 with SwapReqV2 fields. */
   async swap(data) { return this.client.post('/swap', data); }
+  async getSwapPairList() { return this.client.post('/swapv2/getSwapPairList', {}); }
+  async swapEstimateV2(data) { return this.client.post('/swapv2/estimate', data); }
+  async swapV2(data) { return this.client.post('/swapv2/swap', data); }
+  async getSwapRecordV2(data) { return this.client.post('/swapv2/getSwapRecord', data); }
+  async getSwapRecordListV2(data = {}) { return this.client.post('/swapv2/getSwapRecordList', data); }
 }
 module.exports = SwapService;
 ''')
     write(svc / "user-swap.js", '''class UserSwapService {
   constructor(client) { this.client = client; }
+  /** @deprecated Use getUserSwapRecordV2. */
   async getUserSwapRecord(data) { return this.client.post('/getUserSwapRecord', data); }
+  /** @deprecated Use getUserSwapRecordListV2. */
   async getUserSwapRecordList(data = {}) { return this.client.post('/getUserSwapRecordList', data); }
+  /** @deprecated Use userSwapV2 with SwapReqV2 fields. */
   async userSwap(data) { return this.client.post('/userSwap', data); }
+  async userSwapV2(data) { return this.client.post('/swapv2/userSwap', data); }
+  async getUserSwapRecordV2(data) { return this.client.post('/swapv2/getUserSwapRecord', data); }
+  async getUserSwapRecordListV2(data = {}) { return this.client.post('/swapv2/getUserSwapRecordList', data); }
 }
 module.exports = UserSwapService;
 ''')
@@ -829,11 +893,26 @@ import java.io.IOException;
 public class SwapService {
     private final Client client;
     public SwapService(Client client) { this.client = client; }
+    /** @deprecated Use {@link #getSwapPairList()}. */
+    @Deprecated
     public JsonObject getSwapCoinList() throws APIError, IOException { return client.post("/getSwapCoinList", null, JsonObject.class); }
+    /** @deprecated Use {@link #swapEstimateV2(JsonObject)}. */
+    @Deprecated
     public JsonObject swapEstimate(JsonObject data) throws APIError, IOException { return client.post("/estimate", data, JsonObject.class); }
+    /** @deprecated Use {@link #getSwapRecordV2(JsonObject)}. */
+    @Deprecated
     public JsonObject getSwapRecord(JsonObject data) throws APIError, IOException { return client.post("/getSwapRecord", data, JsonObject.class); }
+    /** @deprecated Use {@link #getSwapRecordListV2(JsonObject)}. */
+    @Deprecated
     public JsonObject getSwapRecordList(JsonObject data) throws APIError, IOException { return client.post("/getSwapRecordList", data, JsonObject.class); }
+    /** @deprecated Use {@link #swapV2(JsonObject)}. */
+    @Deprecated
     public JsonObject swap(JsonObject data) throws APIError, IOException { return client.post("/swap", data, JsonObject.class); }
+    public JsonObject getSwapPairList() throws APIError, IOException { return client.post("/swapv2/getSwapPairList", null, JsonObject.class); }
+    public JsonObject swapEstimateV2(JsonObject data) throws APIError, IOException { return client.post("/swapv2/estimate", data, JsonObject.class); }
+    public JsonObject swapV2(JsonObject data) throws APIError, IOException { return client.post("/swapv2/swap", data, JsonObject.class); }
+    public JsonObject getSwapRecordV2(JsonObject data) throws APIError, IOException { return client.post("/swapv2/getSwapRecord", data, JsonObject.class); }
+    public JsonObject getSwapRecordListV2(JsonObject data) throws APIError, IOException { return client.post("/swapv2/getSwapRecordList", data, JsonObject.class); }
 }
 ''')
     write(svc / "UserSwapService.java", '''package com.ccpayment.services;
@@ -847,9 +926,18 @@ import java.io.IOException;
 public class UserSwapService {
     private final Client client;
     public UserSwapService(Client client) { this.client = client; }
+    /** @deprecated Use {@link #getUserSwapRecordV2(JsonObject)}. */
+    @Deprecated
     public JsonObject getUserSwapRecord(JsonObject data) throws APIError, IOException { return client.post("/getUserSwapRecord", data, JsonObject.class); }
+    /** @deprecated Use {@link #getUserSwapRecordListV2(JsonObject)}. */
+    @Deprecated
     public JsonObject getUserSwapRecordList(JsonObject data) throws APIError, IOException { return client.post("/getUserSwapRecordList", data, JsonObject.class); }
+    /** @deprecated Use {@link #userSwapV2(JsonObject)}. */
+    @Deprecated
     public JsonObject userSwap(JsonObject data) throws APIError, IOException { return client.post("/userSwap", data, JsonObject.class); }
+    public JsonObject userSwapV2(JsonObject data) throws APIError, IOException { return client.post("/swapv2/userSwap", data, JsonObject.class); }
+    public JsonObject getUserSwapRecordV2(JsonObject data) throws APIError, IOException { return client.post("/swapv2/getUserSwapRecord", data, JsonObject.class); }
+    public JsonObject getUserSwapRecordListV2(JsonObject data) throws APIError, IOException { return client.post("/swapv2/getUserSwapRecordList", data, JsonObject.class); }
 }
 ''')
     write(svc / "UtilitiesService.java", '''package com.ccpayment.services;
@@ -1020,34 +1108,50 @@ class OrdersService
 ''')
     write(svc / "SwapService.php", '''<?php
 
-namespace CCPayment\\Services;
+namespace CCPayment\Services;
 
-use CCPayment\\Client;
+use CCPayment\Client;
 
 class SwapService
 {
     private Client $client;
     public function __construct(Client $client) { $this->client = $client; }
+    /** @deprecated Use getSwapPairList(). */
     public function getSwapCoinList(): array { return $this->client->post('/getSwapCoinList', []); }
+    /** @deprecated Use swapEstimateV2() with SwapReqV2 fields. */
     public function swapEstimate(array $data): array { return $this->client->post('/estimate', $data); }
+    /** @deprecated Use getSwapRecordV2(). */
     public function getSwapRecord(array $data): array { return $this->client->post('/getSwapRecord', $data); }
+    /** @deprecated Use getSwapRecordListV2(). */
     public function getSwapRecordList(array $data = []): array { return $this->client->post('/getSwapRecordList', $data); }
+    /** @deprecated Use swapV2() with SwapReqV2 fields. */
     public function swap(array $data): array { return $this->client->post('/swap', $data); }
+    public function getSwapPairList(): array { return $this->client->post('/swapv2/getSwapPairList', []); }
+    public function swapEstimateV2(array $data): array { return $this->client->post('/swapv2/estimate', $data); }
+    public function swapV2(array $data): array { return $this->client->post('/swapv2/swap', $data); }
+    public function getSwapRecordV2(array $data): array { return $this->client->post('/swapv2/getSwapRecord', $data); }
+    public function getSwapRecordListV2(array $data = []): array { return $this->client->post('/swapv2/getSwapRecordList', $data); }
 }
 ''')
     write(svc / "UserSwapService.php", '''<?php
 
-namespace CCPayment\\Services;
+namespace CCPayment\Services;
 
-use CCPayment\\Client;
+use CCPayment\Client;
 
 class UserSwapService
 {
     private Client $client;
     public function __construct(Client $client) { $this->client = $client; }
+    /** @deprecated Use getUserSwapRecordV2(). */
     public function getUserSwapRecord(array $data): array { return $this->client->post('/getUserSwapRecord', $data); }
+    /** @deprecated Use getUserSwapRecordListV2(). */
     public function getUserSwapRecordList(array $data = []): array { return $this->client->post('/getUserSwapRecordList', $data); }
+    /** @deprecated Use userSwapV2() with SwapReqV2 fields. */
     public function userSwap(array $data): array { return $this->client->post('/userSwap', $data); }
+    public function userSwapV2(array $data): array { return $this->client->post('/swapv2/userSwap', $data); }
+    public function getUserSwapRecordV2(array $data): array { return $this->client->post('/swapv2/getUserSwapRecord', $data); }
+    public function getUserSwapRecordListV2(array $data = []): array { return $this->client->post('/swapv2/getUserSwapRecordList', $data); }
 }
 ''')
     write(svc / "UtilitiesService.php", '''<?php
@@ -1226,11 +1330,21 @@ end
   module Services
     class SwapService
       def initialize(client); @client = client; end
+      # Deprecated: use get_swap_pair_list.
       def get_swap_coin_list; @client.post('/getSwapCoinList', {}); end
+      # Deprecated: use swap_estimate_v2 with SwapReqV2 fields.
       def swap_estimate(data); @client.post('/estimate', data); end
+      # Deprecated: use get_swap_record_v2.
       def get_swap_record(data); @client.post('/getSwapRecord', data); end
+      # Deprecated: use get_swap_record_list_v2.
       def get_swap_record_list(data = {}); @client.post('/getSwapRecordList', data); end
+      # Deprecated: use swap_v2 with SwapReqV2 fields.
       def swap(data); @client.post('/swap', data); end
+      def get_swap_pair_list; @client.post('/swapv2/getSwapPairList', {}); end
+      def swap_estimate_v2(data); @client.post('/swapv2/estimate', data); end
+      def swap_v2(data); @client.post('/swapv2/swap', data); end
+      def get_swap_record_v2(data); @client.post('/swapv2/getSwapRecord', data); end
+      def get_swap_record_list_v2(data = {}); @client.post('/swapv2/getSwapRecordList', data); end
     end
   end
 end
@@ -1239,9 +1353,15 @@ end
   module Services
     class UserSwapService
       def initialize(client); @client = client; end
+      # Deprecated: use get_user_swap_record_v2.
       def get_user_swap_record(data); @client.post('/getUserSwapRecord', data); end
+      # Deprecated: use get_user_swap_record_list_v2.
       def get_user_swap_record_list(data = {}); @client.post('/getUserSwapRecordList', data); end
+      # Deprecated: use user_swap_v2 with SwapReqV2 fields.
       def user_swap(data); @client.post('/userSwap', data); end
+      def user_swap_v2(data); @client.post('/swapv2/userSwap', data); end
+      def get_user_swap_record_v2(data); @client.post('/swapv2/getUserSwapRecord', data); end
+      def get_user_swap_record_list_v2(data = {}); @client.post('/swapv2/getUserSwapRecordList', data); end
     end
   end
 end
